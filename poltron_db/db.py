@@ -14,6 +14,7 @@ def create_table(table_name: str, args: str) -> None:
 
 
 def prepare_db_tables() -> None:
+    global DB
     DB = sqlite3.connect("resources/data.db")
     cursor = DB.cursor()
     create_table("game", "game_id INTEGER PRIMARY KEY, "
