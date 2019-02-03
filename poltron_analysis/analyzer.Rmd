@@ -1,0 +1,331 @@
+---
+title: "Data analysis prototype & data gen by game approximate model simulation"
+output:
+  pdf_document: default
+  word_document:
+    toc: yes
+  html_document:
+    keep_md: yes
+    number_sections: yes
+    theme: spacelab
+    toc: yes
+---
+
+
+```{r echo=FALSE}
+options(max.print=10)
+options(warn=-1)
+require(dplyr)
+require(ggplot2)
+require(GGally)
+require(RSQLite)
+```
+
+
+# Generating random game info
+
+```{r echo=FALSE}
+generate_game_info <- function(){
+  min_c <- 10
+  max_c <- 100
+  min_ds <- 2
+  max_ds <- 10
+  
+  ds <- sample(min_ds:max_ds, size=1)
+  coal <- sample(min_c:max_c, size=1)
+  dc <- sample(0:(ds-1), size=1)
+  
+  size<- sample(((coal+1)*10):1000, size=1)
+  
+  m <- size
+  n <- size
+  
+  df <-data.frame(matrix(vector(), 0, 5,
+                dimnames=list(c(), c("m", "n", "ds", "dc", "c"))))
+  df <- rbind(df, c(m,n,ds,dc,coal))
+  colnames(df) <- c("m", "n", "ds", "dc", "c")
+  
+  return(df)
+}
+
+game_info <- generate_game_info()
+print(game_info)
+```
+
+
+# Generating random game player order
+
+```{r }
+generate_game_order <- function(coal){
+  
+  player_id <- 1:(coal+1)
+  player_order <- sample(1:(coal+1))
+  
+  return(data.frame(player_id=player_id, player_order=player_order))
+  
+}
+
+game_order <- generate_game_order(game_info$c)
+print(game_order)
+```
+
+
+# Generating random game player positions
+
+```{r}
+generate_game_positions <- function(coal, m){
+  
+  
+  player_id <- 1:(coal+1)
+  player_cases <- sample(1:(m*m), size=coal+1)
+  x  <- player_cases%/%m
+  y  <- player_cases%%m
+  
+  
+  return(data.frame(player_id=player_id, x=x, y=y))
+  
+}
+game_positions <- generate_game_positions(game_info$c, game_info$m)
+print(game_positions)
+```
+
+
+
+# generating random game results
+
+
+
+
+```{r}
+
+generate_game_event <- function(m, coal, nb_walls) {
+  max_tick <-( ((m*m-nb_walls) / (coal+1))*0.2)%/%1
+  
+  
+  
+  tick <-  sample(1:max_tick, size=1)
+  
+  victory <- tick < max_tick*0.05
+  ended <- tick < max_tick*0.1
+  
+  nb_walls <- sample((coal*tick*0.2):(coal*tick*0.8), size=1)%/%1
+  
+  if (victory | !ended) {
+    c_deaths <- (sample(0:coal, size=1)*0.3)%/%1
+  }else{
+    c_deaths <- coal
+  }
+  c_remaining <- coal-c_deaths
+  overwhelm_factor <- (1-c_deaths/coal)
+  encumberment_factor <-(((nb_walls+(coal-c_deaths)+1)/(m*m)))
+  
+  df <- data.frame(victory=victory, tick=tick, nb_walls=nb_walls, c_deaths=c_deaths, c_remaining=c_remaining, overwhelm_factor= overwhelm_factor, encumberment_factor=encumberment_factor, ended=(c_remaining==0 | victory) )
+  return(df)
+}
+
+game_event <- generate_game_event(game_info$m, game_info$c, 0)
+print(game_event)
+
+```
+
+
+
+# Creating the simulation system
+
+```{r}
+
+simulate_game<- function(setting.m, setting.c){
+  game_history <- data.frame(tick=integer(), nb_walls=integer(), c_deaths=integer(), c_remaining=integer(), overwhelm_factor=integer(), encumberment_factor=integer())
+  
+  game<- data.frame(tick=integer(), nb_walls=integer(), c=integer())
+  
+  game <- rbind(game, c(0,0,setting.c, 0))
+  colnames(game) <- c("tick", "nb_walls", "c", "deaths")
+  
+  ended <- 1
+  
+  while (ended == 1) {
+    game_event <- generate_game_event(setting.m, game$c, game$nb_walls)
+    
+    game_history <- rbind(game_history, c(game$tick+game_event$tick, game$nb_walls+game_event$nb_walls, game$deaths+game_event$c_deaths, game_event$c_remaining, game_event$overwhelm_factor, game_event$encumberment_factor))
+      
+    game$tick <- game$tick + game_event$tick
+    game$nb_walls <- game$nb_walls+game_event$nb_walls
+    game$c <- game_event$c_remaining
+    game$deaths <- game$deaths + game_event$c_deaths
+    if(game_event$ended[1]) { ended <- 0} else { ended <- 1}
+  
+  }
+  colnames(game_history) <- c("tick", "nb_walls", "c_deaths", "c_remaining", "overwhelm_factor", "encumberment_factor")
+  return(game_history)
+}
+
+```
+
+
+
+# Analyzing one full game
+
+```{r}
+game_history <- simulate_game(10000,100)
+ggpairs(game_history)
+
+ggpairs(select(game_history,tick, c_remaining, c_deaths))
+ggpairs(select(game_history,tick, c_remaining, overwhelm_factor))
+ggpairs(select(game_history,tick, c_remaining, nb_walls, encumberment_factor))
+
+game_history %>% ggplot(aes(x=tick, y=encumberment_factor, color=encumberment_factor))+ geom_jitter() + geom_smooth() 
+
+```
+
+
+
+# Time to generate much much more data!
+
+```{r}
+
+generate_sample <- function(current_id, arena_side_length,coalition_size,amount){
+  m<- arena_side_length
+  coal<- coalition_size
+  df <- data.frame(game_id=integer(),  m=integer(), c=integer(),  tick=integer(), nb_walls=integer(), c_deaths=integer(), c_remaining=integer(), overwhelm_factor=integer(), encumberment_factor=integer())
+  for (index in 1:amount) {
+    game_data<-simulate_game(m, coal)
+    df <- rbind(df, cbind(current_id+index, m, coal, game_data))
+  }
+  colnames(df) <- c("game_id",  "m", "c",  "tick", "nb_walls","c_deaths", "c_remaining", "overwhelm_factor", "encumberment_factor")
+  return(df)
+}
+
+generate_data_set<- function(config_generation, repetition){
+  df <- data.frame(game_id=integer(),  m=integer(), c=integer(),  tick=integer(), nb_walls=integer(), c_deaths=integer(), c_remaining=integer(), overwhelm_factor=integer(), encumberment_factor=integer())
+  for (i in 0:(config_generation-1)) {
+    config<-generate_game_info()
+    big_fake_data <- generate_sample(i*repetition, config$m, config$c, repetition)
+    df <- rbind(df, big_fake_data)
+  }
+  colnames(df) <- c("game_id",  "m", "c",  "tick", "nb_walls","c_deaths", "c_remaining", "overwhelm_factor", "encumberment_factor")
+  return(df)
+}
+data_set <-generate_data_set(1000, 10)
+data_set <- data_set %>% group_by(c) %>% mutate(c_percent= c_remaining/c) %>% ungroup()
+```
+
+
+
+# Analyzing big aggregates of data!
+
+## per config
+
+```{r}
+
+reduced_set <- select(data_set, m,c,game_id, tick, c_remaining, c_percent) %>% group_by(game_id) %>% filter(tick == max(tick))
+reduced_set <- reduced_set %>% mutate(victory=if_else(c_remaining == 0, FALSE, TRUE)) 
+victory_stats <- select(reduced_set, m, c, victory) %>% group_by(m,c) %>% summarize(victory_percent=sum(victory)/n())
+```
+
+## display the victory heatmap per m and c combination
+```{r}
+ggplot()+geom_jitter(data=victory_stats, aes(x=m, y=c, color=victory_percent))
+ggplot()+geom_bin2d(data=victory_stats, aes(x=m, y=c, color=victory_percent))
+```
+Those graphs are supposed to display the victory percent depending on 
+
+# Coalition survivability
+
+## Survivability preview against ticks
+```{r}
+data_set %>% ggplot(aes(x=tick, y=c_percent, color=c_percent)) + geom_jitter()+ geom_smooth()
+```
+This is supposed to be an attempt to draw a correlation between coalition survivability and ticks for every game.
+We do see an abrupt diminution of population during the first ticks, and we also seem to reach a plateau of relative stability after it.
+We can conclude survivability distribution is no equal amongst every game and there seem to have more quick games than long ones, and those seem to have a similar plateau of survivability.
+
+## Smoothing of a random single data set
+
+```{r}
+single_game <-data_set %>% filter(n()>30 & game_id==sample( 1:max(data_set$game_id) , size=1))
+single_game %>% ggplot(aes(x=tick, y=c_percent, color=c_percent)) + geom_jitter()+ geom_smooth()
+```
+this is supposed to be an attempt to draw a correlation between initial coalition survivability and ticks in a random game. 
+
+Generally we can see a kind of plateau and a smooth decrease of the survivability with lots of error margin. 
+Those game didn't register much important moments.
+
+## Smoothing several random data sets
+
+```{r}
+five_games <- data_set %>% filter(game_id%in%sample( 1:max(data_set$game_id) , size=5)) 
+five_games %>% ggplot(aes(x=tick, y=c_percent, color=c_percent)) + geom_jitter()+ geom_smooth() + facet_grid(c~.)
+```
+This superposes multiples such correlations to check if there are similar patterns among random games, if not, we might have a chaotic system, else, we might be able to find a suitable to simulate this project.
+
+
+## Exploration: Factor C influence on coalition survivability
+
+### Preview of the whole data set density
+
+```{r}
+data_set %>% ggplot(aes(x=tick, y=c, color=c_percent)) + geom_jitter()+ scale_fill_gradient(name = "game reaching this tick", trans = "log")
+data_set %>% ggplot(aes(x=tick, y=c, color=c_percent)) + geom_bin2d() + scale_fill_gradient(name = "game reaching this tick", trans = "log")
+data_set %>% ggplot(aes(x=tick, y=c, color=c_percent)) + geom_density2d()
+```
+
+The first plots the whole data set of moments and uses a logarithmic scale to see the data density variation with precision.
+
+The second binarize the previous graph and uses a logarithmic scale to see the data density variation in general.
+
+The third draws borders to help visualize plateaux of data density.
+If the third represents almost vertical stripes with the least amount of isles or even none, then the Y axis variable has no correlation between the data density and the X axis. 
+If the stripes are vertical with a minimum of isles, then the X axis variable might be strongly correlated with the data density.
+If the stripes are horizontal with a minimum of isles, then the Y axis variable might be strongly correlated with the data density.
+If the stripes are diagonal with a minimum of isles, then both the X and  Y axis variable might be strongly correlated with the data density.
+Random isles can be either noise artifacts, or if there is no pattern, an hint of a lack of correlation between both axis and the data density.
+
+Here we can see the ticks seems to be the largest contributor to the data density decline. 
+And some spikes seem to emerge from specific C values.
+We can also see the coalition survivability decreasing quickly at toward the first 500 ticks and then seem to plateau quite a lot.
+
+
+### Smoothing of the whole data set
+
+```{r}
+reduced_set %>% ggplot(aes(x=c, y=c_percent, color=c_percent)) + geom_smooth()
+```
+This is supposed to be an attempt to draw a correlation between coalition size and the coalition survivability amongst game endings.
+There does seem to have a correlation where smaller coalitions dies less in average.
+
+
+## Exploration: Factor M influence on coalition survivability
+
+### Preview of the whole data set density
+
+```{r}
+data_set %>% ggplot(aes(x=tick, y=m, color=c_percent)) + geom_jitter()+ scale_fill_gradient(name = "game reaching this tick", trans = "log")
+data_set %>% ggplot(aes(x=tick, y=m, color=c_percent)) + geom_bin2d() + scale_fill_gradient(name = "game reaching this tick", trans = "log")
+data_set %>% ggplot(aes(x=tick, y=m, color=c_percent)) + geom_density2d()
+```
+
+The first plots the whole data set of moments and uses a logarithmic scale to see the data density variation with precision.
+
+The second binarize the previous graph and uses a logarithmic scale to see the data density variation in general.
+
+The third draws borders to help visualize plateaux of data density.
+If the third represents almost vertical stripes with the least amount of isles or even none, then the Y axis variable has no correlation between the data density and the X axis. 
+If the stripes are vertical with a minimum of isles, then the X axis variable might be strongly correlated with the data density.
+If the stripes are horizontal with a minimum of isles, then the Y axis variable might be strongly correlated with the data density.
+If the stripes are diagonal with a minimum of isles, then both the X and  Y axis variable might be strongly correlated with the data density.
+Random isles can be either noise artifacts, or if there is no pattern, an hint of a lack of correlation between both axis and the data density.
+
+Here we can see both ticks and arena size seems to be the correlated to the data density decline. 
+And some spikes seem to emerge from specific map size values.
+
+Again we can also see the coalition survivability decreasing quickly at toward the first 500 ticks and then seem to plateau < 0.5 most of the time.
+We also do seem to have specific map sizes values where survivability is higher in average. 
+
+### Smoothing of the whole data set
+
+```{r}
+reduced_set %>% ggplot(aes(x=m, y=c_percent, color=c_percent)) + geom_smooth()
+```
+This is supposed to be an attempt to draw a correlation between map size and the coalition survivability  amongst game endings.
+There does seem to have a correlation where largest maps is deadlier for the coalition but the smallest size needs more data to precise the error margins. 
