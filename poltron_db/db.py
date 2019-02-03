@@ -1,6 +1,8 @@
 import sqlite3
 
 
+DB_PATH = "../resources/data.db"
+
 def create_table(table_name: str, args: str) -> None:
     global DB
     cursor = DB.cursor()
@@ -15,7 +17,7 @@ def create_table(table_name: str, args: str) -> None:
 
 def prepare_db_tables() -> None:
     global DB
-    DB = sqlite3.connect("resources/data.db")
+    DB = sqlite3.connect(DB_PATH)
     cursor = DB.cursor()
     create_table("game", "game_id INTEGER PRIMARY KEY, "
                          "M INTEGER NOT NULL, "
@@ -31,7 +33,7 @@ def prepare_db_tables() -> None:
                                       "FOREIGN KEY(game_id) REFERENCES game(game_id)")
 
     create_table("player_order", "game_id INTEGER NOT NULL, "
-                                 "order INTEGER NOT NULL, "
+                                 "player_order INTEGER NOT NULL, "
                                  "player_id INTEGER NOT NULL,"
                                  "FOREIGN KEY(game_id) REFERENCES game(game_id)")
 
@@ -82,7 +84,7 @@ def prepare_db_tables() -> None:
 
         cursor.execute("""
         CREATE VIEW IF NOT EXISTS game_players_initial_data AS
-        SELECT game_id, player_id, order, x, y
+        SELECT game_id, player_id, player_order, x, y
         FROM player_order 
             INNER JOIN initial_positions 
                 ON player_order.game_id = initial_positions.game_id
@@ -90,17 +92,9 @@ def prepare_db_tables() -> None:
         """)
 
         cursor.execute("""
-                CREATE VIEW IF NOT EXISTS next_game_id AS
-                SELECT max(game_id) + 1 
+                CREATE VIEW IF NOT EXISTS last_game_id AS
+                SELECT max(game_id) 
                 FROM game
-                """)
-
-        cursor.execute("""
-                CREATE VIEW IF NOT EXISTS games_without_results AS
-                SELECT game_id
-                FROM game
-                    OUTER JOIN initial_positions 
-                        ON game.game_id = game_result.game_id
                 """)
 
         print("O)   CREATED OVERVIEW VIEWS")
@@ -108,61 +102,80 @@ def prepare_db_tables() -> None:
         print("X)   FAILED TO CREATE THE VIEWS: ", e)
 
     DB.commit()
+    DB.close()
 
 
 def insert_important_moment(game_id: int, tick: int, nb_walls: int,
                             c_deaths: int, map_string: str) -> None:
-    DB = sqlite3.connect("resources/data.db")
+    DB = sqlite3.connect(DB_PATH)
     cursor = DB.cursor()
     cursor.execute(f"""INSERT INTO important_moments (game_id, tick , nb_walls , c_deaths , map_string) 
     VALUES ('{game_id}', '{tick}', '{nb_walls}', '{c_deaths}', {map_string})""")
     DB.commit()
+    DB.close()
     return
 
 
 def insert_deaths(game_id: int, tick: int, player_ids: [int]) -> None:
-    DB = sqlite3.connect("resources/data.db")
+    DB = sqlite3.connect(DB_PATH)
     cursor = DB.cursor()
     for player_id in player_ids:
         cursor.execute(f"""INSERT INTO deaths (game_id, tick , player_id) 
     VALUES ('{game_id}', '{tick}', '{player_id}')""")
     DB.commit()
+    DB.close()
     return
 
 
 def insert_game_result(game_id: int, last_tick: int, victory: bool) -> None:
-    DB = sqlite3.connect("resources/data.db")
+    DB = sqlite3.connect(DB_PATH)
     cursor = DB.cursor()
     cursor.execute(f"""INSERT INTO game_result (game_id, last_tick , victory) 
     VALUES ('{game_id}', '{last_tick}', '{victory}')""")
     DB.commit()
+    DB.close()
     return
 
 
-def insert_player_order(game_id: int, order: int, player_id: int) -> None:
-    DB = sqlite3.connect("resources/data.db")
+def insert_player_order(game_id: int, player_id: int,
+                        player_order: int) -> None:
+    DB = sqlite3.connect(DB_PATH)
     cursor = DB.cursor()
-    cursor.execute(f"""INSERT INTO player_order (game_id, order , player_id) 
-    VALUES ('{game_id}', '{order}', '{player_id}')""")
+    cursor.execute(f"""INSERT INTO player_order (game_id, player_order , player_id) 
+    VALUES ('{game_id}', '{player_order}', '{player_id}')""")
     DB.commit()
+    DB.close()
     return
 
 
 def insert_initial_positions(game_id: int, player_id: int, x: int,
                              y: int) -> None:
-    DB = sqlite3.connect("resources/data.db")
+    DB = sqlite3.connect(DB_PATH)
     cursor = DB.cursor()
     cursor.execute(f"""INSERT INTO player_order (game_id, player_id , x, y) 
     VALUES ('{game_id}', '{player_id}', '{x}', '{y}')""")
     DB.commit()
+    DB.close()
     return
 
 
 def insert_game_info(game_id: int, m: int, n: int, ds: int, dc: int,
                      c: int) -> None:
-    DB = sqlite3.connect("resources/data.db")
+    DB = sqlite3.connect(DB_PATH)
     cursor = DB.cursor()
     cursor.execute(f"""INSERT INTO game (game_id, M, N, Ds, Dc, C) 
     VALUES ('{game_id}', '{m}', '{n}', '{ds}', '{dc}', '{c}')""")
     DB.commit()
+    DB.close()
     return
+
+
+def get_last_game_id() -> int:
+    DB = sqlite3.connect(DB_PATH)
+    cursor = DB.cursor()
+    cursor.execute(f"""SELECT * FROM last_game_id""")
+    game_id = cursor.fetchone()
+    if game_id == None:
+        game_id = 0
+    DB.close()
+    return int(game_id)
