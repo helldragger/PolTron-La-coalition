@@ -1,10 +1,22 @@
+import cProfile
 from argparse import ArgumentParser
 
 import poltron_db.db as db
+import poltron_game.Game as Game
 import poltron_simulator.simulator as sim
 
 
 def main(args):
+    if args.profiler:
+        cProfile.run('Game.Game(30, 50, 20).testGame()')
+        from pycallgraph import PyCallGraph
+        from pycallgraph.output import GraphvizOutput
+        graphviz = GraphvizOutput()
+        graphviz.output_file = 'profile_graph.png'
+        with PyCallGraph(output=graphviz):
+            Game.Game(100, 100, 32).testGame()
+        return
+
     db.prepare_db_tables()
 
     min_m: int = args.min_m
@@ -92,5 +104,8 @@ if __name__ == "__main__":
     parser.add_argument("--iter", action="store", default=1000, type=int,
                         help="Sets the amount of random games simulated per "
                              "combination")
+    parser.add_argument("--profiler", action="store_true",
+                        help="Launch the profiler mode instead of the "
+                             "simulation mode")
 
     main(parser.parse_args())
