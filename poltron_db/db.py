@@ -9,11 +9,9 @@ def create_table(table_name: str, args: str) -> None:
     command = f"CREATE TABLE {table_name} ({args})"
     try:
         cursor.execute(command)
-        print("O)   TABLE " + table_name + " has been created".upper())
     except Exception as e:
         # alreadyExists
-        print("X)   TABLE " + table_name + " could not be created:".upper(), e)
-
+        pass
 
 def prepare_db_tables() -> None:
     global DB
@@ -97,10 +95,9 @@ def prepare_db_tables() -> None:
                 FROM game
                 """)
 
-        print("O)   CREATED OVERVIEW VIEWS")
     except Exception as e:
-        print("X)   FAILED TO CREATE THE VIEWS: ", e)
-
+        # already exists
+        pass
     DB.commit()
     DB.close()
 
