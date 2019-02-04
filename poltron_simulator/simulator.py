@@ -1,4 +1,6 @@
+# -*- coding: utf-8 -*-
 from math import floor
+from random import randint
 from typing import Tuple
 
 
@@ -17,54 +19,10 @@ def parameterize_c(m: int, n: int, min_c: int, max_c: int) -> Tuple[int, int]:
     # Therefore, we approximate using a wild guess ignoring the fact players
     # might die and leave more cases per player that C = ((MxN)/(300))-1
     # we will floor it to avoid accidentally overcrowd our population
-    if min_c == -1:
-        min_c = 1
-    if max_c == -1:
-        area = m * n
-        max_c = floor(area / est_cases_per_player) - 1
+    area = m * n
+    max_c = min(floor(area / est_cases_per_player) - 1, max(max_c, 1))
 
     return (min_c, max_c)
-
-
-def parameterize_ds(min_ds: int, max_ds: int) -> Tuple[int, int]:
-    # Un joueur lambda sur un jeu type tron armageddon peut se projeter
-    # rapidement sur environ quelques secondes dans le futur
-    # experimentalement avec beaucoup de joueurs (4), environ une à deux
-    # secondes d'avance peuvent etre réfléchie en regardant le jeu de facon
-    # globale sans détailler.
-    # extrapolons et disons jusqu'à 10 secondes d'avance si on essaie de
-    # prédire les décision d un autre joueur et d'un autre joueur uniquement
-
-    # on va donc partir sur cette base et se dire qu'un joueur peut avoir une
-    #  intelligence max de 2 secondes d'avance sur le jeu pour savoir où tout
-    #  le monde se dirige
-    if min_ds == -1:
-        min_ds = 2
-
-    if max_ds == -1:
-        max_ds = est_cases_per_sec_per_player * 2
-
-    return (min_ds, max_ds)
-
-
-def parameterize_m(min_m: int, max_m: int) -> Tuple[int, int]:
-    # des données arbitraires pour les tailles basiques de m
-    if min_m == -1:
-        min_m = 1
-    if max_m == -1:
-        max_m = 100
-    return (min_m, max_m)
-
-
-def parameterize_dc(max_ds: int, min_dc: int, max_dc: int) -> Tuple[int, int]:
-    # sauf borné explicitement: 0 < dc < ds
-
-    if min_dc == -1:
-        min_dc = 1
-    if max_dc == -1:
-        max_dc = max_ds - 1
-
-    return (min_dc, max_dc)
 
 
 def parameterize_n(m: int, min_n: int, max_n: int) -> Tuple[int, int]:
@@ -75,10 +33,7 @@ def parameterize_n(m: int, min_n: int, max_n: int) -> Tuple[int, int]:
     # -> M*N/cases_per_player >= 2
     # -> M*N >= 2*cases_per_player
     # -> N >= 2*cases_per_player/M
-    if min_n == -1:
-        min_n = 2 * est_cases_per_player / m
-    if max_n == -1:
-        max_n = 100
+    min_n = max(int(2 * est_cases_per_player / m), min_n)
     return (min_n, max_n)
 
 
@@ -107,18 +62,100 @@ def simulate_game(m, n, c, ds, dc):
     return
 
 
-def generate_data(min_m: int = -1, min_n: int = -1, min_c: int = 1,
-                  min_ds: int = -1, min_dc: int = -1, max_m: int = -1,
-                  max_n: int = -1, max_c: int = -1, max_ds: int = -1,
-                  max_dc: int = -1) -> None:
-    min_m, max_m = parameterize_m(min_m, max_m)
-    for m in range(min_m, max_m, 1):
-        min_n, max_n = parameterize_n(m, min_n, max_n)
-        for n in range(min_n, max_n, 1):
-            min_c, max_c = parameterize_c(m, n, min_c, max_c)
-            for c in range(min_c, max_c, 1):
-                min_ds, max_ds = parameterize_ds(min_ds, max_ds)
-                for ds in range(min_ds, max_ds, 1):
-                    min_ds, max_ds = parameterize_dc(max_ds, min_dc, max_dc)
-                    for dc in range(min_dc, max_dc, 1):
-                        simulate_game(m, n, c, ds, dc)
+def print_search_space(sp: Tuple[int, int, int, int, int, int], m_step, n_step,
+                       c_step, ds_step, dc_step) -> None:
+    count, highest_m, highest_n, highest_c, highest_ds, highest_dc = sp
+    print(f"Total amount of simulations to do: {count}")
+    print(f"highest map M size: {highest_m} \t\t\t sampled every {m_step}")
+    print(f"highest map N size: {highest_n} \t\t\t sampled every {n_step}")
+    print(f"highest Coalition size: {highest_c} \t\t sampled every {c_step}")
+    print(f"highest solo research level: {highest_ds}\t\t sampled every "
+          f"{ds_step}")
+    print(f"highest coalition research level: {highest_dc}\t sampled every "
+          f"{dc_step}")
+    print("\n")
+
+
+def estimate_time_before_arrival(secs: int):
+    mins = max(0, secs // 60)
+    hours = max(0, mins // 60)
+    days = max(0, hours // 24)
+
+    hours %= 24
+    mins %= 60
+    secs %= 60
+
+    return f"{int(days)}d {int(hours)}h {int(mins)}m {int(secs)}s"
+
+
+def calculate_simulation_amount(min_m: int, min_n: int, min_c: int, min_ds: int,
+                                min_dc: int, max_m: int, max_n: int, max_c: int,
+                                max_ds: int, max_dc: int,
+                                iteration_per_combination: int, m_step, n_step,
+                                c_step, ds_step, dc_step) -> Tuple[
+    int, int, int, int, int, int]:
+    _min_m, _max_m = (min_m, max_m)
+    _min_ds, _max_ds = (min_ds, max_ds)
+    count = 0
+    highest_c = 0
+    highest_n = 0
+    highest_dc = 0
+    highest_ds = _max_ds
+    highest_m = _max_m
+    for m in range(_min_m, _max_m + 1, m_step):
+        _min_n, _max_n = parameterize_n(m, min_n, max_n)
+        highest_n = max(highest_n, _max_n)
+        for n in range(_min_n, _max_n + 1, n_step):
+            _min_c, _max_c = parameterize_c(m, n, min_c, max_c)
+            highest_c = max(highest_c, _max_c)
+            for c in range(_min_c, _max_c + 1, c_step):
+                for ds in range(_min_ds, _max_ds + 1, ds_step):
+                    _min_dc, _max_dc = (min_dc, max_dc)
+                    highest_dc = max(highest_dc, _max_dc)
+                    for dc in range(_min_dc, _max_dc + 1, dc_step):
+                        for iter in range(iteration_per_combination):
+                            # simulate_game(m, n, c, ds, dc)
+                            pass
+                        count += iteration_per_combination
+
+    return (count, highest_m, highest_n, highest_c, highest_ds, highest_dc)
+
+
+def generate_data(min_m: int, min_n: int, min_c: int, min_ds: int, min_dc: int,
+                  max_m: int, max_n: int, max_c: int, max_ds: int, max_dc: int,
+                  iteration_per_combination: int, m_step: int, n_step: int,
+                  c_step: int, ds_step: int, dc_step: int) -> None:
+    import poltron_simulator.progress_bar as pb
+    import time
+    search_space = calculate_simulation_amount(min_m, min_n, min_c, min_ds,
+                                               min_dc, max_m, max_n, max_c,
+                                               max_ds, max_dc,
+                                               iteration_per_combination,
+                                               m_step, n_step, c_step, ds_step,
+                                               dc_step)
+    print_search_space(search_space, m_step, n_step, c_step, ds_step, dc_step)
+    total = search_space[0]
+    _min_m, _max_m = (min_m, max_m)
+    _min_ds, _max_ds = (min_ds, max_ds)
+    count = 0
+    for m in range(_min_m, _max_m + 1, m_step):
+        _min_n, _max_n = parameterize_n(m, min_n, max_n)
+        for n in range(_min_n, _max_n + 1, n_step):
+            _min_c, _max_c = parameterize_c(m, n, min_c, max_c)
+            for c in range(_min_c, _max_c + 1, c_step):
+                for ds in range(_min_ds, _max_ds + 1, ds_step):
+                    _min_dc, _max_dc = (min_dc, max_dc)
+                    for dc in range(_min_dc, _max_dc + 1, dc_step):
+                        for iter in range(iteration_per_combination):
+                            timestamp = time.process_time()
+                            for _ in range(randint(810000, 1000000)):
+                                pass
+                            # simulate_game(m, n, c, ds, dc)
+                            duration = time.process_time() - timestamp
+                            eta = estimate_time_before_arrival(
+                                duration * (total - count))
+                            count += 1
+                            pb.print_progress(count, total,
+                                              prefix=f"Time estimated {eta}",
+                                              suffix=f"\t @ {duration}s/game",
+                                              bar_length=50)
