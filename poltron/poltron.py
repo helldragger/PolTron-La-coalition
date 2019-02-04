@@ -79,9 +79,6 @@ if __name__ == "__main__":
                         help="Sets the search space maximum value of ds")
     parser.add_argument("--max_dc", action="store", default=9, type=int,
                         help="Sets the search space maximum value of dc")
-    parser.add_argument("--iter", action="store", default=1000, type=int,
-                        help="Sets the amount of random games simulated per "
-                             "combination")
     parser.add_argument("--step_m", action="store", default=10, type=int,
                         help="Sets the search space sampling interval of m")
     parser.add_argument("--step_n", action="store", default=10, type=int,
@@ -92,5 +89,8 @@ if __name__ == "__main__":
                         help="Sets the search space sampling interval of ds")
     parser.add_argument("--step_dc", action="store", default=2, type=int,
                         help="Sets the search space sampling interval of dc")
+    parser.add_argument("--iter", action="store", default=1000, type=int,
+                        help="Sets the amount of random games simulated per "
+                             "combination")
 
     main(parser.parse_args())
