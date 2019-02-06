@@ -6,6 +6,9 @@ import pyximport;
 
 pyximport.install(pyimport=True)
 
+
+pyximport.install(pyimport=True)
+
 import poltron_db.db as db
 import poltron_game.Game as Game
 import poltron_simulator.simulator as sim
@@ -72,15 +75,15 @@ def main(args):
 
 if __name__ == "__main__":
     parser = ArgumentParser()
-    parser.add_argument("--min_m", action="store", default=10, type=int,
+    parser.add_argument("--min_m", action="store", default=5, type=int,
                         help="Sets the search space minimum value of m")
-    parser.add_argument("--min_n", action="store", default=10, type=int,
+    parser.add_argument("--min_n", action="store", default=5, type=int,
                         help="Sets the search space minimum value of n")
     parser.add_argument("--min_c", action="store", default=1, type=int,
                         help="Sets the search space minimum value of c")
-    parser.add_argument("--min_ds", action="store", default=10, type=int,
+    parser.add_argument("--min_ds", action="store", default=3, type=int,
                         help="Sets the search space minimum value of ds")
-    parser.add_argument("--min_dc", action="store", default=1, type=int,
+    parser.add_argument("--min_dc", action="store", default=2, type=int,
                         help="Sets the search space minimum value of dc")
     parser.add_argument("--max_m", action="store", default=50, type=int,
                         help="Sets the search space maximum value of m")
@@ -100,17 +103,17 @@ if __name__ == "__main__":
     # on va donc partir sur cette base et se dire qu'un joueur peut avoir une
     #  intelligence max de 2 secondes d'avance sur le jeu pour savoir où tout
     #  le monde se dirige  -> max_ds = 10
-    parser.add_argument("--max_ds", action="store", default=10, type=int,
+    parser.add_argument("--max_ds", action="store", default=6, type=int,
                         help="Sets the search space maximum value of ds")
-    parser.add_argument("--max_dc", action="store", default=9, type=int,
+    parser.add_argument("--max_dc", action="store", default=5, type=int,
                         help="Sets the search space maximum value of dc")
-    parser.add_argument("--step_m", action="store", default=10, type=int,
+    parser.add_argument("--step_m", action="store", default=5, type=int,
                         help="Sets the search space sampling interval of m")
-    parser.add_argument("--step_n", action="store", default=10, type=int,
+    parser.add_argument("--step_n", action="store", default=5, type=int,
                         help="Sets the search space sampling interval of n")
     parser.add_argument("--step_c", action="store", default=5, type=int,
                         help="Sets the search space sampling interval of c")
-    parser.add_argument("--step_ds", action="store", default=1, type=int,
+    parser.add_argument("--step_ds", action="store", default=2, type=int,
                         help="Sets the search space sampling interval of ds")
     parser.add_argument("--step_dc", action="store", default=2, type=int,
                         help="Sets the search space sampling interval of dc")
