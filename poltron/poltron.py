@@ -1,20 +1,31 @@
 import cProfile
 from argparse import ArgumentParser
 
+import pyximport;
+
+
+pyximport.install(pyimport=True)
+
 import poltron_db.db as db
 import poltron_game.Game as Game
 import poltron_simulator.simulator as sim
-
+import poltron_model.model as model
 
 def main(args):
     if args.profiler:
-        cProfile.run('Game.Game(30, 50, 20).testGame()')
         from pycallgraph import PyCallGraph
         from pycallgraph.output import GraphvizOutput
         graphviz = GraphvizOutput()
         graphviz.output_file = 'profile_graph.png'
+        if not args.model:
+            cProfile.run('Game.Game(30, 50, 20).testGame()')
+        else:
+            cProfile.run('model.Model(30, 50, 20, 10, 5).run()')
         with PyCallGraph(output=graphviz):
-            Game.Game(100, 100, 32).testGame()
+            if not args.model:
+                Game.Game(100, 100, 32).testGame()
+            else:
+                model.Model(100, 100, 32, 10, 5).run()
         return
 
     db.prepare_db_tables()
@@ -36,6 +47,8 @@ def main(args):
     ds_step: int = args.step_ds
     dc_step: int = args.step_dc
 
+    model_mode: bool = args.model
+
     assert min_m > 0 and max_m > 0, "M must be positive"
     assert min_n > 0 and max_n > 0, "N must be positive"
     assert min_dc > 0 and max_dc > 0, "Dc must be positive"
@@ -53,8 +66,8 @@ def main(args):
     assert max_dc < max_ds and min_dc < min_ds, "Dc must be within 0<Dc<Ds"
 
     sim.generate_data(min_m, min_n, min_c, min_ds, min_dc, max_m, max_n, max_c,
-        max_ds, max_dc, iteration_per_combination, m_step, n_step, c_step,
-        ds_step, dc_step)
+                      max_ds, max_dc, iteration_per_combination, m_step, n_step, c_step,
+                      ds_step, dc_step, model_mode)
 
 
 if __name__ == "__main__":
@@ -107,5 +120,8 @@ if __name__ == "__main__":
     parser.add_argument("--profiler", action="store_true",
                         help="Launch the profiler mode instead of the "
                              "simulation mode")
+    parser.add_argument("--model", action="store_true",
+                        help="Launch the model based mode instead of the "
+                             "AI driven mode")
 
     main(parser.parse_args())

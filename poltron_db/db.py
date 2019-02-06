@@ -1,7 +1,9 @@
 import sqlite3
 
 
-DB_PATH = "../resources/data.db"
+MODEL_DB_NAME = "../resources/model_data.db"
+AI_DB_NAME = "../resources/AI_data.db"
+DB_PATH = AI_DB_NAME
 
 def create_table(table_name: str, args: str) -> None:
     global DB
@@ -44,7 +46,6 @@ def prepare_db_tables() -> None:
                                       "tick INTEGER NOT NULL, "
                                       "nb_walls INTEGER NOT NULL, "
                                       "c_deaths INTEGER NOT NULL, "
-                                      "map_string text NOT NULL,"
                                       "FOREIGN KEY(game_id) REFERENCES game(game_id)")
 
     create_table("deaths", "game_id INTEGER NOT NULL, "
@@ -77,7 +78,7 @@ def prepare_db_tables() -> None:
         FROM game_result 
             INNER JOIN game 
                 ON game_result.game_id = game.game_id
-        ORDER BY game_id ASC, tick ASC
+        ORDER BY game_id ASC
         """)
 
         cursor.execute("""
@@ -103,11 +104,11 @@ def prepare_db_tables() -> None:
 
 
 def insert_important_moment(game_id: int, tick: int, nb_walls: int,
-                            c_deaths: int, map_string: str) -> None:
+                            c_deaths: int) -> None:
     DB = sqlite3.connect(DB_PATH)
     cursor = DB.cursor()
-    cursor.execute(f"""INSERT INTO important_moments (game_id, tick , nb_walls , c_deaths , map_string) 
-    VALUES ('{game_id}', '{tick}', '{nb_walls}', '{c_deaths}', {map_string})""")
+    cursor.execute(f"""INSERT INTO important_moments (game_id, tick , nb_walls , c_deaths ) 
+    VALUES ('{game_id}', '{tick}', '{nb_walls}', '{c_deaths}')""")
     DB.commit()
     DB.close()
     return
@@ -149,7 +150,7 @@ def insert_initial_positions(game_id: int, player_id: int, x: int,
                              y: int) -> None:
     DB = sqlite3.connect(DB_PATH)
     cursor = DB.cursor()
-    cursor.execute(f"""INSERT INTO player_order (game_id, player_id , x, y) 
+    cursor.execute(f"""INSERT INTO initial_positions (game_id, player_id , x, y) 
     VALUES ('{game_id}', '{player_id}', '{x}', '{y}')""")
     DB.commit()
     DB.close()
@@ -171,8 +172,25 @@ def get_last_game_id() -> int:
     DB = sqlite3.connect(DB_PATH)
     cursor = DB.cursor()
     cursor.execute(f"""SELECT * FROM last_game_id""")
-    game_id = cursor.fetchone()
+    game_id = cursor.fetchone()[0]
     if game_id == None:
         game_id = 0
     DB.close()
     return int(game_id)
+
+
+def set_mode(model_mode):
+    global DB_PATH
+    global AI_DB_NAME
+    global MODEL_DB_NAME
+    if model_mode and DB_PATH == AI_DB_NAME:
+        DB_PATH = MODEL_DB_NAME
+        prepare_db_tables()
+    elif not model_mode and DB_PATH == MODEL_DB_NAME:
+        DB_PATH = AI_DB_NAME
+        prepare_db_tables()
+    elif model_mode:
+        DB_PATH = MODEL_DB_NAME
+    else:
+        DB_PATH = AI_DB_NAME
+    return None
