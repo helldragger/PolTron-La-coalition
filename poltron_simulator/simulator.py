@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from math import floor
-from random import randint
 from typing import Tuple
+
+from poltron_model import model
 
 
 est_duration_secs = 60
@@ -37,22 +38,26 @@ def parameterize_n(m: int, min_n: int, max_n: int) -> Tuple[int, int]:
     return (min_n, max_n)
 
 
-def simulate_game(m, n, c, ds, dc):
+def simulate_game(m, n, c, ds, dc, model_mode):
     import poltron_db.db as db
+
     game_id = db.get_last_game_id() + 1
-    game = Game()
+    if model_mode:
+        game = model.Model(m, n, c, ds, dc)
+    else:
+        raise NotImplementedError("NORMAL GAME MODE HAS NOT BEEN HOOKED YET")
+
     game.run()
 
     db.insert_game_info(game_id, m, n, ds, dc, c)
 
-    db.insert_game_result(game_id, game.last_tick, game.victory)
+    db.insert_game_result(game_id, game.tick, game.victory)
 
     for tick, deaths in game.deaths:
         db.insert_deaths(game_id, tick, deaths)
 
     for tick, nb_walls, c_deaths, map_string in game.important_moments:
-        db.insert_important_moment(game_id, tick, nb_walls, c_deaths,
-                                   map_string)
+        db.insert_important_moment(game_id, tick, nb_walls, c_deaths)
 
     for player_id, x, y in game.initial_positions:
         db.insert_initial_positions(game_id, player_id, x, y)
@@ -94,6 +99,7 @@ def calculate_simulation_amount(min_m: int, min_n: int, min_c: int, min_ds: int,
                                 iteration_per_combination: int, m_step, n_step,
                                 c_step, ds_step, dc_step) -> Tuple[
     int, int, int, int, int, int]:
+
     _min_m, _max_m = (min_m, max_m)
     _min_ds, _max_ds = (min_ds, max_ds)
     count = 0
@@ -124,9 +130,13 @@ def calculate_simulation_amount(min_m: int, min_n: int, min_c: int, min_ds: int,
 def generate_data(min_m: int, min_n: int, min_c: int, min_ds: int, min_dc: int,
                   max_m: int, max_n: int, max_c: int, max_ds: int, max_dc: int,
                   iteration_per_combination: int, m_step: int, n_step: int,
-                  c_step: int, ds_step: int, dc_step: int) -> None:
+                  c_step: int, ds_step: int, dc_step: int,
+                  model_mode: bool) -> None:
     import poltron_simulator.progress_bar as pb
     import time
+    import poltron_db.db as db
+
+    db.set_mode(model_mode)
     search_space = calculate_simulation_amount(min_m, min_n, min_c, min_ds,
                                                min_dc, max_m, max_n, max_c,
                                                max_ds, max_dc,
@@ -134,10 +144,9 @@ def generate_data(min_m: int, min_n: int, min_c: int, min_ds: int, min_dc: int,
                                                m_step, n_step, c_step, ds_step,
                                                dc_step)
     print_search_space(search_space, m_step, n_step, c_step, ds_step, dc_step)
-    total = search_space[0]
     _min_m, _max_m = (min_m, max_m)
     _min_ds, _max_ds = (min_ds, max_ds)
-    count = 0
+    initial_settings: list = []
     for m in range(_min_m, _max_m + 1, m_step):
         _min_n, _max_n = parameterize_n(m, min_n, max_n)
         for n in range(_min_n, _max_n + 1, n_step):
@@ -147,15 +156,16 @@ def generate_data(min_m: int, min_n: int, min_c: int, min_ds: int, min_dc: int,
                     _min_dc, _max_dc = (min_dc, max_dc)
                     for dc in range(_min_dc, _max_dc + 1, dc_step):
                         for iter in range(iteration_per_combination):
-                            timestamp = time.process_time()
-                            for _ in range(randint(810000, 1000000)):
-                                pass
-                            # simulate_game(m, n, c, ds, dc)
-                            duration = time.process_time() - timestamp
-                            eta = estimate_time_before_arrival(
-                                duration * (total - count))
-                            count += 1
-                            pb.print_progress(count, total,
-                                              prefix=f"Time estimated {eta}",
-                                              suffix=f"\t @ {duration}s/game",
-                                              bar_length=50)
+                            initial_settings.append((m, n, c, ds, dc))
+
+    total = len(initial_settings)
+    count = 0
+    t0 = time.process_time()
+    for m, n, c, ds, dc in initial_settings[::-1]:
+        count += 1
+        simulate_game(m, n, c, ds, dc, model_mode)
+        t = (time.process_time() - t0) / count
+        eta = estimate_time_before_arrival(t * (total - count))
+        pb.print_progress(count, total, prefix=f"Time estimated {eta}",
+                          suffix=f"\t @ {round(t,3)}s/game\t curr ({m},{n},"
+                                 f"{c},{ds},{dc})", bar_length=50)
