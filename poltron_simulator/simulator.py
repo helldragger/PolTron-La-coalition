@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 from math import floor
+from random import shuffle
 from typing import Tuple
 
 from poltron_model import model
 
 
 est_duration_secs = 60
-est_cases_per_sec_per_player = 5
+est_cases_per_sec_per_player = 1
 est_cases_per_player = est_duration_secs * est_cases_per_sec_per_player
 
 
@@ -38,9 +39,13 @@ def parameterize_n(m: int, min_n: int, max_n: int) -> Tuple[int, int]:
     return (min_n, max_n)
 
 
-def simulate_game(m, n, c, ds, dc, model_mode):
-    import poltron_db.db as db
+def run_game(game):
+    return
 
+
+def simulate_game(args, model_mode):
+    import poltron_db.db as db
+    m, n, c, ds, dc = args
     game_id = db.get_last_game_id() + 1
     if model_mode:
         game = model.Model(m, n, c, ds, dc)
@@ -159,13 +164,15 @@ def generate_data(min_m: int, min_n: int, min_c: int, min_ds: int, min_dc: int,
                             initial_settings.append((m, n, c, ds, dc))
 
     total = len(initial_settings)
+    shuffle(initial_settings)
     count = 0
     t0 = time.process_time()
-    for m, n, c, ds, dc in initial_settings[::-1]:
+    for args in initial_settings:
+        m, n, c, ds, dc = args
+        simulate_game(args, model_mode)
         count += 1
-        simulate_game(m, n, c, ds, dc, model_mode)
         t = (time.process_time() - t0) / count
         eta = estimate_time_before_arrival(t * (total - count))
         pb.print_progress(count, total, prefix=f"Time estimated {eta}",
                           suffix=f"\t @ {round(t,3)}s/game\t curr ({m},{n},"
-                                 f"{c},{ds},{dc})", bar_length=50)
+                                 f"{c},{ds},{dc}) \tsim#{count}", bar_length=50)

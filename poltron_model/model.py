@@ -21,28 +21,25 @@ def get_radius_cases(r_max: int, x0: int, y0: int) -> set:
 
 
 class Model():
-    m: int = 0
-    n: int = 0
-    c: int = 0
-    ds: int = 0
-    dc: int = 0
 
-    walls: set = set()
-    balls_pos: set = set()
-    balls_to_pos: dict = {}
-    pos_to_balls: dict = {}
-    balls_order: list = []
-
-    tick: int = 0
-    victory: bool = False
-
-    deaths: list = []
-    initial_positions: list = []
-    initial_order: list = []
-
-    important_moments: list = []
 
     def __init__(self, m: int, n: int, c: int, ds: int, dc: int):
+        self.m: int = 0
+        self.n: int = 0
+        self.c: int = 0
+        self.ds: int = 0
+        self.dc: int = 0
+        self.walls: set = set()
+        self.balls_pos: set = set()
+        self.balls_to_pos: dict = {}
+        self.pos_to_balls: dict = {}
+        self.balls_order: list = []
+        self.tick: int = 0
+        self.victory: bool = False
+        self.deaths: list = []
+        self.initial_positions: list = []
+        self.initial_order: list = []
+        self.important_moments: list = []
         self.m = m
         self.n = n
         self.c = c
