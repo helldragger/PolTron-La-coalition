@@ -95,7 +95,7 @@ class Game(object):
                         self.tour += 1
                     print("Important Moment : ", self.importantMoment)
 
-                    
 
-g = Game(5,5,2)
-g.testGame()
+if __name__ == "__main__":
+    g = Game(5, 5, 2)
+    g.testGame()
