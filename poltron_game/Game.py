@@ -68,7 +68,14 @@ class Game(object):
             return (coord[0] + 1, coord[1])
         else:
             return False
+    def getAttaquant(self):
+        return self.board["players"]["attaquant"]
 
+    def getDefenseur(self):
+        return self.board["players"]["defenseur"]
+
+    def getWall(self):
+        return self.board["wall"]
 
     def testGame(self):
         self.__initGame()
