@@ -1,5 +1,3 @@
-from random import randint
-
 from poltron_game.TeamItems import *
 
 
@@ -40,16 +38,6 @@ class Player(TeamItems):
         else:
             return False
 
-    def nextMoveRandom(self):
-        num = randint(0, 3)
-        if num == 0:
-            return "D"
-        elif num == 1:
-            return "Q"
-        elif num == 2:
-            return "Z"
-        elif num == 3:
-            return "S"
 
     def applyMove(self, direction):
         self.lastMove = direction

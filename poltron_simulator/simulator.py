@@ -3,6 +3,7 @@ from math import floor
 from random import shuffle
 from typing import Tuple
 
+from poltron_game.Game import Game
 from poltron_model import model
 
 
@@ -39,20 +40,18 @@ def parameterize_n(m: int, min_n: int, max_n: int) -> Tuple[int, int]:
     return (min_n, max_n)
 
 
-def run_game(game):
-    return
-
-
 def simulate_game(args, model_mode):
     import poltron_db.db as db
     m, n, c, ds, dc = args
     game_id = db.get_last_game_id() + 1
     if model_mode:
         game = model.Model(m, n, c, ds, dc)
+        game.run()
+        return
     else:
-        raise NotImplementedError("NORMAL GAME MODE HAS NOT BEEN HOOKED YET")
+        game = Game(m, n, c)
+        game.testGame()
 
-    game.run()
 
     db.insert_game_info(game_id, m, n, ds, dc, c)
 

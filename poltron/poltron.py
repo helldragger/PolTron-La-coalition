@@ -4,31 +4,38 @@ from argparse import ArgumentParser
 import pyximport;
 
 
-pyximport.install(pyimport=True)
-
-
-pyximport.install(pyimport=True)
+pyximport.install(pyimport=True, load_py_module_on_import_failure=True)
 
 import poltron_db.db as db
 import poltron_game.Game as Game
 import poltron_simulator.simulator as sim
 import poltron_model.model as model
+from pycallgraph import PyCallGraph
+from pycallgraph.output import GraphvizOutput
 
 def main(args):
     if args.profiler:
-        from pycallgraph import PyCallGraph
-        from pycallgraph.output import GraphvizOutput
         graphviz = GraphvizOutput()
-        graphviz.output_file = 'profile_graph.png'
+
         if not args.model:
+            for _ in range(10):
+                cProfile.run('Game.Game(30, 50, 20).testGame()')
+        else:
+            for _ in range(10):
+                cProfile.run('model.Model(30, 50, 20, 10, 5).run()')
+
+        if not args.model:
+            graphviz.output_file = 'game_profile_graph.png'
             cProfile.run('Game.Game(30, 50, 20).testGame()')
         else:
+            graphviz.output_file = 'model_profile_graph.png'
             cProfile.run('model.Model(30, 50, 20, 10, 5).run()')
         with PyCallGraph(output=graphviz):
-            if not args.model:
-                Game.Game(100, 100, 32).testGame()
-            else:
-                model.Model(100, 100, 32, 10, 5).run()
+            for _ in range(100):
+                if not args.model:
+                    Game.Game(100, 100, 32).testGame()
+                else:
+                    model.Model(100, 100, 32, 1, 1).run()
         return
 
     db.prepare_db_tables()

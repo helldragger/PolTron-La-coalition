@@ -211,7 +211,7 @@ class Model():
                     self.move_ball(ball, x, y, x, y + 1)
         if important:
             self.important_moments.append(
-                (self.tick, self.nb_walls(), self.c_death(), str(self)))
+                (self.tick, self.nb_walls(), self.c_death()))
         if len(current_deaths) > 0:
             self.deaths.append((self.tick, current_deaths))
         self.balls_order = new_order  # self.display()
