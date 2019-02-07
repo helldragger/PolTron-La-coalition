@@ -29,16 +29,13 @@ class Game(object):
             res += "\n"
         return res
 
-    def __generatePlayers(self):
+    def __initGame(self):
         row = random.sample(range(0, self.row), self.nbCoa+1)
         col = random.sample(range(0, self.col), self.nbCoa+1)
         
         self.board["players"]["attaquant"].append((row[0], col[0]))
         for i in range(1, len(row)):
-            self.board["players"]["defenseur"].append((row[i], col[i]))
-
-    def __initGame(self):
-        self.__generatePlayers()        
+            self.board["players"]["defenseur"].append((row[i], col[i]))      
         
     def __endGame(self):
         if len(self.board["players"]["attaquant"]) != 0 and len(self.board["players"]["defenseur"]) != 0:
