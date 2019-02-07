@@ -57,6 +57,18 @@ class Game(object):
     def __saveImportantMoment(self):
         self.importantMoment.append([self.row, self.col, self.nbCoa, len(self.board["players"]["defenseur"]), len(self.board["wall"][1:])])
 
+
+    def __nextRandomMove(self):
+        num = random.randint(0, 3)
+        if num == 0:
+            return "D"
+        elif num == 1:
+            return "Q"
+        elif num == 2:
+            return "Z"
+        elif num == 3:
+            return "S"
+
     def __nextMove(self, coord, direction):
         if direction.upper() == "D":
             return (coord[0], coord[1] + 1)
@@ -76,26 +88,25 @@ class Game(object):
             for team, players in self.board["players"].items():
                 for p in players:
                     ##test exec
-                    print(self.__displayBoard())
-                    print("Wall : ", self.board["wall"])
-                    print("Attaquant : ", self.board["players"]["attaquant"])
-                    print("Defenseur : ", self.board["players"]["defenseur"])
-                    mov = input("direction : ")
-                    nextMove = self.__nextMove(p,mov)
-                    print (nextMove)
+                    # print(self.__displayBoard())
+                    # print("Wall : ", self.board["wall"])
+                    # print("Attaquant : ", self.board["players"]["attaquant"])
+                    # print("Defenseur : ", self.board["players"]["defenseur"])
+                    mov = self.__nextRandomMove()
+                    nextMove = self.__nextMove(p, mov)
+                    # print (nextMove)
                     if nextMove != False:
                         indexP = self.board["players"][team].index(p)
                         self.board["wall"].append(p)
-                        print("is Dying ? : ", self.__isDying(nextMove))
+                        #print("is Dying ? : ", self.__isDying(nextMove))
                         if self.__isDying(nextMove):
                             self.__saveImportantMoment()
                             self.board["players"][team].remove(self.board["players"][team][indexP])
                         else:
                             self.board["players"][team][indexP] = nextMove
-                        self.tour += 1
-                    print("Important Moment : ", self.importantMoment)
+                        self.tour += 1  #print("Important Moment : ", self.importantMoment)
 
 
 if __name__ == "__main__":
-    g = Game(5, 5, 2)
+    g = Game(5, 5, 2, 5, 3)
     g.testGame()
