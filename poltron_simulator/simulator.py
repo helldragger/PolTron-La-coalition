@@ -47,7 +47,6 @@ def simulate_game(args, model_mode):
     if model_mode:
         game = model.Model(m, n, c, ds, dc)
         game.run()
-        return
     else:
         game = Game(m, n, c)
         game.testGame()
@@ -60,7 +59,7 @@ def simulate_game(args, model_mode):
     for tick, deaths in game.deaths:
         db.insert_deaths(game_id, tick, deaths)
 
-    for tick, nb_walls, c_deaths, map_string in game.important_moments:
+    for tick, nb_walls, c_deaths in game.important_moments:
         db.insert_important_moment(game_id, tick, nb_walls, c_deaths)
 
     for player_id, x, y in game.initial_positions:
@@ -120,7 +119,7 @@ def calculate_simulation_amount(min_m: int, min_n: int, min_c: int, min_ds: int,
             highest_c = max(highest_c, _max_c)
             for c in range(_min_c, _max_c + 1, c_step):
                 for ds in range(_min_ds, _max_ds + 1, ds_step):
-                    _min_dc, _max_dc = (min_dc, max_dc)
+                    _min_dc, _max_dc = (min_dc, min(ds - 1, max_dc))
                     highest_dc = max(highest_dc, _max_dc)
                     for dc in range(_min_dc, _max_dc + 1, dc_step):
                         for iter in range(iteration_per_combination):
@@ -138,9 +137,7 @@ def generate_data(min_m: int, min_n: int, min_c: int, min_ds: int, min_dc: int,
                   model_mode: bool) -> None:
     import poltron_simulator.progress_bar as pb
     import time
-    import poltron_db.db as db
 
-    db.set_mode(model_mode)
     search_space = calculate_simulation_amount(min_m, min_n, min_c, min_ds,
                                                min_dc, max_m, max_n, max_c,
                                                max_ds, max_dc,
@@ -157,7 +154,7 @@ def generate_data(min_m: int, min_n: int, min_c: int, min_ds: int, min_dc: int,
             _min_c, _max_c = parameterize_c(m, n, min_c, max_c)
             for c in range(_min_c, _max_c + 1, c_step):
                 for ds in range(_min_ds, _max_ds + 1, ds_step):
-                    _min_dc, _max_dc = (min_dc, max_dc)
+                    _min_dc, _max_dc = (min_dc, min(ds - 1, max_dc))
                     for dc in range(_min_dc, _max_dc + 1, dc_step):
                         for iter in range(iteration_per_combination):
                             initial_settings.append((m, n, c, ds, dc))
