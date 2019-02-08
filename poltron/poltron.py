@@ -1,6 +1,10 @@
 import cProfile
 from argparse import ArgumentParser
 
+import pyximport;
+
+
+pyximport.install(pyimport=True, load_py_module_on_import_failure=True)
 from pycallgraph import PyCallGraph
 from pycallgraph.output import GraphvizOutput
 
@@ -10,29 +14,33 @@ import poltron_model.model as model
 import poltron_simulator.simulator as sim
 
 
+def profiling(args):
+    graphviz = GraphvizOutput()
+
+    if not args.model:
+        for _ in range(10):
+            cProfile.run('Game.Game(30, 50, 20).testGame()')
+    else:
+        for _ in range(10):
+            cProfile.run('model.Model(30, 50, 20, 10, 5).run()')
+
+    if not args.model:
+        graphviz.output_file = 'game_profile_graph.png'
+        cProfile.run('Game.Game(30, 50, 20).testGame()')
+    else:
+        graphviz.output_file = 'model_profile_graph.png'
+        cProfile.run('model.Model(30, 50, 20, 10, 5).run()')
+    with PyCallGraph(output=graphviz):
+        for _ in range(100):
+            if not args.model:
+                Game.Game(100, 100, 32).testGame()
+            else:
+                model.Model(100, 100, 32, 1, 1).run()
+
+
 def main(args):
     if args.profiler:
-        graphviz = GraphvizOutput()
-
-        if not args.model:
-            for _ in range(10):
-                cProfile.run('Game.Game(30, 50, 20).testGame()')
-        else:
-            for _ in range(10):
-                cProfile.run('model.Model(30, 50, 20, 10, 5).run()')
-
-        if not args.model:
-            graphviz.output_file = 'game_profile_graph.png'
-            cProfile.run('Game.Game(30, 50, 20).testGame()')
-        else:
-            graphviz.output_file = 'model_profile_graph.png'
-            cProfile.run('model.Model(30, 50, 20, 10, 5).run()')
-        with PyCallGraph(output=graphviz):
-            for _ in range(100):
-                if not args.model:
-                    Game.Game(100, 100, 32).testGame()
-                else:
-                    model.Model(100, 100, 32, 1, 1).run()
+        profiling(args)
         return
 
 
