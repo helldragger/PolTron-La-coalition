@@ -68,7 +68,7 @@ readablegraph <- function(data, mapping, ...){#make ggplot2 plot
 
 analyze_data <- function(victory_stats, title){
   
-  basic_analysis(victory_stats, title)
+  print(basic_analysis(victory_stats, title))
   
   
   matrix <- ggpairs(victory_stats, 
