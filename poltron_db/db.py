@@ -1,9 +1,8 @@
 import sqlite3
 
 
-MODEL_DB_NAME = "../resources/model_data.db"
-AI_DB_NAME = "../resources/AI_data.db"
-DB_PATH = AI_DB_NAME
+DB_PATH = ""
+
 
 def create_table(table_name: str, args: str) -> None:
     global DB
@@ -179,18 +178,25 @@ def get_last_game_id() -> int:
     return int(game_id)
 
 
-def set_mode(model_mode):
-    global DB_PATH
-    global AI_DB_NAME
-    global MODEL_DB_NAME
-    if model_mode and DB_PATH == AI_DB_NAME:
-        DB_PATH = MODEL_DB_NAME
-        prepare_db_tables()
-    elif not model_mode and DB_PATH == MODEL_DB_NAME:
-        DB_PATH = AI_DB_NAME
-        prepare_db_tables()
-    elif model_mode:
-        DB_PATH = MODEL_DB_NAME
+def prepare_db_path(args):
+    import datetime
+
+    param_string = ""
+    if args.model:
+        param_string += "model_"
     else:
-        DB_PATH = AI_DB_NAME
+        param_string += "ai_"
+    now = str(datetime.datetime.now())[:19]
+    now = now.replace(":", "-").replace(" ", "_")
+    param_string += now + "_"
+    param_string += f"M_{args.min_m}-{args.max_m}-{args.step_m}_"
+    param_string += f"N_{args.min_n}-{args.max_n}-{args.step_n}_"
+    param_string += f"C_{args.min_c}-{args.max_c}-{args.step_c}_"
+    param_string += f"Ds_{args.min_ds}-{args.max_ds}-{args.step_ds}_"
+    param_string += f"Dc_{args.min_dc}-{args.max_dc}-{args.step_dc}_"
+    param_string += f"{args.iter}iter"
+    param_string += f".db"
+
+    global DB_PATH
+    DB_PATH = "../resources/" + param_string
     return None

@@ -1,17 +1,14 @@
 import cProfile
 from argparse import ArgumentParser
 
-import pyximport;
-
-
-pyximport.install(pyimport=True, load_py_module_on_import_failure=True)
+from pycallgraph import PyCallGraph
+from pycallgraph.output import GraphvizOutput
 
 import poltron_db.db as db
 import poltron_game.Game as Game
-import poltron_simulator.simulator as sim
 import poltron_model.model as model
-from pycallgraph import PyCallGraph
-from pycallgraph.output import GraphvizOutput
+import poltron_simulator.simulator as sim
+
 
 def main(args):
     if args.profiler:
@@ -38,7 +35,6 @@ def main(args):
                     model.Model(100, 100, 32, 1, 1).run()
         return
 
-    db.prepare_db_tables()
 
     min_m: int = args.min_m
     min_n: int = args.min_n
@@ -74,6 +70,8 @@ def main(args):
     assert min_c <= max_c, "C minimum must be <= to its maximum"
 
     assert max_dc < max_ds and min_dc < min_ds, "Dc must be within 0<Dc<Ds"
+    db.prepare_db_path(args)
+    db.prepare_db_tables()
 
     sim.generate_data(min_m, min_n, min_c, min_ds, min_dc, max_m, max_n, max_c,
                       max_ds, max_dc, iteration_per_combination, m_step, n_step, c_step,
@@ -88,32 +86,22 @@ if __name__ == "__main__":
                         help="Sets the search space minimum value of n")
     parser.add_argument("--min_c", action="store", default=1, type=int,
                         help="Sets the search space minimum value of c")
-    parser.add_argument("--min_ds", action="store", default=3, type=int,
+    parser.add_argument("--min_ds", action="store", default=2, type=int,
                         help="Sets the search space minimum value of ds")
-    parser.add_argument("--min_dc", action="store", default=2, type=int,
+    parser.add_argument("--min_dc", action="store", default=1, type=int,
                         help="Sets the search space minimum value of dc")
+
     parser.add_argument("--max_m", action="store", default=50, type=int,
                         help="Sets the search space maximum value of m")
     parser.add_argument("--max_n", action="store", default=50, type=int,
                         help="Sets the search space maximum value of n")
     parser.add_argument("--max_c", action="store", default=100, type=int,
                         help="Sets the search space maximum value of c")
-
-    # Un joueur lambda sur un jeu type tron armageddon peut se projeter
-    # rapidement sur environ quelques secondes dans le futur
-    # experimentalement avec beaucoup de joueurs (4), environ une à deux
-    # secondes d'avance peuvent etre réfléchie en regardant le jeu de facon
-    # globale sans détailler.
-    # extrapolons et disons jusqu'à 10 secondes d'avance si on essaie de
-    # prédire les décision d un autre joueur et d'un autre joueur uniquement
-
-    # on va donc partir sur cette base et se dire qu'un joueur peut avoir une
-    #  intelligence max de 2 secondes d'avance sur le jeu pour savoir où tout
-    #  le monde se dirige  -> max_ds = 10
-    parser.add_argument("--max_ds", action="store", default=6, type=int,
+    parser.add_argument("--max_ds", action="store", default=10, type=int,
                         help="Sets the search space maximum value of ds")
-    parser.add_argument("--max_dc", action="store", default=5, type=int,
+    parser.add_argument("--max_dc", action="store", default=9, type=int,
                         help="Sets the search space maximum value of dc")
+
     parser.add_argument("--step_m", action="store", default=5, type=int,
                         help="Sets the search space sampling interval of m")
     parser.add_argument("--step_n", action="store", default=5, type=int,
@@ -124,9 +112,11 @@ if __name__ == "__main__":
                         help="Sets the search space sampling interval of ds")
     parser.add_argument("--step_dc", action="store", default=2, type=int,
                         help="Sets the search space sampling interval of dc")
-    parser.add_argument("--iter", action="store", default=1000, type=int,
+
+    parser.add_argument("--iter", action="store", default=100, type=int,
                         help="Sets the amount of random games simulated per "
                              "combination")
+
     parser.add_argument("--profiler", action="store_true",
                         help="Launch the profiler mode instead of the "
                              "simulation mode")
