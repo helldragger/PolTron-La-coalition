@@ -1,0 +1,440 @@
+\documentclass[
+	headsepline=on,
+	footsepline=on,
+	twoside=off,
+	abstract=on,
+	DIV=10
+]{scrreprt}
+
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage[english, french]{babel}
+\usepackage{multirow}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[hidelinks]{hyperref}
+\usepackage{mdframed}
+\usepackage{pgfplotstable}
+\usepackage{tikz-3dplot}
+\usepackage[OT1]{fontenc}
+\usepackage{lipsum}
+\usepackage{float}
+\usepackage{pdfpages}
+\usepackage{amsmath}
+
+\usepackage[bottom=2cm,footskip=8mm]{geometry}
+
+\newmdenv[
+rightline=false,
+topline=false,
+bottomline=false,
+backgroundcolor=BurntOrange!5,
+fontcolor=BrickRed,
+linecolor=Red,
+linewidth=1pt]{problem}
+
+
+\newmdenv[
+rightline=false,
+topline=false,
+bottomline=false,
+backgroundcolor=ForestGreen!5,
+fontcolor=OliveGreen,
+linecolor=Green,
+linewidth=1pt]{result}
+
+
+\newmdenv[
+rightline=false,
+topline=false,
+bottomline=false,
+backgroundcolor=Cyan!5,
+fontcolor=Blue,
+linecolor=NavyBlue,
+linewidth=1pt]{info}
+
+%Gestion des images
+
+\newcommand{\img}[1]{
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{#1}
+\end{figure}
+}
+
+% Gestion d'abstracts multiples
+
+\newenvironment{abstractpage}
+{\cleardoublepage\vspace*{\fill}\thispagestyle{empty}}
+{\vfill\cleardoublepage}
+
+\renewenvironment{abstract}[1]
+{\bigskip\selectlanguage{#1}%
+	\begin{center}\bfseries\abstractname\end{center}}
+{\par\bigskip}
+
+% Gestion des keywords
+
+\newcommand{\keywords}{\sffamily\textit{Keywords : }\bfseries}
+
+%Page style
+
+\pagestyle{headings}
+\pagenumbering{arabic}
+
+
+%Title page
+
+\titlehead{
+	\includegraphics[width=0.25\textwidth]{pics/logo_UNICAEN.png}
+	\hfill
+	%\includegraphics[width=0.25\textwidth]{pics/}
+}
+\subject{
+	\small
+	Université de Caen Normandie\\
+	UFR des Sciences\\
+	Département Informatique\\
+	\hfill\\
+	3ème année de licence d'informatique
+}
+\title{
+	\Huge \bfseries PolTron: La coalition
+}
+\subtitle{
+	Expérimentations sur coalition d'IA via le jeu Tron\\
+	\hfill\\
+	{\normalfont }
+}
+\author{
+	\small
+	\includegraphics[ height=0.12\textheight]{pics/logo_long_promo.png}\\
+	\hfill\\
+	Christopher JACQUIOT, Vincent DE MENEZES, \\ Alexis MORTELIER, Walid IDOUCHE
+}
+\date{}
+\publishers{
+	\small
+	\begin{minipage}{0.6\textwidth}
+
+		Tuteur du projet: Gregory BONNET\\
+		\\
+		Jury : --\\
+		\textit{(si composition du jury connue)}
+	\end{minipage}
+	\hfill
+	\begin{minipage}{0.35\textwidth}
+		Année universitaire : 2018 / 2019\\
+		\\
+		Soutenu le -- mars 2019\\
+		\textit{(si date connue)}
+	\end{minipage}
+}
+
+\makeglossary
+
+\begin{document}
+
+	
+	\maketitle
+	
+	\pagenumbering{roman}
+	
+	\tableofcontents
+	\listoffigures
+	\listoftables
+	
+	\chapter*{Remerciements}
+		\paragraph{} 
+			Nous tenons à remercier notre tuteur M. Gregory BONNET, pour la proposition de ce sujet passionnant.
+					
+	\clearpage
+	
+	\begin{abstractpage}
+		\begin{abstract}{french}
+			Dans ce projet mêlant intelligence artificielle, simulation et analyse, nous allons devoir créer un jeu inspiré de Tron sur lequel nous allons faire jouer plusieurs équipes, une coalition et un joueur seul, leur donnant une différence d'intelligence telle que le joueur solo sera le plus intelligent, et nous allons ensuite devoir analyser les résultats de leurs parties pour déterminer les paramètres les plus optimaux pour que cette coalition gagne contre le joueur seul. Pour réaliser cela nous allons avoir recours à diverses technologies pour résoudre les divers problèmes auquels nous allons nous confronter. Parmi ces technologies, le python sera utile pour réaliser rapidement notre modèle et notre interface, le Sqlite avec sa portabilité et sa forte intégration avec la plupart des langages sera primordial pour stocker et manipuler les données résultantes de nos simulations, et le langage d'analyse statistique R sera un grand atout pour aider à raisonner rapidement à partir de ces résultats.
+
+		\end{abstract}
+	
+		\begin{abstract}{english}
+			In this project about artificial intelligence, simulation and analysis, we will have to make an Tron-inspired game on which we will make two teams fight each other, a coalition and an alone player, both having different intelligence levels, the solo player being the most intelligent, and then analyze the results of their games to determine the optimum parameters to make the coalition win against the solo player. To realize this we will need to make good use of diverse technologies to deal with the problems we will face. Amongst thos technologies, Python will be useful to produce efficiently both our model and interface, Sqlite thanks to it's portability and deep integration with most languages will be primordial to store and manipulate the data resulting from our simulations, and the statistical analysis programming language R will be a great asset to help reason quickly from those results.
+
+		\end{abstract}
+		\hfill\\
+		\keywords{AI analysis simulation Tron }
+	\end{abstractpage}
+
+	
+	
+	
+	\pagenumbering{arabic}
+
+
+		
+		
+		
+
+	\part{Analyse du projet}
+		
+	\chapter{Introduction}
+		\section{Objectif général du projet}
+		\paragraph{Quel est le problème à régler?}
+		Dans un jeu de Tron dont les règles sont explicitées dans la partie sur le modèle, nous allons faire jouer deux équipes:
+		
+		\begin{itemize}
+			\item Un joueur seul et intelligent
+			\item Une coalition de joueurs moins intelligents
+		\end{itemize}
+		
+		Le but est d'analyser les meilleurs paramètres pour que notre coalition soit statistiquement la plus efficace contre le joueur seul, si une tendance se dégage de nos simulations.
+		
+		En d'autres termes, nous allons tenter de répondre à la question:
+		
+		
+		\begin{problem}
+			\sffamily
+			Combien faut-il d'idiots pour prendre l'avantage sur un joueur plus intelligent?
+		\end{problem}
+	
+		\section{Objectifs à atteindre}
+		\paragraph{Simulateur} 
+		Nous allons devoir permettre à la personne voulant générer des données de paramètrer les intervalles et fréquences d'échantillonnage le plus précisément possible pour permettre de génerer des données plus précises sur certaines conditions si besoin.
+		
+		Les paramètres inter-dépendants tels que le nombre de joueurs et la taille des cartes doivent être automatiquement régulés pour un fonctionnement entièrement automatisé.
+		
+		Une interface permettant de suivre la progression de la simulation est aussi très importante pour estimer quand terminent nos simulations.
+		
+		\paragraph{Modèle de jeu}	
+		\paragraph{IA et son heuristique}
+		\paragraph{Stockage de masse}
+		Au vu des grandes quantités de données potentielles, une base de donnée bien structurée avec des vues permettant de faciliter l accès aux informations pertinentes pour l'analyse sera primordiale.
+		
+		\paragraph{Analyse statistique}
+		Nous allons devoir faciliter la visualisation et le travail sur nos données afin de permettre de se concentrer sur l'analyse plutôt que sur les outils d'analyse. Il sera donc important d'unifier au possible les moyens d'analyse des données et de rédaction d'analyses pour augmenter notre efficacité.
+		
+		
+		\part{Cahier des charges}
+		
+
+		\includepdf[pages=-]{./data/cahier.pdf}
+		
+		\section{Spécifications}
+			\subsection{Spécification des paramètres de simulation}
+				\paragraph{Attention} Pour pouvoir simuler correctement, il est nécessaire que les paramètres d'entrée donnés au simulateur ne brisent pas les règles suivantes.
+				
+				\begin{equation}
+					param > 0
+				\end{equation}
+				\begin{equation}
+					min_X \le max_X
+				\end{equation}
+				\begin{equation}
+					0 < Dc < Ds
+				\end{equation}
+				
+				
+			\subsection{Contraintes techniques}
+				\paragraph{Temps imparti réduit}
+				
+				Suite à une annulation de la matière puis à la réouverture de celle ci, le temps imparti pour ce projet as été considérablement amoindri.
+				
+				Nous avons environ 5 semaines pour mener ce projet à terme à compter du 31 janvier 2019.
+				Il est donc nécessaire de réduire un maximum les temps de développement pour le mener à bien.
+				
+				Cela a mené à la nécessité d'évaluer nos options de façon la plus pragmatique possible en termes de coûts en temps d'implémentation.
+				
+				
+				
+		
+		\section{Choix techniques}
+			\subsection{Schémas de conception}
+			\subsubsection{Architecture}
+			\img{./pics/archi}
+			\subsubsection{Base de données}
+			\img{./pics/bdd_archi}
+			\subsubsection{Modèle de jeu}
+			
+			\subsubsection{Heuristique}
+			
+			\subsubsection{Analyse}
+			\img{./pics/analyse_archi}
+			\subsection{Langages utilisés}
+			
+			
+				\paragraph{Module simulation:}
+				\begin{itemize}
+					\item Python pour l'interface commande et les sous modules internes.
+					\item SQL pour la génération et l'interaction avec la bdd
+				\end{itemize} 
+				
+				
+				\paragraph{Module analyse:}
+				\begin{itemize}
+					\item R pour la génération des graphes et la manipulation des données
+					\item Markdown pour la rédaction du rapport d'analyse
+				\end{itemize}
+		\part{Historique des travaux réalisés}
+		
+		\includepdf[pages=-]{./data/historique.pdf}
+		% etc...
+		\paragraph{Concernant Walid}
+		
+		Suite à une discussion sur les expériences, et compétences de chacun pour analyser comment mener au mieux ce projet, un accord à été passé avec Walid pour qu'il puisse se familiariser de son coté à Python et aux concepts du projets en tentant d'en réaliser un maximum de son coté.
+		
+		Afin de ne pas le délaisser non plus, il as été encouragé qu'il pose ses éventuelles questions et s'inspire du code principal pour expérimenter et rattrapper son éventuel retard sur certains concepts.
+		
+		
+			\section{Outils de programmation}
+				\paragraph{Alexis :}
+				\paragraph{Vincent :}
+			
+				\paragraph{Christopher :}
+				\begin{itemize}
+					\item Pycharm + l'extension Sonar Lint pour programmer en Python
+					\item Rstudio pour programmer le projet en R et étudier le contenu de la base de données
+				\end{itemize}
+				\paragraph{Walid :}
+			
+			\section{Bibliothèques utilisées}
+				\subsection{Module simulation}
+				
+				\begin{itemize}
+					\item time pour estimer le temps restant avant completion des simulations
+					\item sqlite3 pour l'interfacage avec la bdd sqlite
+				\end{itemize}
+			
+				\subsection{Module analyse}
+				
+				\begin{itemize}
+					\item dplyr pour faciliter la manipulation et la selection par sémantique des données
+					\item ggplot2 pour ses graphes de qualité et facile à configurer
+					\item GGally pour ses outils d'analyse de tables de données complètes
+					\item RSQLite pour l'interfacage avec la bdd sqlite
+				\end{itemize}
+			
+			\section{Interface}
+				\img{pics/interface.png}
+
+		
+			
+	\part{Réalisation}
+		\input{./chapters/simulator.tex}
+		\input{./chapters/model.tex}
+		\input{./chapters/ia.tex}
+		\input{./chapters/analysis-exploration.tex}
+		%%%%%%%%%%%%% PREMIER TRUC IMPORTANT
+		
+		%%%%%%%%%%%%%% AUTRE TRUC IMPORTANT
+		%\chapter{PARTIE}
+		
+		%\section{Nécessités}
+		
+		%\paragraph{}
+		
+		%\section{Problème}
+		
+		%\paragraph{}
+		
+		%\begin{problem}
+		
+		%\end{problem}
+		
+		%\section{Approches possibles}
+		
+		%\paragraph{}
+		
+		%\section{Approche utilisée}
+		
+		%\paragraph{}
+		
+		%\begin{result}
+		
+		%\end{result}
+		
+		%\section{Remarques sur les résultats obtenus}
+		
+		%\paragraph{}
+		
+		%\section{Pistes d'amélioration}
+		
+		%\paragraph{}
+		
+		
+	\part{Analyse des données générées}
+	
+	\input{./chapters/analyse_ai.tex}
+	\input{./chapters/analyse_model.tex}
+	%\includepdf[pages=-]{./data/analyse}
+	
+	\part{Problèmes, tests et expérimentations}
+	
+		\chapter{Problèmes rencontrés}
+		
+			\section{Problème majeur 1}
+			\section{Problème majeur 2}
+			
+			\section{Problème mineur 1}
+			\section{Problème mineur 2}
+				
+		\chapter{Expérimentations}
+			\section{Expérimentation 1}
+			
+			\section{Expérimentation 2}
+			
+			
+		\chapter{Conclusion}
+			\paragraph{Résumé des objectifs au résultat final}
+			
+			\paragraph{Résumé du résultat final comparé aux résultats escomptés}
+			
+			\paragraph{Résumé des liens avec les connaissances et compétences universitatires}
+			
+			\paragraph{Résumé sur l'enrichissement personnel}
+			
+			\paragraph{Résumé difficultés rencontrées}
+			
+			\paragraph{Résumé perspectives envisagées, appréciation perso, poursuite..}
+		
+			\cleardoublepage
+			\pagebreak
+		\pagenumbering{Roman}
+			
+		\part{Annexes}
+		
+		\input{./chapters/analysis-simulation.tex}	
+	
+	%\chapter{PARTIE}
+	
+	%\section{Nécessités}
+	
+	%\paragraph{}
+	
+	%\section{Problème}
+	
+	%\paragraph{}
+	
+	%\begin{problem}
+	
+	%\end{problem}
+	
+	%\section{Approches possibles}
+	
+	%\paragraph{}
+	
+	%\section{Approche utilisée}
+	
+	%\paragraph{}
+	
+	%\begin{result}
+	
+	%\end{result}
+	
+	%\section{Remarques sur les résultats obtenus}
+	
+	%\paragraph{}
+	
+	%\section{Pistes d'amélioration}
+	
+	%\paragraph{}
+	
+	
+\end{document}

@@ -1,0 +1,95 @@
+\chapter{Analyse des données du modèle}
+
+\paragraph{Paramètres initiaux}
+Cette simulation as été réalisée avec 100 réitérations pour chaque combinaison possible avec les paramètres par défaut suivants.
+
+\img{./data/model_parameters}
+
+\section{Analyse d'ensemble}
+
+
+\img{./data/model_overview_short}
+\paragraph{Quelques facteurs sortent du lot}
+À commencer par le facteur C qui est le seul avec une fonction qui tends vers 1 si rapidement, les mesures d'espace M, N et M*N semblent avoir aussi une corrélation positive avec le pourcentage de victoire.
+
+La tendance de Dc à réduire le pourcentage de victoire avant un certain point est aussi étonnante, on pourrais penser que plus de prévoyance de la part des joueurs en groupe puissent les avantager, mais on dirais qu'il y a un certain équilibre entre prévoyance et hasard qu'il leur faut conserver pour être efficace. 
+On retrouve la même tendance étonnante sur la courbe de différence d'intelligence, où réduire la différence au minimum comme de la maximiser semble porter les meme résultats, tandis qu'une différence entre les deux semble être le pire choix possible.
+
+
+Le facteur ds semble coller à nos attentes en revanche, plus le joueur solo est intelligent, plus les chances de gagner semblent diminuer en général.
+
+Ceci étant dit, les courbes de densité semblent mettre en évidence une certaine division sur tous les autres graphes que le C, une partie basse éparse et large, et une partie haute dense et étroitement proche du 1.
+
+
+\img{./data/model_overview_complete}
+
+\section{Analyses détaillées}
+\subsection{Répartitions des pourcentages de victoires}
+\img{./data/model_victory_percent}
+
+\paragraph{Une différence clairement marquée}
+Les axes en Y étant fixes entre les différents intervalles de victoires, nous pouvons bel et bien constater sans déformation plusieurs ensembles de données.
+
+Les parties à 80-\% de chances de victoire ont une répartition relativement homogème sur les differents spectres excepté sur le facteur C, qui indique très clairement que toutes les valeurs de petit C sont en deçà de 80\%.
+
+Cette majorité se fait aussi remarquer sur tous les autres facteurs, meme si les groupes de données y sont marqués de manière moins évidente.
+La partie basse des résultats est bel et bien éparse dès les 20\%, et la quantité de combinaisons de données à 0 voire 60\% est preque comparable à celle de la partie haute. 
+On assiste donc bel et bien à deux groupes de données où la majorité des points les plus mauvais sont liés aux faibles valeurs de C, en opposition à la majorité de points où C n'est plus minime.
+
+
+
+\subsection{Découpage du spectre selon des intervalles de C}
+\img{./data/model_C}
+\paragraph{C est définitivement un facteur MAJEUR}
+Cette représentation montre bien l'écrasante influence de C sur le pourcentage de victoire, aussitôt une valeur (minime en plus) atteinte, les chances de victoires enregistrées sont quasiment assurées.
+Autrement nous retrouvons les fonctions du départ mais plus proche de la neutralité qu'au-dessus.
+Voir parfois les fonctions semblent stagner à ces faibles valeurs de C.
+
+
+
+
+\subsection{Découpage du spectre selon des intervalles de Dc}
+\img{./data/model_Dc}
+\paragraph{Aucun impact réel décelé}
+Dc ne semble vraiment pas influer sur les différents spectres, par conséquent, Dc ne semble pas avoir d'impact tout court sur notre distribution de probabilité.
+
+
+Ceci dit, dans ces graphes les deux clusters de points sont particulièrement visibles.
+
+\subsection{Découpage du spectre selon des intervalles de Ds}
+\img{./data/model_Ds}
+\paragraph{Aucun impact réel décelé non plus}
+Ds ne semble vraiment pas influer sur les différents spectres non plus, par conséquent, Ds ne semble pas avoir d'impact tout court sur notre distribution de probabilité.
+
+
+Ceci dit, nous avons encore une fois un clivage visible entre deux groupes de données.
+
+\subsection{Découpage du spectre selon des intervalles de l'aire M*N}
+\img{./data/model_area}
+\paragraph{Une tendance positive!}
+Plus la zone d'aire augmente, plus on peut voir les points et les fonctions se décaler vers la victoire.
+Sur M on peut même voir petit à petit les points les plus bas disparaitre au fur et à mesure, comme pour Ds et Dc. 
+
+\begin{info}
+	Cela peut s'expliquer par la correlation suivante: Plus l'aire est grande, plus la taille de la coalition peut l'être aussi, résultant naturellement vers de meilleures chances de victoire. Car plus de joueurs implique aussi plus de contrôle global du plateau.
+\end{info}
+
+
+
+\subsection{Découpage du spectre selon des intervalles de la différence de niveau}
+\img{./data/model_Dc-Ds}
+\paragraph{Toujours aucun impact réel décelé}
+La différence d'intelligence ne semble pas non plus influer particulièrement sur les chances de victoires des autres variables.
+
+
+\subsection{Conclusions d'analyse}
+\paragraph{Le contrôle de la carte est le facteur le plus important d'après notre modèle}
+La seule véritable corrélation que nous ayons pu déceler ici entre variables et pourcentages de victoire est en fonction du nombre de joueurs présents sur la carte.
+
+Si nous y réfléchissons bien, cela fait même sens! 
+
+\begin{result}
+	Même avec la meilleure stratégie possible, un joueur seul ne peut pas empêcher des dizaines de joueurs de jouer contre lui à la fois et venant de toutes directions.
+\end{result}
+
+\img{./data/model_conclu}

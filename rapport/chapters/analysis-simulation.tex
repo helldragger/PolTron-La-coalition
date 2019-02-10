@@ -1,0 +1,183 @@
+\chapter{Analyse - Simulation}
+	
+	\section{Nécessités}
+	
+		\paragraph{Tenter de modéliser un système à priori intelligent}
+		Les calculs d'heuristique sont chers, et il est parfois utile pour optimiser la prédiction ou la detection d'anomalies de tenter de trouver un modèle mathématique qui décris bien l'évolution de notre système.
+		
+		Mais si les calculs d'heuristiques sont chers, ils sont malheureusement au premiers abord nécessaires, pour pouvoir observer des phénomènes dans leur globalité avant de tout analyser. Pour tenter de trouver un modèle il va donc falloir beaucoup de données pour trouver de potentielles corrélations reccurentes.
+ 
+	
+	\section{Problème}
+	
+		\paragraph{À quel point telles données sont elles pertinentes?}
+		Afin de pouvoir affiner notre modèle et le faire ressembler un maximum au comportement de notre véritable phénomène, il est important de déterminer l'importance de chaque facteur dans son comportement.
+		
+		Comment déterminer par la suite l'équivalence de cette importance dans notre autre visualisation du problème? Sont-elles comparables?
+		
+		\paragraph{Quels types de modèles pouvont nous créer?}
+		Il existe une infinité de fonctions possibles, correspondant à notre profil recherché sur notre intervalle de données.
+		Si notre modèle doit être capable d'extrapoler, l'intuition et les analogies au monde physique peuvent-ils être suffisants? 
+		
+		La réponse à cette question est évidemment complexe. Mais aussi évidente: On ne peut pas prédire avec exactitude quelque chose sur laquelle nous n'avons aucune donnée. 
+		Par conséquent, il va falloir partir du principe que les données suivantes ressembleront à une tendance connue qui corresponds déjà aux données présentes.
+		
+		Mais comment déterminer laquelle?
+	
+		\begin{problem}
+			Comment pourrions nous déterminer un type de modèle et ses paramètres pour représenter le même comportement que notre phénomêne connu?
+		\end{problem}
+	
+	\section{Approches possibles}
+	
+		\paragraph{Mathématiques pures}
+		Avec des mathématiques pures, et à partir de suffisamment de données d'entrées, nous devrions pouvoir construire un spectre de probabilités de victoire en fonction des paramètres initiaux.
+		
+		Cela devrait permettre une prédiction des plus fidèles de notre comportement sur l'intervalle connu, mais l'extrapolation sur un spectre de probabilités nous semble être d'un très haut niveau de mathématique que nous n'avons malheureusement pas dans notre équipe.
+		
+		La prédiction en données connues serait donc instantanée mais l'extrapolation impossible.
+		
+		\paragraph{Modèle simulé inspiré par la physique}
+		Avec de la physique il est possible de tenter de raisonner différemment, et de calculer potentiellement plus rapidement le meme genre de résultats que le calcul complet de notre phénomêne de départ.
+		
+		De plus, cela permettrais aussi potentiellement de mettre en équation le comportement des acteurs de notre phénomêne, ici les IA, et de potentiellement trouver un modèle simplifié et fonctionnel pour leur heuristique.
+		
+		Ici les équations pourraient permettre de l'extrapolation relativement aisément, mais la précision de notre modèle va nécessiter un lourd travail de réglages pour trouver l'équilibre entre l'influence des paramètres dans le modèle des IA et celle sur les paramètres dans le modèle simulé. 
+		
+		Un exemple parlant est la traduction de l'influence de la profondeur de recherche des IA vers le modèle physique, où il n'y aura pas d'IA.
+	
+	\section{Approche utilisée}
+	
+		\paragraph{Modèle physique}
+		Le temps et l'expérience limitée des membres du groupe dans le domaine de la simulation nous ont forcés à partir pour le modèle inspiré de la physique.
+		\img{./pics/simu_prof.png}
+		Nous avons donc pris les joueurs pour des billes (littéralement), et les considérons désormais en roulis perpétuel vers la pente la plus accentuée qui s'offre à eux.
+		
+		À la suite de leur roulis (changement de case), un mur se crée à leur position actuelle, les forcant à continuer de rouler au tour suivant.
+		
+		\img{./pics/simu_depth.png}
+		Ces murs sont de matériau friable, comme du sable, et une fois posés, remplissent les trous environnants d'une légère quantité de sable sans jamais les boucher, réduisant ainsi leur pente.
+		
+		Une bille ne peut plus rouler si elle est entourée de murs, autrement dit, si elle n'as plus de pente sur laquelle rouler.
+		Elle est alors retirée du jeu et considérée hors jeu.
+		
+		\img{./pics/simu_avoid.png}
+		Ce système devrais favoriser le contrôle de la carte de façon naturelle, car les billes seront donc naturellement inclines à se diriger vers les endroits les plus profonds, c.à.d. ceux ayant le plus d espace libre, et continueront toujours de rouler tant qu'elles n'auront pas atteint de cul de sac.
+		
+		Pour tenter de donner une dimension d'équipe, nous avons attribués une légère force attirant la coalition vers la position du joueur pour départager deux cases de même profondeur.
+		
+		Un barycentre de force pourrait être nécessaire pour calculer la force inverse pour le joueur seul, et cela nous as semblé potentiellement trop coûteux en temps de calculs supplémentaires pour rendre le modèle potentiellement viable.
+		L'idée reste à tester.
+	
+		
+	\section{Remarques sur les résultats obtenus}
+		\paragraph{Un semblant de stratégie!}
+		Nous avons pu constater que malgré l'absence de prédiction de la part des billes, celles ci semblaient avoir parfois des semblants de stratégies, par exemple, nous avons pu surprendre le joueur solo à coincer un adversaire dans un couloir de deux cases puis lui faire une queue de poisson en sortie!
+		
+		Même sans prédiction, nous arrivons donc à recalculer des mouvements potentiellement stratégiques, il y a donc espoir de pouvoir affiner notre modèle plus encore.
+		
+		\paragraph{Un optimisation de temps de calcul efficace!}
+		Là où notre IA est forcée de calculer la zone de controle d'un joueur jusque $3^C*Ds$ fois dans le pire des cas (tous les joueurs peuvent aller dans 3 directions à chaque tour, sur Ds tours), sur l'intégralité de la carte importante pour chaque joueur simulé à chaques simulation, notre système se contente d'un rayon de recherche de profondeur qui calcule en une fois l'intérêt d'une case et de ses alentours, et ce sur les quatre cases adjacentes à la bille.
+		
+		La calcul de la zone ne calcule aucune case inutile et donc s'arrête soit en cas de rayon atteint, soit en cas d'obstacle atteint dans sa propagation de comptage, ce calcul peut donc etre de complexité O(1) en cas d'encerclement et sa moyenne réduit à mesure que le nombre de murs augmente.
+		
+		\img{./pics/simu_efficiency.png}
+		A contrario, la recherche pour notre IA nécessite de calculer et propager autant de zones que de joueurs, incluant donc une plus grande surface à propager pour le calcul des zones d'un seul joueur, lors d'une unique étape de simulation.
+	
+	\section{Ordre de grandeur de la différence de vitesse de calcul}
+		\begin{figure}[H]
+			\centering
+			\begin{tabular}{c c c c c}
+				M&N&C&Ds&Dc\\\hline
+				50&50&36&10&9\\				
+			\end{tabular}
+		\caption{Paramètres initiaux}	
+		\end{figure}
+		
+		\paragraph{Des paramètres initiaux extrêmes}
+		Cette partie est la partie la plus extrême de notre échantillon de données sortant de notre simulation modélisée, en sachant que celles ci ont toutes été répétées 100 fois pour avoir une certaine précision.
+		Nous allons ici tenter d'estimer à grand renfort d'approximations la quantité de cases touchées par nos calculs pour la décision de nos joueurs afin de pouvoir comparer la différence d'efficacité entre nos deux modèles. 
+		
+		\paragraph{Les constantes}
+		Nous déterminons d'abord les constantes qui nous serviront à simplifier nos équations:
+		\begin{itemize}
+			\item $D$ représente la profondeur moyenne de recherche des joueurs
+			\item $t_{max}$ représente le nombre maximum de tours pouvant être joués si personne ne meurt tout le long de la partie.
+		\end{itemize}
+	
+		
+		\begin{align}
+		D &= \frac{C*Dc+1*Ds}{C+1}\\
+		&\approx 9 \\
+		t_{max} &= \frac{M*N}{C+1}\\
+		& \approx 68
+		\end{align}
+		
+		\subsection{Modèle IA}
+		
+		
+		
+		\begin{align}
+			nbCases(t, M, N, C) &= M*N-(C+1)*t\\
+			nbCases(t) & = 2500 - 37 * t\\
+			nbCases/tour/joueur(t, D) &= \int_{t}^{t+D} nbCases(x) dx\\
+			&= [2500*t - 37*\frac{t^2}{2}]_{t}^{t+D}\\
+			& = 2500(t+D-t) - 37*\frac{(t+D-t)^2}{2}\\
+			nbCases/tour/joueur(D)& = 2500*D - \frac{37}{2}*D^2\\
+			totalCases(t_{max}, C, D) &= (C+1)*t_{max}*nbCases/tour/joueur(D)\\
+			&= (C+1)*t_{max}*(2500*D - \frac{37}{2}*D^2)\\
+			&= 37*68 *(2500*9 - \frac{37}{2}*9^2)\\
+			&= 2516 * (22500 - 18.5*9^2)\\
+			&= 2516 * (22500 - 1498.5)\\
+			&= 2516 * 21001.5\\
+			totalCases(t_{max}, C, D) &\approx 52839774
+		\end{align}
+		
+		\subsection{Modèle simulé}
+		
+		\begin{align}
+			nbCasesInRadius(D) &=\int_{0}^{D} 4*x dx\\
+			&= [4\frac{x^2}{2}]_{0}^{D}\\
+			nbCasesInRadius(D) &= 2D^2\\
+			totalNbMurs(t,C) &= t*(C+1)\\
+			ratioMur/case(t, M, N, C)&= \frac{totalNbMurs}{M*N}\\
+			ratioMur/case(t, M, N, C)&= \frac{t*(C+1)}{M*N}\\
+			nbMurInRadius(t,M,N,C,D)&=ratioMur/case(t, M, N, C)*nbCasesInRadius(D)\\
+			nbMurInRadius(t,M,N,C,D)&=\frac{t*(C+1)}{M*N}*2D^2\\
+			casesLibreInRadius(t,M,N,C,D)&=nbCasesInRadius(D) - nbMurInRadius(t,M,N,C,D)\\
+			casesLibreInRadius(t,M,N,C,D)&=2D^2-\frac{t*(C+1)}{M*N}*2D^2\\
+			casesLibreInRadius(t,M,N,C,D)&=2D^2*(1 - \frac{t*(C+1)}{M*N})\\
+			nbCases/player/turn(t,M,N,C,D) &= 3*casesLibreInRadius(t,M,N,C,D)\\
+			&= 3*2D^2*(1 - \frac{t*(C+1)}{M*N})\\
+			nbCases/player/turn(t,M,N,C,D) &= 6D^2*(1 - \frac{t*(C+1)}{M*N})\\
+			nbCases/turn(t,M,N,C,D) &= (C+1)*nbCases/player/turn(t,M,N,C,D)\\
+			nbCases/turn(t,M,N,C,D) &= (C+1)*6D^2*(1 - \frac{t*(C+1)}{M*N})\\
+			totalCases(t_{max},M,N,C,D) &= \int_{0}^{t_{max}} nbCases/turn(t,M,N,C,D) dt\\
+			&= (C+1)*6D^2* \int_{0}^{t_{max}} 1 - \frac{t*(C+1)}{M*N} dt\\
+			&= (C+1) * 6D^2 * [ t - \frac{(C+1)}{M*N} * \frac{t^2}{2} ]_{0}^{t_{max}}\\
+			&= (C+1) * 6D^2 * (t_{max} - \frac{(C+1)*t_{max}^2}{2*M*N})\\
+			&= 37 * 486 *(68 - \frac{37*68^2}{5000})\\
+			&= 17982 * (68 - 34)\\
+			totalCases(t_{max},M,N,C,D) &= 611388
+		\end{align}
+		
+		\subsection{Comparaison des deux modèles}
+		
+		\paragraph{Nous pouvons calculer notre speedup}
+		Grâce aux résultats ci dessus, nous pouvons calculer le speed up entre nos deux modèles.
+		
+		\begin{align}
+			\frac{totalCases_{IA}}{totalCases_{simu}} &= \frac{52839774}{611388}\\
+			\frac{totalCases_{IA}}{totalCases_{simu}} &\approx 86 
+		\end{align}
+		
+		\begin{result}
+			Pour ce cas extrême, notre simulation teste 86x moins de cases que notre IA de base. C'est énorme.
+		\end{result}
+	
+	\section{Pistes d'amélioration}
+	
+		\paragraph{Un meilleur réglage des facteurs du modèle}
+		Pour le moment nous avons considéré les facteurs de notre modèle relativement linéairement à partir des paramètres initiaux mais l'IA peut potentiellement réagir à d'autres facteurs que nous pourrions peut etre quantifier pour améliorer notre modèle.
+	
+	%\includepdf[draft]{./data/model_analysis}
