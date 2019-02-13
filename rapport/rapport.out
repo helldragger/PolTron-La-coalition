@@ -9,78 +9,53 @@
 \BOOKMARK [1][-]{section.1.4}{Choix techniques}{section.1.3}% 9
 \BOOKMARK [2][-]{subsection.1.4.1}{Sch\351mas de conception}{section.1.4}% 10
 \BOOKMARK [2][-]{subsection.1.4.2}{Langages utilis\351s}{section.1.4}% 11
-\BOOKMARK [-1][-]{part.3}{Historique des travaux r\351alis\351s}{}% 12
-\BOOKMARK [0][-]{section.1.5}{Outils de programmation}{part.3}% 13
-\BOOKMARK [1][-]{section.1.6}{Biblioth\350ques utilis\351es}{section.1.5}% 14
-\BOOKMARK [2][-]{subsection.1.6.1}{Module simulation}{section.1.6}% 15
-\BOOKMARK [2][-]{subsection.1.6.2}{Module analyse}{section.1.6}% 16
-\BOOKMARK [1][-]{section.1.7}{Interface}{section.1.5}% 17
-\BOOKMARK [-1][-]{part.4}{R\351alisation}{}% 18
-\BOOKMARK [0][-]{chapter.2}{Simulateur}{part.4}% 19
-\BOOKMARK [1][-]{section.2.1}{N\351cessit\351s}{chapter.2}% 20
-\BOOKMARK [1][-]{section.2.2}{Probl\350me}{chapter.2}% 21
-\BOOKMARK [1][-]{section.2.3}{Approches possibles}{chapter.2}% 22
-\BOOKMARK [1][-]{section.2.4}{Approche utilis\351e}{chapter.2}% 23
-\BOOKMARK [1][-]{section.2.5}{Remarques sur les r\351sultats obtenus}{chapter.2}% 24
-\BOOKMARK [1][-]{section.2.6}{Pistes d'am\351lioration}{chapter.2}% 25
-\BOOKMARK [0][-]{chapter.3}{Mod\350le de jeu}{part.4}% 26
-\BOOKMARK [1][-]{section.3.1}{N\351cessit\351s}{chapter.3}% 27
-\BOOKMARK [1][-]{section.3.2}{Probl\350me}{chapter.3}% 28
-\BOOKMARK [1][-]{section.3.3}{Approches possibles}{chapter.3}% 29
-\BOOKMARK [1][-]{section.3.4}{Approche utilis\351e}{chapter.3}% 30
-\BOOKMARK [1][-]{section.3.5}{Remarques sur les r\351sultats obtenus}{chapter.3}% 31
-\BOOKMARK [1][-]{section.3.6}{Pistes d'am\351lioration}{chapter.3}% 32
-\BOOKMARK [0][-]{chapter.4}{Intelligence Artificielle - Heuristique}{part.4}% 33
-\BOOKMARK [1][-]{section.4.1}{N\351cessit\351s}{chapter.4}% 34
-\BOOKMARK [1][-]{section.4.2}{Probl\350me}{chapter.4}% 35
-\BOOKMARK [1][-]{section.4.3}{Approches possibles}{chapter.4}% 36
-\BOOKMARK [1][-]{section.4.4}{Approche utilis\351e}{chapter.4}% 37
-\BOOKMARK [1][-]{section.4.5}{Remarques sur les r\351sultats obtenus}{chapter.4}% 38
-\BOOKMARK [1][-]{section.4.6}{Pistes d'am\351lioration}{chapter.4}% 39
-\BOOKMARK [0][-]{chapter.5}{Intelligence Artificielle - Optimisations}{part.4}% 40
-\BOOKMARK [1][-]{section.5.1}{N\351cessit\351s}{chapter.5}% 41
-\BOOKMARK [1][-]{section.5.2}{Probl\350me}{chapter.5}% 42
-\BOOKMARK [1][-]{section.5.3}{Approches possibles}{chapter.5}% 43
-\BOOKMARK [1][-]{section.5.4}{Approche utilis\351e}{chapter.5}% 44
-\BOOKMARK [1][-]{section.5.5}{Remarques sur les r\351sultats obtenus}{chapter.5}% 45
-\BOOKMARK [1][-]{section.5.6}{Pistes d'am\351lioration}{chapter.5}% 46
-\BOOKMARK [0][-]{chapter.6}{Analyse - Exploration}{part.4}% 47
-\BOOKMARK [1][-]{section.6.1}{N\351cessit\351s}{chapter.6}% 48
-\BOOKMARK [1][-]{section.6.2}{Probl\350me}{chapter.6}% 49
-\BOOKMARK [1][-]{section.6.3}{Approche utilis\351e}{chapter.6}% 50
-\BOOKMARK [1][-]{section.6.4}{Remarques sur les r\351sultats obtenus}{chapter.6}% 51
-\BOOKMARK [1][-]{section.6.5}{Pistes d'am\351lioration}{chapter.6}% 52
-\BOOKMARK [-1][-]{part.5}{Analyse des donn\351es g\351n\351r\351es}{}% 53
-\BOOKMARK [0][-]{chapter.7}{Analyse des donn\351es de l'IA}{part.5}% 54
-\BOOKMARK [0][-]{chapter.8}{Analyse des donn\351es du mod\350le}{part.5}% 55
-\BOOKMARK [1][-]{section.8.1}{Analyse d'ensemble}{chapter.8}% 56
-\BOOKMARK [1][-]{section.8.2}{Analyses d\351taill\351es}{chapter.8}% 57
-\BOOKMARK [2][-]{subsection.8.2.1}{R\351partitions des pourcentages de victoires}{section.8.2}% 58
-\BOOKMARK [2][-]{subsection.8.2.2}{D\351coupage du spectre selon des intervalles de C}{section.8.2}% 59
-\BOOKMARK [2][-]{subsection.8.2.3}{D\351coupage du spectre selon des intervalles de Dc}{section.8.2}% 60
-\BOOKMARK [2][-]{subsection.8.2.4}{D\351coupage du spectre selon des intervalles de Ds}{section.8.2}% 61
-\BOOKMARK [2][-]{subsection.8.2.5}{D\351coupage du spectre selon des intervalles de l'aire M*N}{section.8.2}% 62
-\BOOKMARK [2][-]{subsection.8.2.6}{D\351coupage du spectre selon des intervalles de la diff\351rence de niveau}{section.8.2}% 63
-\BOOKMARK [2][-]{subsection.8.2.7}{Conclusions d'analyse}{section.8.2}% 64
-\BOOKMARK [-1][-]{part.6}{Probl\350mes, tests et exp\351rimentations}{}% 65
-\BOOKMARK [0][-]{chapter.9}{Probl\350mes rencontr\351s}{part.6}% 66
-\BOOKMARK [1][-]{section.9.1}{Probl\350me majeur 1}{chapter.9}% 67
-\BOOKMARK [1][-]{section.9.2}{Probl\350me majeur 2}{chapter.9}% 68
-\BOOKMARK [1][-]{section.9.3}{Probl\350me mineur 1}{chapter.9}% 69
-\BOOKMARK [1][-]{section.9.4}{Probl\350me mineur 2}{chapter.9}% 70
-\BOOKMARK [0][-]{chapter.10}{Exp\351rimentations}{part.6}% 71
-\BOOKMARK [1][-]{section.10.1}{Exp\351rimentation 1}{chapter.10}% 72
-\BOOKMARK [1][-]{section.10.2}{Exp\351rimentation 2}{chapter.10}% 73
-\BOOKMARK [0][-]{chapter.11}{Conclusion}{part.6}% 74
-\BOOKMARK [-1][-]{part.7}{Annexes}{}% 75
-\BOOKMARK [0][-]{chapter.12}{Analyse - Simulation}{part.7}% 76
-\BOOKMARK [1][-]{section.12.1}{N\351cessit\351s}{chapter.12}% 77
-\BOOKMARK [1][-]{section.12.2}{Probl\350me}{chapter.12}% 78
-\BOOKMARK [1][-]{section.12.3}{Approches possibles}{chapter.12}% 79
-\BOOKMARK [1][-]{section.12.4}{Approche utilis\351e}{chapter.12}% 80
-\BOOKMARK [1][-]{section.12.5}{Remarques sur les r\351sultats obtenus}{chapter.12}% 81
-\BOOKMARK [1][-]{section.12.6}{Ordre de grandeur de la diff\351rence de vitesse de calcul}{chapter.12}% 82
-\BOOKMARK [2][-]{subsection.12.6.1}{Mod\350le IA}{section.12.6}% 83
-\BOOKMARK [2][-]{subsection.12.6.2}{Mod\350le simul\351}{section.12.6}% 84
-\BOOKMARK [2][-]{subsection.12.6.3}{Comparaison des deux mod\350les}{section.12.6}% 85
-\BOOKMARK [1][-]{section.12.7}{Pistes d'am\351lioration}{chapter.12}% 86
+\BOOKMARK [2][-]{subsection.1.4.3}{Acc\350s au code source}{section.1.4}% 12
+\BOOKMARK [-1][-]{part.3}{Historique des travaux r\351alis\351s}{}% 13
+\BOOKMARK [0][-]{section.1.5}{Outils de programmation}{part.3}% 14
+\BOOKMARK [1][-]{section.1.6}{Biblioth\350ques utilis\351es}{section.1.5}% 15
+\BOOKMARK [2][-]{subsection.1.6.1}{Module simulation}{section.1.6}% 16
+\BOOKMARK [2][-]{subsection.1.6.2}{Module analyse}{section.1.6}% 17
+\BOOKMARK [1][-]{section.1.7}{Interface}{section.1.5}% 18
+\BOOKMARK [-1][-]{part.4}{R\351alisation}{}% 19
+\BOOKMARK [0][-]{chapter.2}{Simulateur}{part.4}% 20
+\BOOKMARK [1][-]{section.2.1}{N\351cessit\351s}{chapter.2}% 21
+\BOOKMARK [1][-]{section.2.2}{Probl\350me}{chapter.2}% 22
+\BOOKMARK [1][-]{section.2.3}{Approches possibles}{chapter.2}% 23
+\BOOKMARK [1][-]{section.2.4}{Approche utilis\351e}{chapter.2}% 24
+\BOOKMARK [1][-]{section.2.5}{Remarques sur les r\351sultats obtenus}{chapter.2}% 25
+\BOOKMARK [1][-]{section.2.6}{Pistes d'am\351lioration}{chapter.2}% 26
+\BOOKMARK [0][-]{chapter.3}{Mod\350le de jeu}{part.4}% 27
+\BOOKMARK [0][-]{chapter.4}{Intelligence Artificielle - Heuristique}{part.4}% 28
+\BOOKMARK [0][-]{chapter.5}{Analyse - Exploration}{part.4}% 29
+\BOOKMARK [1][-]{section.5.1}{N\351cessit\351s}{chapter.5}% 30
+\BOOKMARK [1][-]{section.5.2}{Probl\350me}{chapter.5}% 31
+\BOOKMARK [1][-]{section.5.3}{Approche utilis\351e}{chapter.5}% 32
+\BOOKMARK [1][-]{section.5.4}{Remarques sur les r\351sultats obtenus}{chapter.5}% 33
+\BOOKMARK [1][-]{section.5.5}{Pistes d'am\351lioration}{chapter.5}% 34
+\BOOKMARK [-1][-]{part.5}{Analyse des donn\351es g\351n\351r\351es}{}% 35
+\BOOKMARK [0][-]{chapter.6}{Analyse des donn\351es de l'IA}{part.5}% 36
+\BOOKMARK [0][-]{chapter.7}{Analyse des donn\351es du mod\350le}{part.5}% 37
+\BOOKMARK [1][-]{section.7.1}{Analyse d'ensemble}{chapter.7}% 38
+\BOOKMARK [1][-]{section.7.2}{Analyses d\351taill\351es}{chapter.7}% 39
+\BOOKMARK [2][-]{subsection.7.2.1}{R\351partitions des pourcentages de victoires}{section.7.2}% 40
+\BOOKMARK [2][-]{subsection.7.2.2}{D\351coupage du spectre selon des intervalles de C}{section.7.2}% 41
+\BOOKMARK [2][-]{subsection.7.2.3}{D\351coupage du spectre selon des intervalles de Dc}{section.7.2}% 42
+\BOOKMARK [2][-]{subsection.7.2.4}{D\351coupage du spectre selon des intervalles de Ds}{section.7.2}% 43
+\BOOKMARK [2][-]{subsection.7.2.5}{D\351coupage du spectre selon des intervalles de l'aire M*N}{section.7.2}% 44
+\BOOKMARK [2][-]{subsection.7.2.6}{D\351coupage du spectre selon des intervalles de la diff\351rence de niveau}{section.7.2}% 45
+\BOOKMARK [2][-]{subsection.7.2.7}{Conclusions d'analyse}{section.7.2}% 46
+\BOOKMARK [-1][-]{part.6}{Probl\350mes, tests et exp\351rimentations}{}% 47
+\BOOKMARK [0][-]{chapter.8}{Probl\350mes rencontr\351s}{part.6}% 48
+\BOOKMARK [0][-]{chapter.9}{Conclusion}{part.6}% 49
+\BOOKMARK [-1][-]{part.7}{Annexes}{}% 50
+\BOOKMARK [0][-]{chapter.10}{Analyse - Simulation}{part.7}% 51
+\BOOKMARK [1][-]{section.10.1}{N\351cessit\351s}{chapter.10}% 52
+\BOOKMARK [1][-]{section.10.2}{Probl\350me}{chapter.10}% 53
+\BOOKMARK [1][-]{section.10.3}{Approches possibles}{chapter.10}% 54
+\BOOKMARK [1][-]{section.10.4}{Approche utilis\351e}{chapter.10}% 55
+\BOOKMARK [1][-]{section.10.5}{Remarques sur les r\351sultats obtenus}{chapter.10}% 56
+\BOOKMARK [1][-]{section.10.6}{Ordre de grandeur de la diff\351rence de vitesse de calcul}{chapter.10}% 57
+\BOOKMARK [2][-]{subsection.10.6.1}{Mod\350le IA}{section.10.6}% 58
+\BOOKMARK [2][-]{subsection.10.6.2}{Mod\350le simul\351}{section.10.6}% 59
+\BOOKMARK [2][-]{subsection.10.6.3}{Comparaison des deux mod\350les}{section.10.6}% 60
+\BOOKMARK [1][-]{section.10.7}{Pistes d'am\351lioration}{chapter.10}% 61

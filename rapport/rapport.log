@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/W32TeX) (preloaded format=pdflatex 2019.1.29)  10 FEB 2019 11:27
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/W32TeX) (preloaded format=pdflatex 2019.1.29)  11 FEB 2019 23:39
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -1433,20 +1433,20 @@ Writing glossary file rapport.glo
 (./rapport.aux)
 \openout1 = `rapport.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 135.
-LaTeX Font Info:    ... okay on input line 135.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 135.
-LaTeX Font Info:    ... okay on input line 135.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 135.
-LaTeX Font Info:    ... okay on input line 135.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 135.
-LaTeX Font Info:    ... okay on input line 135.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 135.
-LaTeX Font Info:    ... okay on input line 135.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 135.
-LaTeX Font Info:    ... okay on input line 135.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 135.
-LaTeX Font Info:    ... okay on input line 135.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 138.
+LaTeX Font Info:    ... okay on input line 138.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 138.
+LaTeX Font Info:    ... okay on input line 138.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 138.
+LaTeX Font Info:    ... okay on input line 138.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 138.
+LaTeX Font Info:    ... okay on input line 138.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 138.
+LaTeX Font Info:    ... okay on input line 138.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 138.
+LaTeX Font Info:    ... okay on input line 138.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 138.
+LaTeX Font Info:    ... okay on input line 138.
  (c:/texlive/2017/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count321
@@ -1477,11 +1477,11 @@ G,.JBIG2,.JB2,.eps]
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-LaTeX Info: Redefining \degres on input line 135.
-LaTeX Info: Redefining \dots on input line 135.
-LaTeX Info: Redefining \up on input line 135.
+LaTeX Info: Redefining \degres on input line 138.
+LaTeX Info: Redefining \dots on input line 138.
+LaTeX Info: Redefining \up on input line 138.
 \AtBeginShipoutBox=\box68
-Package hyperref Info: Link coloring OFF on input line 135.
+Package hyperref Info: Link coloring OFF on input line 138.
 
 (c:/texlive/2017/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
@@ -1491,9 +1491,9 @@ Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
 \c@section@level=\count327
 )
-LaTeX Info: Redefining \ref on input line 135.
-LaTeX Info: Redefining \pageref on input line 135.
-LaTeX Info: Redefining \nameref on input line 135.
+LaTeX Info: Redefining \ref on input line 138.
+LaTeX Info: Redefining \pageref on input line 138.
+LaTeX Info: Redefining \nameref on input line 138.
 
 (./rapport.out) (./rapport.out)
 \@outlinefile=\write5
@@ -1504,7 +1504,7 @@ LaTeX Info: Redefining \nameref on input line 135.
 Package pgfplots Warning: running in backwards compatibility mode (unsuitable t
 ick labels; missing features). Consider writing \pgfplotsset{compat=1.15} into 
 your preamble.
- on input line 135.
+ on input line 138.
 
 (c:/texlive/2017/texmf-dist/tex/latex/oberdiek/pdflscape.sty
 Package: pdflscape 2016/05/14 v0.11 Display of landscape pages in PDF (HO)
@@ -1548,23 +1548,23 @@ Package pdflscape Info: Auto-detected driver: pdftex on input line 81.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-<pics/logo_UNICAEN.png, id=352, 159.4758pt x 83.5923pt>
+<pics/logo_UNICAEN.png, id=252, 159.4758pt x 83.5923pt>
 File: pics/logo_UNICAEN.png Graphic file (type png)
 <use pics/logo_UNICAEN.png>
-Package pdftex.def Info: pics/logo_UNICAEN.png  used on input line 139.
+Package pdftex.def Info: pics/logo_UNICAEN.png  used on input line 142.
 (pdftex.def)             Requested size: 104.56343pt x 54.81009pt.
-<pics/logo_long_promo.png, id=353, 118.2819pt x 45.0483pt>
+<pics/logo_long_promo.png, id=253, 118.2819pt x 45.0483pt>
 File: pics/logo_long_promo.png Graphic file (type png)
 <use pics/logo_long_promo.png>
-Package pdftex.def Info: pics/logo_long_promo.png  used on input line 139.
+Package pdftex.def Info: pics/logo_long_promo.png  used on input line 142.
 (pdftex.def)             Requested size: 216.37251pt x 82.40482pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 139--139
+Underfull \hbox (badness 10000) in paragraph at lines 142--142
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 139--139
+Underfull \hbox (badness 10000) in paragraph at lines 142--142
 
  []
 
@@ -1575,13 +1575,13 @@ Underfull \hbox (badness 10000) in paragraph at lines 139--139
 {c:/texlive/2017/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./pics/logo_UNI
 CAEN.png> <./pics/logo_long_promo.png>] (./rapport.toc [1
 
-] [2]
-Overfull \hbox (3.71077pt too wide) detected at line 179
+]
+Overfull \hbox (3.71077pt too wide) detected at line 118
  []\OT1/cmr/m/n/10.95 VIII
  []
 
 
-Overfull \hbox (3.71077pt too wide) detected at line 181
+Overfull \hbox (3.71077pt too wide) detected at line 120
  []\OT1/cmr/m/n/10.95 VIII
  []
 
@@ -1589,27 +1589,21 @@ Overfull \hbox (3.71077pt too wide) detected at line 181
 \tf@toc=\write6
 \openout6 = `rapport.toc'.
 
- [3] (./rapport.lof)
+ [2] (./rapport.lof)
 \tf@lof=\write7
 \openout7 = `rapport.lof'.
 
- [4
+ [3
 
-] (./rapport.lot)
-\tf@lot=\write8
-\openout8 = `rapport.lot'.
-
- [5
-
-] [6
+] [4
 
 ]
 
 LaTeX Font Warning: Font shape `OT1/cmss/m/it' in size <10.95> not available
-(Font)              Font shape `OT1/cmss/m/sl' tried instead on input line 163.
+(Font)              Font shape `OT1/cmss/m/sl' tried instead on input line 166.
 
 
-[7
+[5
 
 
 
@@ -1617,12 +1611,12 @@ LaTeX Font Warning: Font shape `OT1/cmss/m/it' in size <10.95> not available
 part I.
 Package scrkbase Info: You've told me to use the font selection of the element
 (scrkbase)             `partprefix' that is an alias of element `partnumber'
-(scrkbase)              on input line 176.
+(scrkbase)              on input line 179.
 pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.176 	\part{Analyse du projet}
+l.179 	\part{Analyse du projet}
                                 [1
 
 
@@ -1650,147 +1644,147 @@ Class scrreprt Warning: \float@addtolists detected!
 part II.
 Package scrkbase Info: You've told me to use the font selection of the element
 (scrkbase)             `partprefix' that is an alias of element `partnumber'
-(scrkbase)              on input line 215.
+(scrkbase)              on input line 218.
 [3
 
 ]
-<./data/cahier.pdf, id=511, 597.23125pt x 845.1575pt>
+<./data/cahier.pdf, id=376, 597.23125pt x 845.1575pt>
 File: ./data/cahier.pdf Graphic file (type pdf)
 <use ./data/cahier.pdf>
-Package pdftex.def Info: ./data/cahier.pdf  used on input line 218.
+Package pdftex.def Info: ./data/cahier.pdf  used on input line 221.
 (pdftex.def)             Requested size: 597.22978pt x 845.15544pt.
 File: ./data/cahier.pdf Graphic file (type pdf)
 <use ./data/cahier.pdf>
-Package pdftex.def Info: ./data/cahier.pdf  used on input line 218.
+Package pdftex.def Info: ./data/cahier.pdf  used on input line 221.
 (pdftex.def)             Requested size: 597.22978pt x 845.15544pt.
-<./data/cahier.pdf, id=514, page=1, 597.23125pt x 845.1575pt>
+<./data/cahier.pdf, id=379, page=1, 597.23125pt x 845.1575pt>
 File: ./data/cahier.pdf Graphic file (type pdf)
 <use ./data/cahier.pdf, page 1>
-Package pdftex.def Info: ./data/cahier.pdf , page1 used on input line 218.
+Package pdftex.def Info: ./data/cahier.pdf , page1 used on input line 221.
 (pdftex.def)             Requested size: 597.22978pt x 845.15544pt.
 File: ./data/cahier.pdf Graphic file (type pdf)
 <use ./data/cahier.pdf, page 1>
-Package pdftex.def Info: ./data/cahier.pdf , page1 used on input line 218.
+Package pdftex.def Info: ./data/cahier.pdf , page1 used on input line 221.
 (pdftex.def)             Requested size: 597.25711pt x 845.19412pt.
 File: ./data/cahier.pdf Graphic file (type pdf)
 <use ./data/cahier.pdf, page 1>
-Package pdftex.def Info: ./data/cahier.pdf , page1 used on input line 218.
+Package pdftex.def Info: ./data/cahier.pdf , page1 used on input line 221.
 (pdftex.def)             Requested size: 597.25711pt x 845.19412pt.
 File: ./data/cahier.pdf Graphic file (type pdf)
 <use ./data/cahier.pdf, page 1>
-Package pdftex.def Info: ./data/cahier.pdf , page1 used on input line 218.
+Package pdftex.def Info: ./data/cahier.pdf , page1 used on input line 221.
 (pdftex.def)             Requested size: 597.25711pt x 845.19412pt.
 File: ./data/cahier.pdf Graphic file (type pdf)
 <use ./data/cahier.pdf, page 1>
-Package pdftex.def Info: ./data/cahier.pdf , page1 used on input line 218.
+Package pdftex.def Info: ./data/cahier.pdf , page1 used on input line 221.
 (pdftex.def)             Requested size: 597.25711pt x 845.19412pt.
  [4 <./data/cahier.pdf>]
-<./data/cahier.pdf, id=528, page=2, 597.23125pt x 845.1575pt>
+<./data/cahier.pdf, id=393, page=2, 597.23125pt x 845.1575pt>
 File: ./data/cahier.pdf Graphic file (type pdf)
 <use ./data/cahier.pdf, page 2>
-Package pdftex.def Info: ./data/cahier.pdf , page2 used on input line 218.
+Package pdftex.def Info: ./data/cahier.pdf , page2 used on input line 221.
 (pdftex.def)             Requested size: 597.25711pt x 845.19412pt.
 File: ./data/cahier.pdf Graphic file (type pdf)
 <use ./data/cahier.pdf, page 2>
-Package pdftex.def Info: ./data/cahier.pdf , page2 used on input line 218.
+Package pdftex.def Info: ./data/cahier.pdf , page2 used on input line 221.
 (pdftex.def)             Requested size: 597.25711pt x 845.19412pt.
 File: ./data/cahier.pdf Graphic file (type pdf)
 <use ./data/cahier.pdf, page 2>
-Package pdftex.def Info: ./data/cahier.pdf , page2 used on input line 218.
+Package pdftex.def Info: ./data/cahier.pdf , page2 used on input line 221.
 (pdftex.def)             Requested size: 597.25711pt x 845.19412pt.
  [5 <./data/cahier.pdf>]
 
 Package hyperref Warning: Difference (2) between bookmark levels is greater 
-(hyperref)                than one, level fixed on input line 220.
+(hyperref)                than one, level fixed on input line 223.
 
 
 Package hyperref Warning: Difference (2) between bookmark levels is greater 
-(hyperref)                than one, level fixed on input line 221.
+(hyperref)                than one, level fixed on input line 224.
 
-<./pics/archi.png, id=535, 1009.52156pt x 313.17pt>
+<./pics/archi.png, id=399, 1009.52156pt x 313.17pt>
 File: ./pics/archi.png Graphic file (type png)
 <use ./pics/archi.png>
-Package pdftex.def Info: ./pics/archi.png  used on input line 251.
+Package pdftex.def Info: ./pics/archi.png  used on input line 254.
 (pdftex.def)             Requested size: 334.60425pt x 103.80037pt.
-<./pics/bdd_archi.png, id=536, 655.69969pt x 98.61844pt>
+<./pics/bdd_archi.png, id=400, 655.69969pt x 98.61844pt>
 File: ./pics/bdd_archi.png Graphic file (type png)
 <use ./pics/bdd_archi.png>
-Package pdftex.def Info: ./pics/bdd_archi.png  used on input line 253.
+Package pdftex.def Info: ./pics/bdd_archi.png  used on input line 256.
 (pdftex.def)             Requested size: 334.60425pt x 50.32481pt.
-<./pics/analyse_archi.png, id=537, 960.58875pt x 465.99094pt>
+<./pics/analyse_archi.png, id=401, 960.58875pt x 465.99094pt>
 File: ./pics/analyse_archi.png Graphic file (type png)
 <use ./pics/analyse_archi.png>
-Package pdftex.def Info: ./pics/analyse_archi.png  used on input line 259.
+Package pdftex.def Info: ./pics/analyse_archi.png  used on input line 262.
 (pdftex.def)             Requested size: 334.60425pt x 162.31711pt.
 [6 <./pics/archi.png> <./pics/bdd_archi.png>] [7 <./pics/analyse_archi.png>]
 part III.
 Package scrkbase Info: You've told me to use the font selection of the element
 (scrkbase)             `partprefix' that is an alias of element `partnumber'
-(scrkbase)              on input line 275.
+(scrkbase)              on input line 281.
 [8
 
 ]
-<./data/historique.pdf, id=568, 597.23125pt x 845.1575pt>
+<./data/historique.pdf, id=434, 597.23125pt x 845.1575pt>
 File: ./data/historique.pdf Graphic file (type pdf)
 <use ./data/historique.pdf>
-Package pdftex.def Info: ./data/historique.pdf  used on input line 277.
+Package pdftex.def Info: ./data/historique.pdf  used on input line 283.
 (pdftex.def)             Requested size: 597.22978pt x 845.15544pt.
 File: ./data/historique.pdf Graphic file (type pdf)
 <use ./data/historique.pdf>
-Package pdftex.def Info: ./data/historique.pdf  used on input line 277.
+Package pdftex.def Info: ./data/historique.pdf  used on input line 283.
 (pdftex.def)             Requested size: 597.22978pt x 845.15544pt.
-<./data/historique.pdf, id=571, page=1, 597.23125pt x 845.1575pt>
+<./data/historique.pdf, id=437, page=1, 597.23125pt x 845.1575pt>
 File: ./data/historique.pdf Graphic file (type pdf)
 <use ./data/historique.pdf, page 1>
-Package pdftex.def Info: ./data/historique.pdf , page1 used on input line 277.
+Package pdftex.def Info: ./data/historique.pdf , page1 used on input line 283.
 (pdftex.def)             Requested size: 597.22978pt x 845.15544pt.
 File: ./data/historique.pdf Graphic file (type pdf)
 <use ./data/historique.pdf, page 1>
-Package pdftex.def Info: ./data/historique.pdf , page1 used on input line 277.
+Package pdftex.def Info: ./data/historique.pdf , page1 used on input line 283.
 (pdftex.def)             Requested size: 597.25711pt x 845.19412pt.
 File: ./data/historique.pdf Graphic file (type pdf)
 <use ./data/historique.pdf, page 1>
-Package pdftex.def Info: ./data/historique.pdf , page1 used on input line 277.
+Package pdftex.def Info: ./data/historique.pdf , page1 used on input line 283.
 (pdftex.def)             Requested size: 597.25711pt x 845.19412pt.
 File: ./data/historique.pdf Graphic file (type pdf)
 <use ./data/historique.pdf, page 1>
-Package pdftex.def Info: ./data/historique.pdf , page1 used on input line 277.
+Package pdftex.def Info: ./data/historique.pdf , page1 used on input line 283.
 (pdftex.def)             Requested size: 597.25711pt x 845.19412pt.
 File: ./data/historique.pdf Graphic file (type pdf)
 <use ./data/historique.pdf, page 1>
-Package pdftex.def Info: ./data/historique.pdf , page1 used on input line 277.
+Package pdftex.def Info: ./data/historique.pdf , page1 used on input line 283.
 (pdftex.def)             Requested size: 597.25711pt x 845.19412pt.
  [9 <./data/historique.pdf>]
 
 Package hyperref Warning: Difference (2) between bookmark levels is greater 
-(hyperref)                than one, level fixed on input line 286.
+(hyperref)                than one, level fixed on input line 292.
 
-<pics/interface.png, id=586, 569.87906pt x 152.82094pt>
+<pics/interface.png, id=452, 569.87906pt x 152.82094pt>
 File: pics/interface.png Graphic file (type png)
 <use pics/interface.png>
-Package pdftex.def Info: pics/interface.png  used on input line 315.
+Package pdftex.def Info: pics/interface.png  used on input line 321.
 (pdftex.def)             Requested size: 334.60425pt x 89.7275pt.
 [10 <./pics/interface.png>]
 part IV.
 Package scrkbase Info: You've told me to use the font selection of the element
 (scrkbase)             `partprefix' that is an alias of element `partnumber'
-(scrkbase)              on input line 319.
+(scrkbase)              on input line 325.
 [11
 
 ] (./chapters/simulator.tex
 chapter 2.
-<./pics/anal_error.png, id=602, 834.86906pt x 429.85594pt>
+<./pics/anal_error.png, id=467, 834.86906pt x 429.85594pt>
 File: ./pics/anal_error.png Graphic file (type png)
 <use ./pics/anal_error.png>
-Package pdftex.def Info: ./pics/anal_error.png  used on input line 10.
+Package pdftex.def Info: ./pics/anal_error.png  used on input line 11.
 (pdftex.def)             Requested size: 334.60425pt x 172.2804pt.
-<./pics/anal_margin.png, id=603, 825.83531pt x 411.78844pt>
+<./pics/anal_margin.png, id=468, 825.83531pt x 411.78844pt>
 File: ./pics/anal_margin.png Graphic file (type png)
 <use ./pics/anal_margin.png>
-Package pdftex.def Info: ./pics/anal_margin.png  used on input line 17.
+Package pdftex.def Info: ./pics/anal_margin.png  used on input line 18.
 (pdftex.def)             Requested size: 334.60425pt x 166.84251pt.
 
-Overfull \hbox (12.05524pt too wide) in paragraph at lines 19--21
+Overfull \hbox (12.05524pt too wide) in paragraph at lines 20--22
 [] []\OT1/cmss/bx/n/10.95 Comment ^^Seviter des er-reurs d'es-ti-ma-tions sta-t
 is-tiques ?[][] \OT1/cmr/m/n/10.95 Avec des donn^^Sees mal r^^Separties,
  []
@@ -1798,157 +1792,139 @@ is-tiques ?[][] \OT1/cmr/m/n/10.95 Avec des donn^^Sees mal r^^Separties,
 [12
 
  <./pics/anal_error.png> <./pics/anal_margin.png>]
-Overfull \hbox (2.47017pt too wide) in paragraph at lines 25--26
+Overfull \hbox (2.47017pt too wide) in paragraph at lines 26--27
 [][]\OT1/cmr/m/n/10.95 Evidemment plus de donn^^Sees est tou-jours mieux pour r
 ^^Seduire la marge d'er-reur g^^Sen^^Serale
  []
 
-<./pics/simu_speed.png, id=612, 749.04843pt x 110.66344pt>
+<./pics/simu_speed.png, id=478, 749.04843pt x 110.66344pt>
 File: ./pics/simu_speed.png Graphic file (type png)
 <use ./pics/simu_speed.png>
-Package pdftex.def Info: ./pics/simu_speed.png  used on input line 61.
+Package pdftex.def Info: ./pics/simu_speed.png  used on input line 62.
 (pdftex.def)             Requested size: 334.60425pt x 49.43333pt.
 [13]
-<./pics/simu_duration_python.png, id=621, 480.29437pt x 61.73062pt>
+<./pics/simu_duration_python.png, id=488, 480.29437pt x 61.73062pt>
 File: ./pics/simu_duration_python.png Graphic file (type png)
 <use ./pics/simu_duration_python.png>
-Package pdftex.def Info: ./pics/simu_duration_python.png  used on input line 65
+Package pdftex.def Info: ./pics/simu_duration_python.png  used on input line 66
 .
 (pdftex.def)             Requested size: 334.60425pt x 43.00578pt.
-<./pics/simu_duration_cython.png, id=622, 428.35031pt x 74.52844pt>
+<./pics/simu_duration_cython.png, id=489, 428.35031pt x 74.52844pt>
 File: ./pics/simu_duration_cython.png Graphic file (type png)
 <use ./pics/simu_duration_cython.png>
-Package pdftex.def Info: ./pics/simu_duration_cython.png  used on input line 72
+Package pdftex.def Info: ./pics/simu_duration_cython.png  used on input line 73
 .
 (pdftex.def)             Requested size: 334.60425pt x 58.21722pt.
 ) (./chapters/model.tex [14 <./pics/simu_speed.png> <./pics/simu_duration_pytho
 n.png> <./pics/simu_duration_cython.png>]
 chapter 3.
-
-Overfull \hbox (0.73923pt too wide) in paragraph at lines 18--19
-[]\OT1/cmr/m/n/10.95 PROBLEMATIQUE QUI COM-BINE ET RE-SUME LES PRO-BLEMES SUR C
-OM-
- []
-
 ) (./chapters/ia.tex [15
 
 ]
 chapter 4.
-
-Overfull \hbox (0.73923pt too wide) in paragraph at lines 18--19
-[]\OT1/cmr/m/n/10.95 PROBLEMATIQUE QUI COM-BINE ET RE-SUME LES PRO-BLEMES SUR C
-OM-
- []
-
-[16
+) (./chapters/analysis-exploration.tex [16
 
 ]
 chapter 5.
-
-Overfull \hbox (0.73923pt too wide) in paragraph at lines 69--70
-[]\OT1/cmr/m/n/10.95 PROBLEMATIQUE QUI COM-BINE ET RE-SUME LES PRO-BLEMES SUR C
-OM-
- []
-
-) (./chapters/analysis-exploration.tex [17
-
-]
-chapter 6.
-<./pics/anal_partial.png, id=677, 724.20563pt x 394.47375pt>
+<./pics/anal_partial.png, id=508, 724.20563pt x 394.47375pt>
 File: ./pics/anal_partial.png Graphic file (type png)
 <use ./pics/anal_partial.png>
 Package pdftex.def Info: ./pics/anal_partial.png  used on input line 16.
 (pdftex.def)             Requested size: 334.60425pt x 182.26067pt.
-[18
+[17
 
  <./pics/anal_partial.png>]
-<./pics/anal_tranches.png, id=686, 524.71031pt x 324.46219pt>
+<./pics/anal_tranches.png, id=517, 524.71031pt x 324.46219pt>
 File: ./pics/anal_tranches.png Graphic file (type png)
 <use ./pics/anal_tranches.png>
 Package pdftex.def Info: ./pics/anal_tranches.png  used on input line 32.
 (pdftex.def)             Requested size: 334.60425pt x 206.91245pt.
-) [19 <./pics/anal_tranches.png>]
+) [18 <./pics/anal_tranches.png>]
 part V.
 Package scrkbase Info: You've told me to use the font selection of the element
 (scrkbase)             `partprefix' that is an alias of element `partnumber'
-(scrkbase)              on input line 362.
-[20
+(scrkbase)              on input line 368.
+[19
 
 ] (./chapters/analyse_ai.tex
-chapter 7.
-) (./chapters/analyse_model.tex [21
+chapter 6.
+) (./chapters/analyse_model.tex [20
 
 ]
-chapter 8.
-<./data/model_parameters.png, id=702, 743.02594pt x 118.94438pt>
+chapter 7.
+<./data/model_parameters.png, id=534, 743.02594pt x 118.94438pt>
 File: ./data/model_parameters.png Graphic file (type png)
 <use ./data/model_parameters.png>
 Package pdftex.def Info: ./data/model_parameters.png  used on input line 6.
 (pdftex.def)             Requested size: 334.60425pt x 53.56439pt.
-<./data/model_overview_short.png, id=703, 524.71031pt x 323.70938pt>
+<./data/model_overview_short.png, id=535, 524.71031pt x 323.70938pt>
 File: ./data/model_overview_short.png Graphic file (type png)
 <use ./data/model_overview_short.png>
 Package pdftex.def Info: ./data/model_overview_short.png  used on input line 11
 .
 (pdftex.def)             Requested size: 334.60425pt x 206.43239pt.
-<./data/model_overview_complete.png, id=704, 525.46312pt x 324.46219pt>
+<./data/model_overview_complete.png, id=536, 525.46312pt x 324.46219pt>
 File: ./data/model_overview_complete.png Graphic file (type png)
 <use ./data/model_overview_complete.png>
 Package pdftex.def Info: ./data/model_overview_complete.png  used on input line
  24.
 (pdftex.def)             Requested size: 334.60425pt x 206.62035pt.
-[22
+[21
 
  <./data/model_parameters.png> <./data/model_overview_short.png>]
-<./data/model_victory_percent.png, id=713, 524.71031pt x 323.70938pt>
+<./data/model_victory_percent.png, id=545, 524.71031pt x 323.70938pt>
 File: ./data/model_victory_percent.png Graphic file (type png)
 <use ./data/model_victory_percent.png>
 Package pdftex.def Info: ./data/model_victory_percent.png  used on input line 2
 8.
 (pdftex.def)             Requested size: 334.60425pt x 206.43239pt.
-<./data/model_C.png, id=714, 524.71031pt x 323.70938pt>
+<./data/model_C.png, id=546, 524.71031pt x 323.70938pt>
 File: ./data/model_C.png Graphic file (type png)
 <use ./data/model_C.png>
 Package pdftex.def Info: ./data/model_C.png  used on input line 42.
 (pdftex.def)             Requested size: 334.60425pt x 206.43239pt.
- [23 <./data/model_overview_complete.png> <./data/model_victory_percent.png>]
+ [22 <./data/model_overview_complete.png> <./data/model_victory_percent.png>]
 Overfull \hbox (2.28085pt too wide) in paragraph at lines 44--47
 [] []\OT1/cmss/bx/n/10.95 C est d^^Sefinitivement un fac-teur MA-JEUR[][] \OT1/
 cmr/m/n/10.95 Cette repr^^Sesentation montre bien l'^^Secrasante
  []
 
-<./data/model_Dc.png, id=724, 525.46312pt x 324.46219pt>
+<./data/model_Dc.png, id=554, 525.46312pt x 324.46219pt>
 File: ./data/model_Dc.png Graphic file (type png)
 <use ./data/model_Dc.png>
 Package pdftex.def Info: ./data/model_Dc.png  used on input line 52.
 (pdftex.def)             Requested size: 334.60425pt x 206.62035pt.
-<./data/model_Ds.png, id=725, 524.71031pt x 323.70938pt>
+<./data/model_Ds.png, id=555, 524.71031pt x 323.70938pt>
 File: ./data/model_Ds.png Graphic file (type png)
 <use ./data/model_Ds.png>
 Package pdftex.def Info: ./data/model_Ds.png  used on input line 60.
 (pdftex.def)             Requested size: 334.60425pt x 206.43239pt.
-[24 <./data/model_C.png> <./data/model_Dc.png>]
-<./data/model_area.png, id=734, 525.46312pt x 324.46219pt>
+[23 <./data/model_C.png> <./data/model_Dc.png>]
+<./data/model_area.png, id=564, 525.46312pt x 324.46219pt>
 File: ./data/model_area.png Graphic file (type png)
 <use ./data/model_area.png>
 Package pdftex.def Info: ./data/model_area.png  used on input line 68.
 (pdftex.def)             Requested size: 334.60425pt x 206.62035pt.
-<./data/model_Dc-Ds.png, id=735, 525.46312pt x 324.46219pt>
+<./data/model_Dc-Ds.png, id=565, 525.46312pt x 324.46219pt>
 File: ./data/model_Dc-Ds.png Graphic file (type png)
 <use ./data/model_Dc-Ds.png>
 Package pdftex.def Info: ./data/model_Dc-Ds.png  used on input line 80.
 (pdftex.def)             Requested size: 334.60425pt x 206.62035pt.
- [25 <./data/model_Ds.png> <./data/model_area.png>]
-<./data/model_conclu.png, id=744, 565.36218pt x 341.02406pt>
+ [24 <./data/model_Ds.png> <./data/model_area.png>]
+<./data/model_conclu.png, id=574, 565.36218pt x 341.02406pt>
 File: ./data/model_conclu.png Graphic file (type png)
 <use ./data/model_conclu.png>
 Package pdftex.def Info: ./data/model_conclu.png  used on input line 95.
 (pdftex.def)             Requested size: 334.60425pt x 201.83728pt.
-) [26 <./data/model_Dc-Ds.png> <./data/model_conclu.png>]
+) [25 <./data/model_Dc-Ds.png> <./data/model_conclu.png>]
 part VI.
 Package scrkbase Info: You've told me to use the font selection of the element
 (scrkbase)             `partprefix' that is an alias of element `partnumber'
-(scrkbase)              on input line 368.
+(scrkbase)              on input line 374.
+[26
+
+]
+chapter 8.
 [27
 
 ]
@@ -1956,26 +1932,18 @@ chapter 9.
 [28
 
 ]
-chapter 10.
-[29
-
-]
-chapter 11.
-[30
-
-]
 part VII.
 Package scrkbase Info: You've told me to use the font selection of the element
 (scrkbase)             `partprefix' that is an alias of element `partnumber'
-(scrkbase)              on input line 401.
+(scrkbase)              on input line 410.
 [1
 
 
 
 ] (./chapters/analysis-simulation.tex
-chapter 12.
+chapter 10.
 
-Overfull \hbox (6.66765pt too wide) in paragraph at lines 14--15
+Overfull \hbox (6.66765pt too wide) in paragraph at lines 15--16
 \OT1/cmr/m/n/10.95 mod^^Rele et le faire res-sem-bler un maxi-mum au com-por-te
 -ment de notre v^^Seritable ph^^Senom^^Rene,
  []
@@ -1983,55 +1951,55 @@ Overfull \hbox (6.66765pt too wide) in paragraph at lines 14--15
 [2
 
 ]
-<./pics/simu_prof.png, id=788, 799.48688pt x 479.54156pt>
+<./pics/simu_prof.png, id=609, 799.48688pt x 479.54156pt>
 File: ./pics/simu_prof.png Graphic file (type png)
 <use ./pics/simu_prof.png>
-Package pdftex.def Info: ./pics/simu_prof.png  used on input line 53.
+Package pdftex.def Info: ./pics/simu_prof.png  used on input line 54.
 (pdftex.def)             Requested size: 334.60425pt x 200.6963pt.
-<./pics/simu_depth.png, id=789, 998.9822pt x 529.22719pt>
+<./pics/simu_depth.png, id=610, 998.9822pt x 529.22719pt>
 File: ./pics/simu_depth.png Graphic file (type png)
 <use ./pics/simu_depth.png>
-Package pdftex.def Info: ./pics/simu_depth.png  used on input line 58.
+Package pdftex.def Info: ./pics/simu_depth.png  used on input line 59.
 (pdftex.def)             Requested size: 334.60425pt x 177.26192pt.
  [3 <./pics/simu_prof.png>]
-<./pics/simu_avoid.png, id=797, 685.05937pt x 419.31656pt>
+<./pics/simu_avoid.png, id=619, 685.05937pt x 419.31656pt>
 File: ./pics/simu_avoid.png Graphic file (type png)
 <use ./pics/simu_avoid.png>
-Package pdftex.def Info: ./pics/simu_avoid.png  used on input line 64.
+Package pdftex.def Info: ./pics/simu_avoid.png  used on input line 65.
 (pdftex.def)             Requested size: 334.60425pt x 204.81429pt.
  [4 <./pics/simu_depth.png> <./pics/simu_avoid.png>]
-<./pics/simu_efficiency.png, id=804, 928.97063pt x 414.04688pt>
+<./pics/simu_efficiency.png, id=626, 928.97063pt x 414.04688pt>
 File: ./pics/simu_efficiency.png Graphic file (type png)
 <use ./pics/simu_efficiency.png>
-Package pdftex.def Info: ./pics/simu_efficiency.png  used on input line 84.
+Package pdftex.def Info: ./pics/simu_efficiency.png  used on input line 90.
 (pdftex.def)             Requested size: 334.60425pt x 149.13889pt.
- [5pdfTeX warning (ext4): destination with the same identifier (name{figure.12.
+ [5pdfTeX warning (ext4): destination with the same identifier (name{figure.10.
 1}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.104 			\item $
+l.110 			\item $
                 D$ représente la profondeur moyenne de recherche des joueurs <
 ./pics/simu_efficiency.png>]
-Overfull \hbox (42.56961pt too wide) detected at line 162
+Overfull \hbox (42.56961pt too wide) detected at line 168
 []
  []
 
 [6] [7]) [8]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 440.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 440.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 449.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 449.
  (./rapport.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 440.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 440.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 449.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 449.
 Package rerunfilecheck Info: File `rapport.out' has not changed.
-(rerunfilecheck)             Checksum: 3268E6C4AEC5002A1F7E036E5C508EF1;6159.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 440.
+(rerunfilecheck)             Checksum: D7759E5A7B9707F06A58CD9BC0939CB2;4454.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 449.
  ) 
 Here is how much of TeX's memory you used:
- 42033 strings out of 494894
- 950811 string characters out of 6179629
- 1320223 words of memory out of 5000000
- 44463 multiletter control sequences out of 15000+600000
+ 41935 strings out of 494894
+ 949669 string characters out of 6179629
+ 1320295 words of memory out of 5000000
+ 44434 multiletter control sequences out of 15000+600000
  539628 words of font info for 54 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  82i,18n,106p,10424b,670s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -2049,10 +2017,10 @@ dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb><c:/texlive/2017/texmf-dist/fo
 nts/type1/public/amsfonts/cm/cmssi10.pfb><c:/texlive/2017/texmf-dist/fonts/type
 1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2017/texmf-dist/fonts/type1/public/
 amsfonts/cm/cmti10.pfb>
-Output written on rapport.pdf (46 pages, 1816066 bytes).
+Output written on rapport.pdf (42 pages, 1807338 bytes).
 PDF statistics:
- 987 PDF objects out of 1000 (max. 8388607)
- 848 compressed objects within 9 object streams
- 274 named destinations out of 1000 (max. 500000)
- 881 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 792 PDF objects out of 1000 (max. 8388607)
+ 659 compressed objects within 7 object streams
+ 208 named destinations out of 1000 (max. 500000)
+ 681 words of extra memory for PDF output out of 10000 (max. 10000000)
 
