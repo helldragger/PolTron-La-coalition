@@ -30,8 +30,6 @@ def init_dictionary(game: Game) -> dict:
         },
         "scope":   {}
     }
-    # TODO check if players is used correctly, and if scope could be more
-    # useful as a set
     for team, positions in game.team_system.get_all_teams_positions():
         for position in positions:
             dictionary_map["scope"][position] = 0
