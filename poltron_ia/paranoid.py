@@ -1,110 +1,136 @@
 import random
+from collections import deque
+from copy import deepcopy
+from typing import Tuple
+
+from poltron_game.Game import Game
+from poltron_game.constants import *
+
+
 """
         author: Vincent DE MENEZES
 """
-def printMapScope(scope, lenRow, lenCol):
-    grid = [0] * lenRow
-    sting = []
+
+
+def print_map_scope(scope, len_row: int, len_col: int) -> None:
+    grid: list = [0] * len_row
     for i in range(len(grid)):
-        grid[i] = [0] * lenCol
-    for (row,col) in scope:
-        grid[row][col] = scope.get((row,col))
+        grid[i] = [0] * len_col
+    for (row, col) in scope:
+        grid[row][col] = scope.get((row, col))
     for i in range(len(grid)):
-       print(grid[i]) 
+        print(grid[i])
 
-def initDictionary(dictionaryPlayers): 
-    dictionaryMap = {"players" : {"attacker" : [], "defender" : []}, "scope" : {}}
-    for team, players in dictionaryPlayers:
-        for p in players:
-            dictionaryMap["scope"][p] = 0
-    return dictionaryMap
 
-def hasNextPlayer(board, team, indexPlayer):
-    if indexPlayer < len(board["players"][team]) - 1:
-        return True
-    return False
+def init_dictionary(game: Game) -> dict:
+    dictionary_map: dict = {
+        "players": {
+            COALITION: set(),
+            SOLO:      set()
+        },
+        "scope":   {}
+    }
+    # TODO check if players is used correctly, and if scope could be more
+    # useful as a set
+    for team, positions in game.team_system.get_all_teams_positions():
+        for position in positions:
+            dictionary_map["scope"][position] = 0
+    return dictionary_map
 
-def isMoveVoid(self, team, indexP, sens):
-    move = ["D", "Q", "Z", "S"]
-    while sens == '':
-        sens = random.choice(move)
-        if self.isDying(self.nextMove(self.board["players"][team][indexP], sens)):
-            move.remove(sens)
-            sens = ''
-            if len(move) == 0:
-                sens = "D"
-    return sens
 
-def reverseTeam(team):
-    if team == "attacker":
-        return "defender"
-    return "attacker"
+def random_move(game: Game, p: int) -> int:
+    move = [RIGHT, LEFT, UP, DOWN]
+    random.shuffle(move)
+    for sens in move:
+        if game.is_valid_position(
+                game.move_to_pos(game.player_system.get_player_position(p),
+                                 sens)):
+            return sens
+    return RIGHT
 
-def rangeControl(self, initialPosition, allies, indicator):
-    enemies = reverseTeam(allies)
-    stack = []
-    visited = []
-    stack.append(initialPosition)
+
+def reverse_team(team: int) -> int:
+    if team == COALITION:
+        return SOLO
+    return COALITION
+
+
+def range_control(game: Game, initial_pos: Tuple[int, int], allies: int,
+                  indicator: dict) -> dict:
+    enemies = reverse_team(allies)
+    stack: deque = deque()
+    visited: set = set()
+    stack.append(initial_pos)
     while stack:
-        coord = stack[-1]
-        stack.pop()
-        visited.append(coord)
-        for move in [[1,0], [-1, 0], [0,1], [0,-1]]:
+        coord = stack.pop()
+        visited.add(coord)
+        for move in [[1, 0], [-1, 0], [0, 1], [0, -1]]:
             scope = indicator["scope"].get(coord) + 1
-            row, col = coord[0] + move[0], coord[1] + move[1]
-            if not self.isDying((row,col)) and not (row,col) in visited:
-                if not (row,col) in indicator["scope"]:
-                    indicator["scope"][(row,col)] = scope
-                    indicator["players"][allies].append((row,col))
-                    stack.insert(0, (row,col))
-                elif indicator["scope"].get((row,col)) >= scope:
-                    if indicator["scope"].get((row,col)) > scope:
-                        indicator["scope"][(row,col)] = scope
-                        stack.insert(0, (row,col))
-                        if not (row,col) in indicator["players"][allies]:
-                            indicator["players"][allies].append((row,col))
-                    if (row,col) in indicator["players"][enemies]:
-                        indicator["players"][enemies].remove((row,col))
+            pos = (coord[0] + move[0], coord[1] + move[1])
+            if not pos in visited and game.is_valid_position(pos):
+                if not pos in indicator["scope"]:
+                    indicator["scope"][pos] = scope
+                    indicator["players"][allies].add(pos)
+                    stack.insert(0, pos)
+                elif indicator["scope"].get(pos) >= scope:
+                    if indicator["scope"].get(pos) > scope:
+                        indicator["scope"][pos] = scope
+                        stack.insert(0, pos)
+                        if not pos in indicator["players"][allies]:
+                            indicator["players"][allies].add(pos)
+                    if pos in indicator["players"][enemies]:
+                        indicator["players"][enemies].remove(pos)
+    return indicator
 
-def heuristic(self, targetTeam):
-    mapIndicator = initDictionary(self.board["players"].items())
-    for team, players in self.board["players"].items():
-        for p in players:
-            rangeControl(self, p, team, mapIndicator)
-    lenAllies = len(mapIndicator["players"][targetTeam])
-    lenEnnemies = len(mapIndicator["players"][reverseTeam(targetTeam)])
-    size = lenAllies + lenEnnemies + 1
-    h = lenAllies / size * 100
+
+def heuristic(game: Game, target_team: int) -> float:
+    map_indicator: dict = init_dictionary(game)
+    for team, positions in game.team_system.get_all_teams_positions():
+        for pos in positions:
+            map_indicator = range_control(game, pos, team, map_indicator)
+    len_allies: int = len(map_indicator["players"][target_team])
+    len_enemies: int = len(map_indicator["players"][reverse_team(target_team)])
+    size: int = len_allies + len_enemies + 1
+    h: float = len_allies / size * 100
     return h
 
-def algorithmParanoid(game, depth, team, p, indexP):
-    void, move = alphabeta(game, depth, team, indexP, team, -1000, 1000)
+
+def algorithm_paranoid(game, depth: int, team: int, player: int) -> int:
+    _, move = alphabeta(game, depth, team, player, -1000, 1000)
     return move
 
-def alphabeta(game, depth, team, indexP, original, a, b):
-    if depth == 0 or game.endGame():
-       return heuristic(game, original), ''
-    best = -1000
-    sens = ''
-    nextPlayer = hasNextPlayer(game.board, team, indexP)
-    for move in ["D", "Q", "Z", "S"]:
-        indexDeath = 1
-        cloneBoard = game.copy()
-        nextMove = cloneBoard.nextMove(game.board["players"][team][indexP], move)
-        cloneBoard.board["wall"].append(game.board["players"][team][indexP])
-        if cloneBoard.isDying(nextMove):
-            cloneBoard.board["players"][team].remove(game.board["players"][team][indexP])
-            indexDeath = 0
-        else:
-            cloneBoard.board["players"][team][indexP] = nextMove 
-        if nextPlayer:
-            indexPlayer = indexP + (1 * indexDeath)
-            v, void = alphabeta(cloneBoard, depth - 1, team, indexPlayer, original, a, b)
-        elif indexDeath == 0:
+
+def clone_game(game: Game) -> Game:
+    return deepcopy(game)
+
+
+def alphabeta(game: Game, depth: int, initial_team: int, p: int, a: int,
+              b: int) -> Tuple[float, int]:
+    if depth == 0 or game.has_ended():
+        return heuristic(game, initial_team), NO_MOVE
+    team = game.team_system.get_player_team(p)
+
+    best: int = -1000
+    v: int = best
+    sens: int = NO_MOVE
+    for move in [RIGHT, LEFT, UP, DOWN]:
+
+        if game.has_ended():
             continue
+
+        cloned_game: Game = clone_game(game)
+        cloned_game.play_player_turn(move)
+
+        next_player = cloned_game.order_system.current_player()
+        next_player_team = cloned_game.team_system.get_player_team(next_player)
+        if next_player_team != team:
+            v, _ = alphabeta(cloned_game, depth - 1, initial_team, next_player,
+                             -1 * a, -1 * b)
+            v = -v
         else:
-            v, void = alphabeta(cloneBoard, depth - 1, reverseTeam(team), 0, original, -1 * b, -1 * a)
-            v = -v 
+            v, _ = alphabeta(cloned_game, depth - 1, initial_team, next_player,
+                             a, b)
+
         if v > best:
             best = v
             sens = move
@@ -112,6 +138,7 @@ def alphabeta(game, depth, team, indexP, original, a, b):
                 a = best
                 if a >= b:
                     return best, sens
-    sens = isMoveVoid(game, team, indexP, sens)
-    return best, sens
 
+    if sens == NO_MOVE:
+        sens = random_move(game, p)
+    return best, sens
