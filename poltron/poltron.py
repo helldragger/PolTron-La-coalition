@@ -1,41 +1,45 @@
-import cProfile
 from argparse import ArgumentParser
 
-import pyximport;
-
-
-pyximport.install(pyimport=True, load_py_module_on_import_failure=True)
+# pyximport.install(pyimport=True, load_py_module_on_import_failure=True)
 from pycallgraph import PyCallGraph
 from pycallgraph.output import GraphvizOutput
 
 import poltron_db.db as db
-import poltron_game.Game as Game
 import poltron_model.model as model
 import poltron_simulator.simulator as sim
+import poltron_util.progress_bar as pb
+from poltron_game.Game import Game
 
+
+# import pyximport;
 
 def profiling(args):
     graphviz = GraphvizOutput()
 
-    if not args.model:
-        for _ in range(10):
-            cProfile.run('Game.Game(30, 50, 20).testGame()')
-    else:
-        for _ in range(10):
-            cProfile.run('model.Model(30, 50, 20, 10, 5).run()')
+    # if not args.model:
+    #    for _ in range(10):
+    #        cProfile.run('Game.Game(30, 50, 20, 10, 5).run()')
+    # else:
+    #    for _ in range(10):
+    #        cProfile.run('model.Model(30, 50, 20, 10, 5).run()')
+
+    Game(10, 10, 4, 3, 1).run()
 
     if not args.model:
         graphviz.output_file = 'game_profile_graph.png'
-        cProfile.run('Game.Game(30, 50, 20).testGame()')
     else:
         graphviz.output_file = 'model_profile_graph.png'
-        cProfile.run('model.Model(30, 50, 20, 10, 5).run()')
+    total = 10
     with PyCallGraph(output=graphviz):
-        for _ in range(100):
+        for _ in range(total):
+
+
+            pb.print_progress(_, total, prefix=f"Profiling: ",
+                              suffix=f"\tsim#{_}/{total}", bar_length=50)
             if not args.model:
-                Game.Game(100, 100, 32).testGame()
+                Game(10, 10, 4, 3, 1).run()
             else:
-                model.Model(100, 100, 32, 1, 1).run()
+                model.Model(50, 50, 20, 10, 5).run()
 
 
 def main(args):
