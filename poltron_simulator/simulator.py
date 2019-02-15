@@ -3,6 +3,7 @@ from math import floor
 from random import shuffle
 from typing import Tuple
 
+import poltron_util.progress_bar as pb
 from poltron_game.Game import Game
 from poltron_model import model
 
@@ -48,8 +49,8 @@ def simulate_game(args, model_mode):
         game = model.Model(m, n, c, ds, dc)
         game.run()
     else:
-        game = Game(m, n, c)
-        game.testGame()
+        game = Game(m, n, c, ds, dc)
+        game.run()
 
 
     db.insert_game_info(game_id, m, n, ds, dc, c)
@@ -135,7 +136,6 @@ def generate_data(min_m: int, min_n: int, min_c: int, min_ds: int, min_dc: int,
                   iteration_per_combination: int, m_step: int, n_step: int,
                   c_step: int, ds_step: int, dc_step: int,
                   model_mode: bool) -> None:
-    import poltron_simulator.progress_bar as pb
     import time
 
     search_space = calculate_simulation_amount(min_m, min_n, min_c, min_ds,
