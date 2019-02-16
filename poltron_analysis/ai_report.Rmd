@@ -16,7 +16,7 @@ require(RSQLite)
 require(reshape2)
 
 
-db_path = "../resources/model_2019-02-16_15-57-25_M_3-9-1_N_3-9-1_C_2-100-1_Ds_2-3-1_Dc_1-2-1_100iter.db"
+db_path = "../resources/ai_2019-02-16_15-48-56_M_3-9-1_N_3-9-1_C_2-100-1_Ds_2-3-1_Dc_1-2-1_100iter.db"
 con <- RSQLite::dbConnect(RSQLite::SQLite(), db_path)
 victory_stats <- dbReadTable(con, "result_analysis")
 game_data <- dbReadTable(con, "game")
