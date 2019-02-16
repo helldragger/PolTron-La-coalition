@@ -109,25 +109,15 @@ class Game(object):
         }
         while not self.has_ended():
             p: int = self.order_system.current_player()
-            old_pos: Tuple[int, int] = self.player_system.get_player_position(p)
             team: int = self.team_system.get_player_team(p)
 
+            self.log_system.is_simulating = True
+
             move: int = algorithm_paranoid(self, team_depth.get(team), team, p)
-            new_pos: Tuple[int, int] = self.move_to_pos(old_pos, move)
 
-            if not self.is_valid_position(new_pos):
-                self._send_event(PlayerKillEvent(p, old_pos))
-                if self.has_ended():
-                    self._send_event(PlayerTurnEndedEvent())
-                    self._send_event(GameEndedEvent())
-                    break
-            else:
-                self._send_event(PlayerMoveEvent(p, old_pos, new_pos))
+            self.log_system.is_simulating = False
 
-            self._send_event(PlayerTurnEndedEvent())
-            if self.order_system.is_new_rotation():
-                self.tick += 1
-                self._send_event(TurnEndedEvent())
+            self.play_player_turn(move)
 
     def play_player_turn(self, move: int):
         p: int = self.order_system.current_player()

@@ -8,7 +8,7 @@ from poltron_game.Game import Game
 from poltron_model import model
 
 
-est_duration_secs = 30
+est_duration_secs = 10
 est_cases_per_sec_per_player = 1
 est_cases_per_player = est_duration_secs * est_cases_per_sec_per_player
 
@@ -159,16 +159,14 @@ def generate_data(min_m: int, min_n: int, min_c: int, min_ds: int, min_dc: int,
     shuffle(initial_settings)
     count = 0
     t0 = time.process_time()
-
-    pb.print_progress(count, total, prefix=f"Time estimated --",
-                      suffix=f"\t @ --s/game\t curr (--) \tsim#{count}",
-                      bar_length=50)
+    t = 0
+    eta = "--"
     for args in initial_settings:
         m, n, c, ds, dc = args
+        pb.print_progress(count, total, prefix=f"Time estimated {eta}",
+                          suffix=f"\t @ {round(t,3)}s/game\t curr ({m},{n},"
+                                 f"{c},{ds},{dc}) \tsim#{count}", bar_length=50)
         simulate_game(args, model_mode)
         count += 1
         t = (time.process_time() - t0) / count
         eta = estimate_time_before_arrival(t * (total - count))
-        pb.print_progress(count, total, prefix=f"Time estimated {eta}",
-                          suffix=f"\t @ {round(t,3)}s/game\t curr ({m},{n},"
-                                 f"{c},{ds},{dc}) \tsim#{count}", bar_length=50)
