@@ -10,13 +10,15 @@ class LogSystem(Updatable):
         self.importantMoment: list = []
         self.game = game
         self.print_screen = print_screen
+        self.is_simulating: bool = False
 
     def on_player_kill(self, player: int, last_pos: Tuple[int, int]):
-        from poltron_game.constants import COALITION
-        self.importantMoment.append([self.game.m, self.game.n, self.game.c,
-                                     self.game.team_system.get_team_count(
-                                         COALITION),
-                                     self.game.wall_system.count()])
+        if not self.is_simulating:
+            from poltron_game.constants import COALITION
+            self.importantMoment.append([self.game.m, self.game.n, self.game.c,
+                                         self.game.team_system.get_team_count(
+                                             COALITION),
+                                         self.game.wall_system.count()])
 
     def on_turn_ended(self):
         if self.print_screen:
