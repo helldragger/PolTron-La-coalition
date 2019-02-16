@@ -4,12 +4,12 @@ from typing import Dict, List, Tuple
 from poltron_game.constants import COALITION, DOWN, LEFT, RIGHT, SOLO, UP
 from poltron_game.systems.event import EventSystem
 from poltron_game.systems.events.event import Event
+from poltron_game.systems.events.game_ended import GameEndedEvent
 from poltron_game.systems.events.player_joined import PlayerJoinedEvent
 from poltron_game.systems.events.player_kill import PlayerKillEvent
 from poltron_game.systems.events.player_move import PlayerMoveEvent
 from poltron_game.systems.events.player_turn_ended import PlayerTurnEndedEvent
 from poltron_game.systems.events.turn_ended import TurnEndedEvent
-from poltron_game.systems.log import LogSystem
 from poltron_game.systems.order import OrderSystem
 from poltron_game.systems.player import PlayerSystem
 from poltron_game.systems.rollback import RollbackSystem
@@ -32,12 +32,13 @@ class Game(object):
         self.n: int = n
         self.c: int = c
         self.tick: int = 0
+        self.victory: bool = False
 
-        self.order_system: OrderSystem = OrderSystem()
+        self.order_system: OrderSystem = OrderSystem(ds, dc)
         self.player_system: PlayerSystem = PlayerSystem()
         self.team_system: TeamSystem = TeamSystem()
         self.wall_system: WallSystem = WallSystem()
-
+        from poltron_game.systems.log import LogSystem
         self.log_system: LogSystem = LogSystem(self, print_screen=False)
 
         self.event_system: EventSystem = EventSystem()
@@ -118,6 +119,7 @@ class Game(object):
                 self._send_event(PlayerKillEvent(p, old_pos))
                 if self.has_ended():
                     self._send_event(PlayerTurnEndedEvent())
+                    self._send_event(GameEndedEvent())
                     break
             else:
                 self._send_event(PlayerMoveEvent(p, old_pos, new_pos))
@@ -137,6 +139,7 @@ class Game(object):
             self._send_event(PlayerKillEvent(p, old_pos))
             if self.has_ended():
                 self._send_event(PlayerTurnEndedEvent())
+                self._send_event(GameEndedEvent())
                 return
         else:
             self._send_event(PlayerMoveEvent(p, old_pos, new_pos))

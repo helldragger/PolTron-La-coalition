@@ -8,7 +8,7 @@ from poltron_game.Game import Game
 from poltron_model import model
 
 
-est_duration_secs = 60
+est_duration_secs = 30
 est_cases_per_sec_per_player = 1
 est_cases_per_player = est_duration_secs * est_cases_per_sec_per_player
 
@@ -56,17 +56,17 @@ def simulate_game(args, model_mode):
 
     db.insert_game_result(game_id, game.tick, game.victory)
 
-    for tick, deaths in game.deaths:
-        db.insert_deaths(game_id, tick, deaths)
-
-    for tick, nb_walls, c_deaths in game.important_moments:
-        db.insert_important_moment(game_id, tick, nb_walls, c_deaths)
-
-    for player_id, x, y in game.initial_positions:
-        db.insert_initial_positions(game_id, player_id, x, y)
-
-    for player_id, player_order in game.initial_order:
-        db.insert_player_order(game_id, player_id, player_order)
+    # for tick, deaths in game.deaths:
+    #    db.insert_deaths(game_id, tick, deaths)
+    #
+    # for tick, nb_walls, c_deaths in game.important_moments:
+    #    db.insert_important_moment(game_id, tick, nb_walls, c_deaths)
+    #
+    # for player_id, x, y in game.initial_positions:
+    #    db.insert_initial_positions(game_id, player_id, x, y)
+    #
+    # for player_id, player_order in game.initial_order:
+    #    db.insert_player_order(game_id, player_id, player_order)
     return
 
 
@@ -159,6 +159,10 @@ def generate_data(min_m: int, min_n: int, min_c: int, min_ds: int, min_dc: int,
     shuffle(initial_settings)
     count = 0
     t0 = time.process_time()
+
+    pb.print_progress(count, total, prefix=f"Time estimated --",
+                      suffix=f"\t @ --s/game\t curr (--) \tsim#{count}",
+                      bar_length=50)
     for args in initial_settings:
         m, n, c, ds, dc = args
         simulate_game(args, model_mode)

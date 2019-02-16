@@ -1,6 +1,11 @@
+import cProfile
 from argparse import ArgumentParser
 
-# pyximport.install(pyimport=True, load_py_module_on_import_failure=True)
+import pyximport
+
+
+pyximport.install(pyimport=True, load_py_module_on_import_failure=True)
+
 from pycallgraph import PyCallGraph
 from pycallgraph.output import GraphvizOutput
 
@@ -11,17 +16,15 @@ import poltron_util.progress_bar as pb
 from poltron_game.Game import Game
 
 
-# import pyximport;
-
 def profiling(args):
     graphviz = GraphvizOutput()
 
-    # if not args.model:
-    #    for _ in range(10):
-    #        cProfile.run('Game.Game(30, 50, 20, 10, 5).run()')
-    # else:
-    #    for _ in range(10):
-    #        cProfile.run('model.Model(30, 50, 20, 10, 5).run()')
+    if not args.model:
+        for _ in range(10):
+            cProfile.run('Game(10, 10, 5, 2, 1).run()')
+    else:
+        for _ in range(10):
+            cProfile.run('model.Model(30, 50, 20, 10, 5).run()')
     total = 10
 
     if not args.model:
@@ -33,7 +36,6 @@ def profiling(args):
         pb.print_progress(0, total, prefix=f"Profiling: ",
                           suffix=f"\tsim#1/{total}", bar_length=50)
         for _ in range(total):
-
 
 
             if not args.model:
@@ -48,7 +50,6 @@ def main(args):
     if args.profiler:
         profiling(args)
         return
-
 
     min_m: int = args.min_m
     min_n: int = args.min_n
@@ -88,8 +89,8 @@ def main(args):
     db.prepare_db_tables()
 
     sim.generate_data(min_m, min_n, min_c, min_ds, min_dc, max_m, max_n, max_c,
-                      max_ds, max_dc, iteration_per_combination, m_step, n_step, c_step,
-                      ds_step, dc_step, model_mode)
+                      max_ds, max_dc, iteration_per_combination, m_step, n_step,
+                      c_step, ds_step, dc_step, model_mode)
 
 
 if __name__ == "__main__":
