@@ -26,7 +26,7 @@ def parameterize_c(m: int, n: int, min_c: int, max_c: int) -> Tuple[int, int]:
     area = m * n
     max_c = min(floor(area / est_cases_per_player) - 1, max(max_c, 1))
 
-    return (min_c, max_c)
+    return min_c, max_c
 
 
 def parameterize_n(m: int, min_n: int, max_n: int) -> Tuple[int, int]:
@@ -38,7 +38,7 @@ def parameterize_n(m: int, min_n: int, max_n: int) -> Tuple[int, int]:
     # -> M*N >= 2*cases_per_player
     # -> N >= 2*cases_per_player/M
     min_n = max(int(2 * est_cases_per_player / m), min_n)
-    return (min_n, max_n)
+    return min_n, max_n
 
 
 def simulate_game(args, model_mode):
@@ -51,7 +51,6 @@ def simulate_game(args, model_mode):
     else:
         game = Game(m, n, c, ds, dc)
         game.run()
-
 
     db.insert_game_info(game_id, m, n, ds, dc, c)
 
@@ -123,12 +122,9 @@ def calculate_simulation_amount(min_m: int, min_n: int, min_c: int, min_ds: int,
                     _min_dc, _max_dc = (min_dc, min(ds - 1, max_dc))
                     highest_dc = max(highest_dc, _max_dc)
                     for dc in range(_min_dc, _max_dc + 1, dc_step):
-                        for iter in range(iteration_per_combination):
-                            # simulate_game(m, n, c, ds, dc)
-                            pass
                         count += iteration_per_combination
 
-    return (count, highest_m, highest_n, highest_c, highest_ds, highest_dc)
+    return count, highest_m, highest_n, highest_c, highest_ds, highest_dc
 
 
 def generate_data(min_m: int, min_n: int, min_c: int, min_ds: int, min_dc: int,
@@ -156,7 +152,7 @@ def generate_data(min_m: int, min_n: int, min_c: int, min_ds: int, min_dc: int,
                 for ds in range(_min_ds, _max_ds + 1, ds_step):
                     _min_dc, _max_dc = (min_dc, min(ds - 1, max_dc))
                     for dc in range(_min_dc, _max_dc + 1, dc_step):
-                        for iter in range(iteration_per_combination):
+                        for _ in range(iteration_per_combination):
                             initial_settings.append((m, n, c, ds, dc))
 
     total = len(initial_settings)

@@ -1,7 +1,6 @@
 import random
 from collections import deque
-from copy import deepcopy
-from typing import Tuple
+from typing import List, Tuple
 
 from poltron_game.Game import Game
 from poltron_game.constants import *
@@ -12,7 +11,7 @@ from poltron_game.constants import *
 """
 
 
-def print_map_scope(scope, len_row: int, len_col: int) -> None:
+def print_map_scope(scope: dict, len_row: int, len_col: int) -> None:
     grid: list = [0] * len_row
     for i in range(len(grid)):
         grid[i] = [0] * len_col
@@ -37,7 +36,7 @@ def init_dictionary(game: Game) -> dict:
 
 
 def random_move(game: Game, p: int) -> int:
-    move = [RIGHT, LEFT, UP, DOWN]
+    move: List[int] = [RIGHT, LEFT, UP, DOWN]
     random.shuffle(move)
     for sens in move:
         if game.is_valid_position(
@@ -55,18 +54,18 @@ def reverse_team(team: int) -> int:
 
 def range_control(game: Game, initial_pos: Tuple[int, int], allies: int,
                   indicator: dict) -> dict:
-    enemies = reverse_team(allies)
+    enemies: int = reverse_team(allies)
     stack: deque = deque()
     visited: set = set()
     stack.append(initial_pos)
     while stack:
-        coord = stack.pop()
+        coord: Tuple[int, int] = stack.pop()
         visited.add(coord)
         for move in [[1, 0], [-1, 0], [0, 1], [0, -1]]:
-            scope = indicator["scope"].get(coord) + 1
-            pos = (coord[0] + move[0], coord[1] + move[1])
-            if not pos in visited and game.is_valid_position(pos):
-                if not pos in indicator["scope"]:
+            scope: int = indicator["scope"].get(coord) + 1
+            pos: Tuple[int, int] = (coord[0] + move[0], coord[1] + move[1])
+            if pos not in visited and game.is_valid_position(pos):
+                if pos not in indicator["scope"]:
                     indicator["scope"][pos] = scope
                     indicator["players"][allies].add(pos)
                     stack.insert(0, pos)
@@ -74,7 +73,7 @@ def range_control(game: Game, initial_pos: Tuple[int, int], allies: int,
                     if indicator["scope"].get(pos) > scope:
                         indicator["scope"][pos] = scope
                         stack.insert(0, pos)
-                        if not pos in indicator["players"][allies]:
+                        if pos not in indicator["players"][allies]:
                             indicator["players"][allies].add(pos)
                     if pos in indicator["players"][enemies]:
                         indicator["players"][enemies].remove(pos)
@@ -98,18 +97,14 @@ def algorithm_paranoid(game, depth: int, team: int, player: int) -> int:
     return move
 
 
-def clone_game(game: Game) -> Game:
-    return deepcopy(game)
-
-
 def alphabeta(game: Game, depth: int, initial_team: int, p: int, a: int,
               b: int) -> Tuple[float, int]:
     if depth == 0 or game.has_ended():
         return heuristic(game, initial_team), NO_MOVE
-    team = game.team_system.get_player_team(p)
+    team: int = game.team_system.get_player_team(p)
 
     best: int = -1000
-    v: int = best
+
     sens: int = NO_MOVE
     for move in [RIGHT, LEFT, UP, DOWN]:
 
@@ -117,8 +112,8 @@ def alphabeta(game: Game, depth: int, initial_team: int, p: int, a: int,
             continue
 
         game.play_player_turn(move)
-        next_player = game.order_system.current_player()
-        next_player_team = game.team_system.get_player_team(next_player)
+        next_player: int = game.order_system.current_player()
+        next_player_team: int = game.team_system.get_player_team(next_player)
         if next_player_team != team:
             v, _ = alphabeta(game, depth - 1, initial_team, next_player,
                              -1 * a, -1 * b)
@@ -127,13 +122,14 @@ def alphabeta(game: Game, depth: int, initial_team: int, p: int, a: int,
             v, _ = alphabeta(game, depth, initial_team, next_player,
                              a, b)
         game.rollback_system.rollback_last_turn()
+
         if v > best:
             best = v
             sens = move
-            if best > a:
-                a = best
-                if a >= b:
-                    return best, sens
+        if best > a:
+            a = best
+        if a >= b:
+            return best, sens
 
     if sens == NO_MOVE:
         sens = random_move(game, p)

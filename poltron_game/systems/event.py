@@ -4,7 +4,7 @@ from poltron_game.systems.events.event import Event
 from poltron_game.systems.updatable import Updatable
 
 
-class EventSystem():
+class EventSystem:
 
     def __init__(self):
         self.systems: List[Updatable] = []

@@ -10,7 +10,6 @@ class LogSystem(Updatable):
         self.game = game
         self.print_screen = print_screen
 
-
     def on_player_kill(self, player: int, last_pos: Tuple[int, int]):
         from poltron_game.constants import COALITION
         self.importantMoment.append([self.game.m, self.game.n, self.game.c,
