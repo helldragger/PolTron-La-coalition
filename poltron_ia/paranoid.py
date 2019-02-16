@@ -116,19 +116,17 @@ def alphabeta(game: Game, depth: int, initial_team: int, p: int, a: int,
         if game.has_ended():
             continue
 
-        cloned_game: Game = clone_game(game)
-        cloned_game.play_player_turn(move)
-
-        next_player = cloned_game.order_system.current_player()
-        next_player_team = cloned_game.team_system.get_player_team(next_player)
+        game.play_player_turn(move)
+        next_player = game.order_system.current_player()
+        next_player_team = game.team_system.get_player_team(next_player)
         if next_player_team != team:
-            v, _ = alphabeta(cloned_game, depth - 1, initial_team, next_player,
+            v, _ = alphabeta(game, depth - 1, initial_team, next_player,
                              -1 * a, -1 * b)
             v = -v
         else:
-            v, _ = alphabeta(cloned_game, depth - 1, initial_team, next_player,
+            v, _ = alphabeta(game, depth, initial_team, next_player,
                              a, b)
-
+        game.rollback_system.rollback_last_turn()
         if v > best:
             best = v
             sens = move

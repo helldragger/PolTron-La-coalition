@@ -28,3 +28,7 @@ class PlayerSystem(PositionalSystem):
 
     def on_player_joined(self, player: int, team: int, pos: Tuple[int, int]):
         self.set_player_position(player, pos)
+
+    def on_player_rollback(self, player: int, old_pos: Tuple[int, int],
+                           new_pos: Tuple[int, int]):
+        self.move_player(player, old_pos)

@@ -18,3 +18,16 @@ class Updatable():
 
     def on_turn_ended(self):
         pass
+
+    def on_player_rollback(self, player: int, old_pos: Tuple[int, int],
+                           new_pos: Tuple[int, int]):
+        pass
+
+    def on_player_turn_ended(self):
+        pass
+
+    def on_turn_rollback(self):
+        pass
+
+    def on_player_turn_rollback(self):
+        pass

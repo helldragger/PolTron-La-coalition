@@ -22,24 +22,26 @@ def profiling(args):
     # else:
     #    for _ in range(10):
     #        cProfile.run('model.Model(30, 50, 20, 10, 5).run()')
-
-    Game(10, 10, 4, 3, 1).run()
+    total = 10
 
     if not args.model:
         graphviz.output_file = 'game_profile_graph.png'
     else:
         graphviz.output_file = 'model_profile_graph.png'
-    total = 10
     with PyCallGraph(output=graphviz):
+
+        pb.print_progress(0, total, prefix=f"Profiling: ",
+                          suffix=f"\tsim#1/{total}", bar_length=50)
         for _ in range(total):
 
 
-            pb.print_progress(_, total, prefix=f"Profiling: ",
-                              suffix=f"\tsim#{_}/{total}", bar_length=50)
+
             if not args.model:
-                Game(10, 10, 4, 3, 1).run()
+                Game(10, 10, 5, 2, 1).run()
             else:
                 model.Model(50, 50, 20, 10, 5).run()
+            pb.print_progress(_ + 1, total, prefix=f"Profiling: ",
+                              suffix=f"\tsim#{_+2}/{total}", bar_length=50)
 
 
 def main(args):

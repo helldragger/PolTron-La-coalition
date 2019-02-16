@@ -5,7 +5,7 @@ from poltron_game.systems.updatable import Updatable
 
 
 class LogSystem(Updatable):
-    def __init__(self, game: Game, print_screen=True):
+    def __init__(self, game: Game, print_screen=False):
         self.importantMoment: list = []
         self.game = game
         self.print_screen = print_screen
@@ -21,3 +21,6 @@ class LogSystem(Updatable):
     def on_turn_ended(self):
         if self.print_screen:
             print(self.game._generate_board_string())
+
+    def on_turn_rollback(self):
+        self.game.tick -= 1
