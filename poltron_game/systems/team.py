@@ -56,3 +56,9 @@ class TeamSystem(PositionalSystem):
     def on_player_joined(self, player: int, team: int, pos: Tuple[int, int]):
         self.set_player_team(player, team)
         self.add_team_position(team, pos)
+
+    def on_player_rollback(self, player: int, old_pos: Tuple[int, int],
+                           new_pos: Tuple[int, int]):
+        team = self.get_player_team(player)
+        self.remove_team_position(team, new_pos)
+        self.add_team_position(team, old_pos)

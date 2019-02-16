@@ -20,3 +20,7 @@ class WallSystem(PositionalSystem):
 
     def on_player_joined(self, player: int, team: int, pos: Tuple[int, int]):
         self.pos_system.register_position(WALLS, pos)
+
+    def on_player_rollback(self, player: int, old_pos: Tuple[int, int],
+                           new_pos: Tuple[int, int]):
+        self.pos_system.unregister_position(WALLS, new_pos)

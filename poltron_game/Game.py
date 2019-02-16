@@ -7,9 +7,11 @@ from poltron_game.systems.events.event import Event
 from poltron_game.systems.events.player_joined import PlayerJoinedEvent
 from poltron_game.systems.events.player_kill import PlayerKillEvent
 from poltron_game.systems.events.player_move import PlayerMoveEvent
+from poltron_game.systems.events.player_turn_ended import PlayerTurnEndedEvent
 from poltron_game.systems.events.turn_ended import TurnEndedEvent
 from poltron_game.systems.order import OrderSystem
 from poltron_game.systems.player import PlayerSystem
+from poltron_game.systems.rollback import RollbackSystem
 from poltron_game.systems.team import TeamSystem
 from poltron_game.systems.wall import WallSystem
 
@@ -36,14 +38,17 @@ class Game(object):
         self.wall_system: WallSystem = WallSystem()
 
         from poltron_game.systems.log import LogSystem
-        self.log_system: LogSystem = LogSystem(self, print_screen=True)
+        self.log_system: LogSystem = LogSystem(self, print_screen=False)
 
         self.event_system: EventSystem = EventSystem()
+        self.rollback_system: RollbackSystem = RollbackSystem(self.event_system)
+
         self.event_system.register_system(self.wall_system)
         self.event_system.register_system(self.player_system)
         self.event_system.register_system(self.team_system)
         self.event_system.register_system(self.order_system)
         self.event_system.register_system(self.log_system)
+        self.event_system.register_system(self.rollback_system)
 
     def _send_event(self, event: Event):
         self.event_system.send_event(event)
@@ -111,35 +116,38 @@ class Game(object):
             p = self.order_system.current_player()
             old_pos = self.player_system.get_player_position(p)
             team = self.team_system.get_player_team(p)
-            old_value = self.log_system.print_screen
-            self.log_system.print_screen = False
+
             move = algorithm_paranoid(self, team_depth.get(team), team, p)
-            self.log_system.print_screen = old_value
             new_pos = self.move_to_pos(old_pos, move)
 
             if not self.is_valid_position(new_pos):
                 self._send_event(PlayerKillEvent(p, old_pos))
                 if self.has_ended():
+                    self._send_event(PlayerTurnEndedEvent())
                     break
             else:
                 self._send_event(PlayerMoveEvent(p, old_pos, new_pos))
 
-            self.order_system.next_player()
+            self._send_event(PlayerTurnEndedEvent())
             if self.order_system.is_new_rotation():
                 self.tick += 1
+                self._send_event(TurnEndedEvent())
 
     def play_player_turn(self, move: int):
         p = self.order_system.current_player()
         old_pos = self.player_system.get_player_position(p)
+
         new_pos = self.move_to_pos(old_pos, move)
+
         if not self.is_valid_position(new_pos):
             self._send_event(PlayerKillEvent(p, old_pos))
             if self.has_ended():
+                self._send_event(PlayerTurnEndedEvent())
                 return
         else:
             self._send_event(PlayerMoveEvent(p, old_pos, new_pos))
 
-        self.order_system.next_player()
+        self._send_event(PlayerTurnEndedEvent())
         if self.order_system.is_new_rotation():
             self.tick += 1
             self._send_event(TurnEndedEvent())
