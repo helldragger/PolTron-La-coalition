@@ -31,3 +31,6 @@ class Updatable:
 
     def on_player_turn_rollback(self):
         pass
+
+    def on_game_ended(self):
+        pass

@@ -1,6 +1,7 @@
 from typing import Tuple
 
 from poltron_game.Game import Game
+from poltron_game.constants import SOLO
 from poltron_game.systems.updatable import Updatable
 
 
@@ -23,3 +24,6 @@ class LogSystem(Updatable):
 
     def on_turn_rollback(self):
         self.game.tick -= 1
+
+    def on_game_ended(self):
+        self.game.victory = self.game.team_system.get_team_count(SOLO) == 0
