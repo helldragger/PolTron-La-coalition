@@ -1,7 +1,7 @@
 from typing import Tuple
 
 
-class Updatable():
+class Updatable:
 
     def on_player_move(self, player: int, old_pos: Tuple[int, int],
                        new_pos: Tuple[int, int]):

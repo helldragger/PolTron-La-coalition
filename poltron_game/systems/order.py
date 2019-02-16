@@ -11,6 +11,7 @@ class OrderSystem(Updatable):
         self.current_order: list = []
         self.next_order: list = []
         self.next_next_order: list = []
+
     def next_player(self) -> int:
         self.cursor += 1
         if self.cursor >= len(self.current_order):

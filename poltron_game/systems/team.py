@@ -20,7 +20,6 @@ class TeamSystem(PositionalSystem):
         assert player not in self.team_members[team]
         self.team_members[team].add(player)
 
-
     def get_player_team(self, player: int) -> int:
         return self.player_to_team[player]
 

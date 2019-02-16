@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
-# Print iterations progress, from https://gist.github.com/aubricus/f91fb55dc6ba5557fbab06119420dd6a
+# Print iterations progress,
+# from https://gist.github.com/aubricus/f91fb55dc6ba5557fbab06119420dd6a
 import sys
 
 
@@ -13,7 +14,7 @@ def print_progress(iteration, total, prefix='', suffix='', decimals=1,
         total       - Required  : total iterations (Int)
         prefix      - Optional  : prefix string (Str)
         suffix      - Optional  : suffix string (Str)
-        decimals    - Optional  : positive number of decimals in percent complete (Int)
+        decimals    - Optional  : positive number of decimals in percent (Int)
         bar_length  - Optional  : character length of bar (Int)
     """
     str_format = "{0:." + str(decimals) + "f}"

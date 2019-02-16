@@ -5,10 +5,10 @@ def get_circle_cases(r: int, x0: int, y0: int) -> set:
     cases: set = set()
     # using manhattan distance
     for x in range(0, r + 1, 1):
-        cases.add(((x) + x0, (r - x) + y0))
-        cases.add((-(x) + x0, -(r - x) + y0))
-        cases.add(((x) + x0, -(r - x) + y0))
-        cases.add((-(x) + x0, (r - x) + y0))
+        cases.add((x + x0, r - x + y0))
+        cases.add((-x + x0, -(r - x) + y0))
+        cases.add((x + x0, -(r - x) + y0))
+        cases.add((-x + x0, r - x + y0))
 
     return cases
 
@@ -20,8 +20,7 @@ def get_radius_cases(r_max: int, x0: int, y0: int) -> set:
     return cases
 
 
-class Model():
-
+class Model:
 
     def __init__(self, m: int, n: int, c: int, ds: int, dc: int):
         self.m: int = 0
@@ -112,7 +111,6 @@ class Model():
                                                        r - 1))
         return cases
 
-
     def propagate_case_search(self, x: int, y: int, dx: int, dy: int,
                               r: int) -> set:
         cases: set = set()
@@ -160,7 +158,6 @@ class Model():
         self.pos_to_balls[(new_x, new_y)] = ball
         self.balls_pos.add(self.balls_to_pos[ball])
         self.walls.add(self.balls_to_pos[ball])
-
 
     def next_tick(self) -> None:
         self.tick += 1

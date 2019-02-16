@@ -1,5 +1,5 @@
 import random
-from typing import Tuple
+from typing import Dict, List, Tuple
 
 from poltron_game.constants import COALITION, DOWN, LEFT, RIGHT, SOLO, UP
 from poltron_game.systems.event import EventSystem
@@ -9,6 +9,7 @@ from poltron_game.systems.events.player_kill import PlayerKillEvent
 from poltron_game.systems.events.player_move import PlayerMoveEvent
 from poltron_game.systems.events.player_turn_ended import PlayerTurnEndedEvent
 from poltron_game.systems.events.turn_ended import TurnEndedEvent
+from poltron_game.systems.log import LogSystem
 from poltron_game.systems.order import OrderSystem
 from poltron_game.systems.player import PlayerSystem
 from poltron_game.systems.rollback import RollbackSystem
@@ -17,27 +18,26 @@ from poltron_game.systems.wall import WallSystem
 
 
 """
-	author: Alexis Mortelier
-        contributor: Vincent DE MENEZES
+author: Alexis Mortelier
+contributor: Vincent DE MENEZES
 """
 
 
 class Game(object):
 
-    def __init__(self, m, n, c, ds, dc):
-        self.ds = ds
-        self.dc = dc
-        self.m = m
-        self.n = n
-        self.c = c
-        self.tick = 0
+    def __init__(self, m: int, n: int, c: int, ds: int, dc: int):
+        self.ds: int = ds
+        self.dc: int = dc
+        self.m: int = m
+        self.n: int = n
+        self.c: int = c
+        self.tick: int = 0
 
         self.order_system: OrderSystem = OrderSystem()
         self.player_system: PlayerSystem = PlayerSystem()
         self.team_system: TeamSystem = TeamSystem()
         self.wall_system: WallSystem = WallSystem()
 
-        from poltron_game.systems.log import LogSystem
         self.log_system: LogSystem = LogSystem(self, print_screen=False)
 
         self.event_system: EventSystem = EventSystem()
@@ -71,54 +71,48 @@ class Game(object):
         return res
 
     def _generate_players(self):
-        row = random.sample(range(0, self.m), self.c + 1)
-        col = random.sample(range(0, self.n), self.c + 1)
-        pos = (row[0], col[0])
+        row: List[int] = random.sample(range(0, self.m), self.c + 1)
+        col: List[int] = random.sample(range(0, self.n), self.c + 1)
+        pos: Tuple[int, int] = (row[0], col[0])
         self._send_event(PlayerJoinedEvent(0, SOLO, pos))
 
         for i in range(1, len(row)):
             pos = (row[i], col[i])
             self._send_event(PlayerJoinedEvent(i, COALITION, pos))
 
-
-    def copy(self):
-        from copy import deepcopy
-        return deepcopy(self)
-
     def has_ended(self) -> bool:
         return self.team_system.get_team_count(
             SOLO) == 0 or self.team_system.get_team_count(COALITION) == 0
 
     def is_valid_position(self, pos: Tuple[int, int]) -> bool:
-        return pos[0] >= 0 and pos[1] >= 0 and pos[0] < self.m and pos[
+        return 0 <= pos[0] < self.m and 0 <= pos[
             1] < self.n and not self.wall_system.is_wall(pos)
 
-    def move_to_pos(self, coord: Tuple[int, int], direction: int) -> Tuple[
-        int, int]:
+    @staticmethod
+    def move_to_pos(coord: Tuple[int, int], direction: int) -> Tuple[int, int]:
         if direction == RIGHT:
-            return (coord[0], coord[1] + 1)
+            return coord[0], coord[1] + 1
         elif direction == LEFT:
-            return (coord[0], coord[1] - 1)
+            return coord[0], coord[1] - 1
         elif direction == UP:
-            return (coord[0] - 1, coord[1])
+            return coord[0] - 1, coord[1]
         elif direction == DOWN:
-            return (coord[0] + 1, coord[1])
-
+            return coord[0] + 1, coord[1]
 
     def run(self):
         from poltron_ia.paranoid import algorithm_paranoid
         self._generate_players()
-        team_depth = {
+        team_depth: Dict[int, int] = {
             SOLO:      self.ds,
             COALITION: self.dc
         }
         while not self.has_ended():
-            p = self.order_system.current_player()
-            old_pos = self.player_system.get_player_position(p)
-            team = self.team_system.get_player_team(p)
+            p: int = self.order_system.current_player()
+            old_pos: Tuple[int, int] = self.player_system.get_player_position(p)
+            team: int = self.team_system.get_player_team(p)
 
-            move = algorithm_paranoid(self, team_depth.get(team), team, p)
-            new_pos = self.move_to_pos(old_pos, move)
+            move: int = algorithm_paranoid(self, team_depth.get(team), team, p)
+            new_pos: Tuple[int, int] = self.move_to_pos(old_pos, move)
 
             if not self.is_valid_position(new_pos):
                 self._send_event(PlayerKillEvent(p, old_pos))
@@ -134,10 +128,10 @@ class Game(object):
                 self._send_event(TurnEndedEvent())
 
     def play_player_turn(self, move: int):
-        p = self.order_system.current_player()
-        old_pos = self.player_system.get_player_position(p)
+        p: int = self.order_system.current_player()
+        old_pos: Tuple[int, int] = self.player_system.get_player_position(p)
 
-        new_pos = self.move_to_pos(old_pos, move)
+        new_pos: Tuple[int, int] = self.move_to_pos(old_pos, move)
 
         if not self.is_valid_position(new_pos):
             self._send_event(PlayerKillEvent(p, old_pos))
