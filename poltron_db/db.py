@@ -1,6 +1,5 @@
 import sqlite3
 
-
 DB_PATH = ""
 
 
@@ -19,6 +18,7 @@ def prepare_db_tables() -> None:
     DB = sqlite3.connect(DB_PATH)
     cursor = DB.cursor()
     create_table("game", "game_id INTEGER PRIMARY KEY, "
+                         "Size TEXT NOT NULL,"
                          "M INTEGER NOT NULL, "
                          "N INTEGER NOT NULL, "
                          "Ds INTEGER NOT NULL, "
@@ -156,12 +156,12 @@ def insert_initial_positions(game_id: int, player_id: int, x: int,
     return
 
 
-def insert_game_info(game_id: int, m: int, n: int, ds: int, dc: int,
+def insert_game_info(game_id: int, size: str, m: int, n: int, ds: int, dc: int,
                      c: int) -> None:
     DB = sqlite3.connect(DB_PATH)
     cursor = DB.cursor()
-    cursor.execute(f"""INSERT INTO game (game_id, M, N, Ds, Dc, C) 
-    VALUES ('{game_id}', '{m}', '{n}', '{ds}', '{dc}', '{c}')""")
+    cursor.execute(f"""INSERT INTO game (game_id, Size, M, N, Ds, Dc, C) 
+    VALUES ('{game_id}', '{size}', '{m}', '{n}', '{ds}', '{dc}', '{c}')""")
     DB.commit()
     DB.close()
     return
@@ -189,11 +189,6 @@ def prepare_db_path(args):
     now = str(datetime.datetime.now())[:19]
     now = now.replace(":", "-").replace(" ", "_")
     param_string += now + "_"
-    param_string += f"M_{args.min_m}-{args.max_m}-{args.step_m}_"
-    param_string += f"N_{args.min_n}-{args.max_n}-{args.step_n}_"
-    param_string += f"C_{args.min_c}-{args.max_c}-{args.step_c}_"
-    param_string += f"Ds_{args.min_ds}-{args.max_ds}-{args.step_ds}_"
-    param_string += f"Dc_{args.min_dc}-{args.max_dc}-{args.step_dc}_"
     param_string += f"{args.iter}iter"
     param_string += f".db"
 
