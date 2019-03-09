@@ -65,9 +65,9 @@
 		
 		\img{./pics/simu_duration_python.png}
 		
-		Notre langage de départ étant python, nous avons optimisé notre vitesse d'exécution à l'aide du trancompilateur Cython qui permet de génerer du code C à partir de code source python.
+		Notre langage de départ étant Python, nous avons optimisé notre vitesse d'exécution à l'aide du transcompilateur Cython qui permet de génerer du code C à partir de code source Python.
 		
-		Pour accélerer encore plus nous avons tiré parti de la capacité de Python à intégrer du typage statique via les annotations pour indiquer à Cython les types des variables et le laisser optimiser encore plus profondément les algorithmes C utilisés, en plus d'avoir des indications plus complètes et lisibles pour la documentation en bonus.
+		Pour accélérer encore plus nous avons tiré parti de la capacité de Python à intégrer du typage statique via les annotations pour indiquer à Cython les types des variables et le laisser optimiser encore plus profondément les algorithmes C utilisés, en plus d'avoir des indications plus complètes et lisibles pour la documentation en bonus.
 		
 		
 		\img{./pics/simu_duration_cython.png}
@@ -82,6 +82,6 @@
 	\section{Pistes d'amélioration}
 	
 		\paragraph{Simulations en parallèle}
-		Nous avons tenté de faire simuler de multiples simulations en parallèle pour pouvoir profiter des multiples coeurs de nos sytèmes de calculs, mais notre Cython as malheureusement souffert de l'overhead python de la librairie multiprocessing et l'éxecution s'est révélée plus lente que sans.
+		Nous avons tenté de faire de multiples simulations en parallèle pour pouvoir profiter des multiples coeurs de nos sytèmes de calculs, mais notre Cython a malheureusement souffert de l'overhead Python de la librairie multiprocessing et l'éxecution s'est révélée plus lente que sans.
 		
-		Une implémentation du multiprocessing directement en C ou via une libraire pyhton déjà optimisée pour Cython devrait permettre d'accélérer grandement les calculs de simulation en parallèlisant la charge de calcul sur autant de coeurs que possibles.
+		Une implémentation du multiprocessing directement en C ou via une libraire Python déjà optimisée pour Cython devrait permettre d'accélérer grandement les calculs de simulation en parallélisant la charge de calcul sur autant de coeurs que possible.

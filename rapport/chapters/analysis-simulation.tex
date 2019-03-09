@@ -26,7 +26,7 @@
 		Mais comment déterminer laquelle?
 	
 		\begin{problem}
-			Comment pourrions nous déterminer un type de modèle et ses paramètres pour représenter le même comportement que notre phénomêne connu?
+			Comment pourrions-nous déterminer un type de modèle et ses paramètres pour représenter le même comportement que notre phénomène connu ?
 		\end{problem}
 	
 	\section{Approches possibles}
@@ -72,23 +72,31 @@
 		
 
 		\begin{info}
-			Ce modèle est basé sur l'heuristique de base du projet, qui est la maximisation de la surface controlée par les équipes à chaque tour. L'IA as évolué depuis.
+			Ce modèle est basé sur l'heuristique de base du projet, qui est la maximisation de la surface contrôlée par les équipes à chaque tour. L'IA a évolué depuis.
 		\end{info}
 		
 	\section{Remarques sur les résultats obtenus}
+	
+		\paragraph{Des résultats qui ne collent pas à notre modèle IA}
+		Notre physique semble être trop indépendante de l'intelligence des joueurs, les données de l'IA nous montrent un différence plus porté sur l'écart d'intelligence que sur le reste.
+		
+		Ceci est surement explicable par le fait que ce modèle joue sur un principe purement défensif tandis que notre IA alterne parfois entre défense et aggression.
+		\begin{result}
+			Il serait peut être possible cependant d'utiliser notre modèle en optimisation pour les IA en totale autarcie et économiser en temps de calcul quand aucune stratégie offensive n'est désormais utile.
+		\end{result}
 	
 		\paragraph{Un semblant de stratégie!}
 		Nous avons pu constater que malgré l'absence de prédiction de la part des billes, celles ci semblaient avoir parfois des semblants de stratégies, par exemple, nous avons pu surprendre le joueur solo à coincer un adversaire dans un couloir de deux cases puis lui faire une queue de poisson en sortie!
 		
 		Même sans prédiction, nous arrivons donc à recalculer des mouvements potentiellement stratégiques, il y a donc espoir de pouvoir affiner notre modèle plus encore.
 		
-		\paragraph{Un optimisation de temps de calcul efficace!}
-		Là où notre IA est forcée de calculer la zone de controle d'un joueur jusque $3^C*Ds$ fois dans le pire des cas (tous les joueurs peuvent aller dans 3 directions à chaque tour, sur Ds tours), sur l'intégralité de la carte importante pour chaque joueur simulé à chaques simulation, notre système se contente d'un rayon de recherche de profondeur qui calcule en une fois l'intérêt d'une case et de ses alentours, et ce sur les quatre cases adjacentes à la bille.
+		\paragraph{Une optimisation de temps de calcul efficace!}
+		Là où notre IA est forcée de calculer la zone de contrôle d'un joueur jusque $3^C*Ds$ fois dans le pire des cas (tous les joueurs peuvent aller dans 3 directions à chaque tour, sur Ds tours), sur l'intégralité de la carte importante pour chaque joueur simulé à chaque simulation, notre système se contente d'un rayon de recherche de profondeur qui calcule en une fois l'intérêt d'une case et de ses alentours, et ce sur les quatre cases adjacentes à la bille.
 		
-		La calcul de la zone ne calcule aucune case inutile et donc s'arrête soit en cas de rayon atteint, soit en cas d'obstacle atteint dans sa propagation de comptage, ce calcul peut donc etre de complexité O(1) en cas d'encerclement et sa moyenne réduit à mesure que le nombre de murs augmente.
+		Le calcul de la zone ne néglige les cases inutiles et donc s'arrête soit en cas de rayon atteint, soit en cas d'obstacle atteint dans sa propagation de comptage, ce calcul peut donc être de complexité O(1) en cas d'encerclement et sa moyenne baisse à mesure que le nombre de murs augmente.
 		
 		\img{./pics/simu_efficiency.png}
-		A contrario, la recherche pour notre IA nécessite de calculer et propager autant de zones que de joueurs, incluant donc une plus grande surface à propager pour le calcul des zones d'un seul joueur, lors d'une unique étape de simulation.
+		À contrario, la recherche pour notre IA nécessite de calculer et propager autant de zones que de joueurs, incluant donc une plus grande surface à propager pour le calcul des zones d'un seul joueur, lors d'une unique étape de simulation.
 	
 	\section{Ordre de grandeur de la différence de vitesse de calcul}
 		\begin{figure}[H]
@@ -178,7 +186,7 @@
 		\end{align}
 		
 		\begin{result}
-			Pour ce cas extrême, notre simulation teste 86x moins de cases que notre IA de base. C'est énorme.
+			Pour ce cas extrême, notre simulation teste 86 fois moins de cases que notre IA de base. C'est énorme.
 		\end{result}
 	
 	\section{Pistes d'amélioration}
@@ -186,4 +194,3 @@
 		\paragraph{Un meilleur réglage des facteurs du modèle}
 		Pour le moment nous avons considéré les facteurs de notre modèle relativement linéairement à partir des paramètres initiaux mais l'IA peut potentiellement réagir à d'autres facteurs que nous pourrions peut etre quantifier pour améliorer notre modèle.
 	
-	%\includepdf[draft]{./data/model_analysis}
