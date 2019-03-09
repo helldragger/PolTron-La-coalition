@@ -58,9 +58,11 @@ def range_control(game: Game, initial_pos: Tuple[int, int], allies: int,
     stack: deque = deque()
     visited: set = set()
     stack.append(initial_pos)
-    while stack:
+    count: int = game.ds * 2
+    while stack and count > 0:
         coord: Tuple[int, int] = stack.pop()
         visited.add(coord)
+        count = count - 1
         for move in [[1, 0], [-1, 0], [0, 1], [0, -1]]:
             scope: int = indicator["scope"].get(coord) + 1
             pos: Tuple[int, int] = (coord[0] + move[0], coord[1] + move[1])

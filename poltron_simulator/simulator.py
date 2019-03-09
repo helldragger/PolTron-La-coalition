@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
-from math import floor
+from math import ceil, floor, sqrt
 from random import shuffle
 from typing import Tuple
 
 import poltron_util.progress_bar as pb
 from poltron_game.Game import Game
 from poltron_model import model
+from poltron_util import map_size
 
 
 est_duration_secs = 10
@@ -29,30 +30,53 @@ def parameterize_c(m: int, n: int, min_c: int, max_c: int) -> Tuple[int, int]:
     return min_c, max_c
 
 
-def parameterize_n(m: int, min_n: int, max_n: int) -> Tuple[int, int]:
-    # pour avoir une aire suffisante pour accueillir des joueurs, il nous faut
-    # que l equation pour C soit au moins supérieur à 1
-    # cette equation est celle ci: maxC = ((MxN)/(cases_per_player))-1
-    # soit (M*N/cases_per_player)-1 >= 1
-    # -> M*N/cases_per_player >= 2
-    # -> M*N >= 2*cases_per_player
-    # -> N >= 2*cases_per_player/M
-    min_n = max(int(2 * est_cases_per_player / m), min_n)
-    return min_n, max_n
+def parameterize_m(ds: int, size: int) -> int:
+    """
+    Pour calculer la taille du plateau nous partons du principe que que ceux
+    ci seront toujours carrés et que nous n'aurons que trois tailles de plateau:
+       -petit
+       -moyen
+       -grand
+
+    Ces tailles représentent des cartes où la profondeur de recherche maximale
+    doit avoir une surface de respectivement 75%, 50% et 25% de la carte.
+
+    La superficie prise en compte par un joueur d'intelligence n sur notre
+    plateau est calculable ainsi: 4*(1+2+3+....n) or ceci est une somme connue donc
+       -> 4*(1+2+3...+n) = 4*( n*(n+1)/2 )
+       superficie player -> 2n(n+1)
+
+    La superficie voulue du plateau est donc calculée ainsi pour chaque taille:
+    -   petit   ->  2n(n+1)/0.75
+    -   moyen   ->  2n(n+1)/0.50
+    -   grand   ->  2n(n+1)/0.25
+
+    La largeur du plateau devant être un nombre entier, nous allons donc
+    arondir au supérieur la racine de notre superficie.
+    Largeur = Longueur = ceil(sqrt(superficie map))
+
+    """
+    if size == map_size.SMALL:
+        return ceil(sqrt(2 * ds * (ds + 1) / 0.75))
+    elif size == map_size.MEDIUM:
+        return ceil(sqrt(2 * ds * (ds + 1) / 0.5))
+    elif size == map_size.LARGE:
+        return ceil(sqrt(2 * ds * (ds + 1) / 0.25))
 
 
 def simulate_game(args, model_mode):
     import poltron_db.db as db
-    m, n, c, ds, dc = args
+    size, size_name, c, ds, dc = args
+    m = parameterize_m(ds, size)
     game_id = db.get_last_game_id() + 1
     if model_mode:
-        game = model.Model(m, n, c, ds, dc)
+        game = model.Model(m, m, c, ds, dc)
         game.run()
     else:
-        game = Game(m, n, c, ds, dc)
+        game = Game(m, m, c, ds, dc)
         game.run()
 
-    db.insert_game_info(game_id, m, n, ds, dc, c)
+    db.insert_game_info(game_id, size_name, m, m, ds, dc, c)
 
     db.insert_game_result(game_id, game.tick, game.victory)
 
@@ -70,17 +94,13 @@ def simulate_game(args, model_mode):
     return
 
 
-def print_search_space(sp: Tuple[int, int, int, int, int, int], m_step, n_step,
-                       c_step, ds_step, dc_step) -> None:
-    count, highest_m, highest_n, highest_c, highest_ds, highest_dc = sp
+def print_search_space(count: int) -> None:
     print(f"Total amount of simulations to do: {count}")
-    print(f"highest map M size: {highest_m} \t\t\t sampled every {m_step}")
-    print(f"highest map N size: {highest_n} \t\t\t sampled every {n_step}")
-    print(f"highest Coalition size: {highest_c} \t\t sampled every {c_step}")
-    print(f"highest solo research level: {highest_ds}\t\t sampled every "
-          f"{ds_step}")
-    print(f"highest coalition research level: {highest_dc}\t sampled every "
-          f"{dc_step}")
+    print("Tested Ds values: {2,4,6,8}")
+    print("Tested Dc values: {1,3,5,7}")
+    print("Tested coalition sizes: {2,4,8}")
+    print("Smallest map dimensions: 4x4")
+    print("Largest map dimensions: 24x24")
     print("\n")
 
 
@@ -96,64 +116,28 @@ def estimate_time_before_arrival(secs: int):
     return f"{int(days)}d {int(hours)}h {int(mins)}m {int(secs)}s"
 
 
-def calculate_simulation_amount(min_m: int, min_n: int, min_c: int, min_ds: int,
-                                min_dc: int, max_m: int, max_n: int, max_c: int,
-                                max_ds: int, max_dc: int,
-                                iteration_per_combination: int, m_step, n_step,
-                                c_step, ds_step, dc_step) -> Tuple[
-    int, int, int, int, int, int]:
-
-    _min_m, _max_m = (min_m, max_m)
-    _min_ds, _max_ds = (min_ds, max_ds)
-    count = 0
-    highest_c = 0
-    highest_n = 0
-    highest_dc = 0
-    highest_ds = _max_ds
-    highest_m = _max_m
-    for m in range(_min_m, _max_m + 1, m_step):
-        _min_n, _max_n = parameterize_n(m, min_n, max_n)
-        highest_n = max(highest_n, _max_n)
-        for n in range(_min_n, _max_n + 1, n_step):
-            _min_c, _max_c = parameterize_c(m, n, min_c, max_c)
-            highest_c = max(highest_c, _max_c)
-            for c in range(_min_c, _max_c + 1, c_step):
-                for ds in range(_min_ds, _max_ds + 1, ds_step):
-                    _min_dc, _max_dc = (min_dc, min(ds - 1, max_dc))
-                    highest_dc = max(highest_dc, _max_dc)
-                    for dc in range(_min_dc, _max_dc + 1, dc_step):
-                        count += iteration_per_combination
-
-    return count, highest_m, highest_n, highest_c, highest_ds, highest_dc
-
-
-def generate_data(min_m: int, min_n: int, min_c: int, min_ds: int, min_dc: int,
-                  max_m: int, max_n: int, max_c: int, max_ds: int, max_dc: int,
-                  iteration_per_combination: int, m_step: int, n_step: int,
-                  c_step: int, ds_step: int, dc_step: int,
+def generate_data(iteration_per_combination: int,
                   model_mode: bool) -> None:
     import time
-
-    search_space = calculate_simulation_amount(min_m, min_n, min_c, min_ds,
-                                               min_dc, max_m, max_n, max_c,
-                                               max_ds, max_dc,
-                                               iteration_per_combination,
-                                               m_step, n_step, c_step, ds_step,
-                                               dc_step)
-    print_search_space(search_space, m_step, n_step, c_step, ds_step, dc_step)
-    _min_m, _max_m = (min_m, max_m)
-    _min_ds, _max_ds = (min_ds, max_ds)
+    # 3 sizes of map
+    # 3 values of C
+    # 4 values of Ds
+    # 1 value of Dc tested by every Ds value, 2 values from Dc tested by 3 of
+    #  Ds, 3 values of Dc tested by 2 values of Ds and 4 values of dc tested
+    # by 1 value of Ds
+    # amount -> 3*3*4*(1*4+2*3+3*2+4*1)*iter
+    amount = 720 * iteration_per_combination
+    print_search_space(amount)
     initial_settings: list = []
-    for m in range(_min_m, _max_m + 1, m_step):
-        _min_n, _max_n = parameterize_n(m, min_n, max_n)
-        for n in range(_min_n, _max_n + 1, n_step):
-            _min_c, _max_c = parameterize_c(m, n, min_c, max_c)
-            for c in range(_min_c, _max_c + 1, c_step):
-                for ds in range(_min_ds, _max_ds + 1, ds_step):
-                    _min_dc, _max_dc = (min_dc, min(ds - 1, max_dc))
-                    for dc in range(_min_dc, _max_dc + 1, dc_step):
-                        for _ in range(iteration_per_combination):
-                            initial_settings.append((m, n, c, ds, dc))
+
+    for c in {2, 4, 8}:
+        for ds in {2, 4, 6, 8}:
+            for dc in range(1, ds, 2):
+                for size, size_name in {(map_size.SMALL, "SMALL"),
+                                        (map_size.MEDIUM, "MEDIUM"),
+                                        (map_size.LARGE, "LARGE")}:
+                    for _ in range(iteration_per_combination):
+                        initial_settings.append((size, size_name, c, ds, dc))
 
     total = len(initial_settings)
     shuffle(initial_settings)
@@ -162,9 +146,10 @@ def generate_data(min_m: int, min_n: int, min_c: int, min_ds: int, min_dc: int,
     t = 0
     eta = "--"
     for args in initial_settings:
-        m, n, c, ds, dc = args
+        size, size_name, c, ds, dc = args
+
         pb.print_progress(count, total, prefix=f"Time estimated {eta}",
-                          suffix=f"\t @ {round(t,3)}s/game\t curr ({m},{n},"
+                          suffix=f"\t @ {round(t,3)}s/game\t curr ({size_name},"
                                  f"{c},{ds},{dc}) \tsim#{count}", bar_length=50)
         simulate_game(args, model_mode)
         count += 1
