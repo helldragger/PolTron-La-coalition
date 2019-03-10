@@ -13,6 +13,9 @@ class TeamSystem(PositionalSystem):
         }
         self.player_to_team: dict = {}
 
+    def get_all_teams(self):
+        return self.team_members.keys()
+
     def set_player_team(self, player: int, team: int):
         assert player not in self.player_to_team.keys()
         self.player_to_team[player] = team

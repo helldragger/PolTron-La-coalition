@@ -24,7 +24,7 @@ def profiling(args):
     # else:
     #    for _ in range(10):
     #        cProfile.run('model.Model(10, 10, 4, 4, 3).run()')
-    total = 10
+    total = 100
 
     if not args.model:
         graphviz.output_file = 'game_profile_graph.png'

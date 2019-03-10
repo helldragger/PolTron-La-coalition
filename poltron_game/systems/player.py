@@ -8,6 +8,9 @@ class PlayerSystem(PositionalSystem):
     def __init__(self):
         super().__init__()
 
+    def get_solo_player_position(self) -> Tuple[int, int]:
+        return self.get_player_position(0)
+
     def get_player_position(self, player: int) -> Tuple[int, int]:
         return self.pos_system.get_unique_position(player)
 

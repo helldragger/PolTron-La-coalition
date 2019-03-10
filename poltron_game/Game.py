@@ -1,27 +1,75 @@
 import random
+from typing import Dict, List, Tuple
+
+from poltron_game.constants import COALITION, DOWN, LEFT, RIGHT, SOLO, UP
+from poltron_game.systems.event import EventSystem
+from poltron_game.systems.events.event import Event
+from poltron_game.systems.events.game_ended import GameEndedEvent
+from poltron_game.systems.events.player_joined import PlayerJoinedEvent
+from poltron_game.systems.events.player_kill import PlayerKillEvent
+from poltron_game.systems.events.player_move import PlayerMoveEvent
+from poltron_game.systems.events.player_turn_ended import PlayerTurnEndedEvent
+from poltron_game.systems.events.turn_ended import TurnEndedEvent
+from poltron_game.systems.order import OrderSystem
+from poltron_game.systems.player import PlayerSystem
+from poltron_game.systems.rollback import RollbackSystem
+from poltron_game.systems.team import TeamSystem
+from poltron_game.systems.wall import WallSystem
+
+
 """
-	author: Alexis Mortelier
+author: Alexis Mortelier
+contributor: Vincent DE MENEZES
 """
+
+
 class Game(object):
 
-    def __init__(self, row, col, nbCoa):
-        self.row = row
-        self.col = col
-        self.nbCoa = nbCoa
-        self.board = {"players" : {"attaquant" : [], "defenseur" : []} , "wall" : []}
-        self.importantMoment = []
-        self.tour = 0
+    def __init__(self, m: int, n: int, c: int, ds: int, dc: int):
+        assert m > 0
+        assert n > 0
+        assert ds > 1
+        assert dc > 0
+        assert dc < ds
+        assert c > 1
+        self.m: int = m
+        self.n: int = n
+        self.ds: int = ds
+        self.dc: int = dc
+        self.c: int = c
+        self.tick: int = 0
+        self.victory: bool = False
 
-    def __displayBoard(self):
+        self.order_system: OrderSystem = OrderSystem(ds, dc)
+        self.player_system: PlayerSystem = PlayerSystem()
+        self.team_system: TeamSystem = TeamSystem()
+        self.wall_system: WallSystem = WallSystem()
+        from poltron_game.systems.log import LogSystem
+        self.log_system: LogSystem = LogSystem(self, print_screen=False)
+
+        self.event_system: EventSystem = EventSystem()
+        self.rollback_system: RollbackSystem = RollbackSystem(self.event_system)
+
+        self.event_system.register_system(self.wall_system)
+        self.event_system.register_system(self.player_system)
+        self.event_system.register_system(self.team_system)
+        self.event_system.register_system(self.order_system)
+        self.event_system.register_system(self.log_system)
+        self.event_system.register_system(self.rollback_system)
+
+    def _send_event(self, event: Event):
+        self.event_system.send_event(event)
+
+    def _generate_board_string(self) -> str:
         res = ""
-        for row in range(self.row):
-            for col in range(self.col):
-                coord = (row,col)
-                if coord in self.board["players"]["attaquant"]:
-                    res += "A"
-                elif coord in self.board["players"]["defenseur"]:
-                    res += "D"
-                elif coord in self.board["wall"]:
+        for row in range(self.m):
+            for col in range(self.n):
+                coord = (row, col)
+                if coord in self.team_system.get_team_positions(COALITION):
+                    res += "*"
+                elif coord in self.team_system.get_team_positions(SOLO):
+                    res += "%"
+                elif self.wall_system.is_wall(coord):
                     res += "#"
                 else:
                     res += "O"
@@ -29,84 +77,73 @@ class Game(object):
             res += "\n"
         return res
 
-    def __generatePlayers(self):
-        row = random.sample(range(0, self.row), self.nbCoa+1)
-        col = random.sample(range(0, self.col), self.nbCoa+1)
-        
-        self.board["players"]["attaquant"].append((row[0], col[0]))
+    def _generate_players(self):
+        row: List[int] = random.sample(range(0, self.m), self.c + 1)
+        col: List[int] = random.sample(range(0, self.n), self.c + 1)
+        pos: Tuple[int, int] = (row[0], col[0])
+        self._send_event(PlayerJoinedEvent(0, SOLO, pos))
+
         for i in range(1, len(row)):
-            self.board["players"]["defenseur"].append((row[i], col[i]))
+            pos = (row[i], col[i])
+            self._send_event(PlayerJoinedEvent(i, COALITION, pos))
 
-    def __initGame(self):
-        self.__generatePlayers()        
-        
-    def __endGame(self):
-        if len(self.board["players"]["attaquant"]) != 0 and len(self.board["players"]["defenseur"]) != 0:
-                return False
-        return True
+    def has_ended(self) -> bool:
+        return self.team_system.get_team_count(
+            SOLO) == 0 or self.team_system.get_team_count(COALITION) == 0
 
-    def __isDying(self, nextMove):
-        if nextMove[0] < 0 or nextMove[1] < 0 or nextMove[0] > self.row-1 or nextMove[1] > self.col-1:
-            return True
-        if nextMove in self.board["players"]["attaquant"] or nextMove in self.board["players"]["defenseur"]:
-            return True
-        if nextMove in self.board["wall"]:
-            return True
-        return False
+    def is_valid_position(self, pos: Tuple[int, int]) -> bool:
+        return 0 <= pos[0] < self.m and 0 <= pos[
+            1] < self.n and not self.wall_system.is_wall(pos)
 
-    def __saveImportantMoment(self):
-        self.importantMoment.append([self.row, self.col, self.nbCoa, len(self.board["players"]["defenseur"]), len(self.board["wall"][1:])])
-
-
-    def __nextRandomMove(self):
-        num = random.randint(0, 3)
-        if num == 0:
-            return "D"
-        elif num == 1:
-            return "Q"
-        elif num == 2:
-            return "Z"
-        elif num == 3:
-            return "S"
-
-    def __nextMove(self, coord, direction):
-        if direction.upper() == "D":
-            return (coord[0], coord[1] + 1)
-        elif direction.upper() == "Q":
-            return (coord[0], coord[1] - 1)
-        elif direction.upper() == "Z":
-            return (coord[0] - 1, coord[1])
-        elif direction.upper() == "S":
-            return (coord[0] + 1, coord[1])
+    @staticmethod
+    def move_to_pos(coord: Tuple[int, int], direction: int) -> Tuple[int, int]:
+        if direction == RIGHT:
+            return coord[0], coord[1] + 1
+        elif direction == LEFT:
+            return coord[0], coord[1] - 1
+        elif direction == UP:
+            return coord[0] - 1, coord[1]
+        elif direction == DOWN:
+            return coord[0] + 1, coord[1]
         else:
-            return False
+            return coord
 
+    def run(self):
+        from poltron_ia.paranoid import algorithm_paranoid
+        self._generate_players()
+        team_depth: Dict[int, int] = {
+            SOLO:      self.ds,
+            COALITION: self.dc
+        }
+        while not self.has_ended():
+            p: int = self.order_system.current_player()
+            team: int = self.team_system.get_player_team(p)
 
-    def testGame(self):
-        self.__initGame()
-        while not self.__endGame():
-            for team, players in self.board["players"].items():
-                for p in players:
-                    ##test exec
-                    # print(self.__displayBoard())
-                    # print("Wall : ", self.board["wall"])
-                    # print("Attaquant : ", self.board["players"]["attaquant"])
-                    # print("Defenseur : ", self.board["players"]["defenseur"])
-                    mov = self.__nextRandomMove()
-                    nextMove = self.__nextMove(p, mov)
-                    # print (nextMove)
-                    if nextMove != False:
-                        indexP = self.board["players"][team].index(p)
-                        self.board["wall"].append(p)
-                        #print("is Dying ? : ", self.__isDying(nextMove))
-                        if self.__isDying(nextMove):
-                            self.__saveImportantMoment()
-                            self.board["players"][team].remove(self.board["players"][team][indexP])
-                        else:
-                            self.board["players"][team][indexP] = nextMove
-                        self.tour += 1  #print("Important Moment : ", self.importantMoment)
+            self.log_system.is_simulating = True
 
+            move: int = algorithm_paranoid(self, team_depth.get(team), team, p)
 
-if __name__ == "__main__":
-    g = Game(5, 5, 2, 5, 3)
-    g.testGame()
+            self.log_system.is_simulating = False
+
+            self.play_player_turn(move)
+
+    def play_player_turn(self, move: int):
+
+        p: int = self.order_system.current_player()
+        old_pos: Tuple[int, int] = self.player_system.get_player_position(p)
+
+        new_pos: Tuple[int, int] = self.move_to_pos(old_pos, move)
+
+        if not self.is_valid_position(new_pos):
+            self._send_event(PlayerKillEvent(p, old_pos))
+            if self.has_ended():
+                self._send_event(PlayerTurnEndedEvent())
+                self._send_event(GameEndedEvent())
+                return
+        else:
+            self._send_event(PlayerMoveEvent(p, old_pos, new_pos))
+
+        self._send_event(PlayerTurnEndedEvent())
+        if self.order_system.is_new_rotation():
+            self.tick += 1
+            self._send_event(TurnEndedEvent())

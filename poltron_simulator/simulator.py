@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from math import ceil, floor, sqrt
 from random import shuffle
-from typing import Tuple
+from typing import Set, Tuple
 
 import poltron_util.progress_bar as pb
 from poltron_game.Game import Game
@@ -94,13 +94,17 @@ def simulate_game(args, model_mode):
     return
 
 
-def print_search_space(count: int) -> None:
+def print_search_space(count: int, ds_values: set, dc_values: set,
+                       c_values) -> None:
+    min_m = parameterize_m(min(ds_values), map_size.SMALL)
+    max_m = parameterize_m(max(ds_values), map_size.LARGE)
+
     print(f"Total amount of simulations to do: {count}")
-    print("Tested Ds values: {2,4,6,8}")
-    print("Tested Dc values: {1,3,5,7}")
-    print("Tested coalition sizes: {2,4,8}")
-    print("Smallest map dimensions: 4x4")
-    print("Largest map dimensions: 24x24")
+    print(f"Tested Ds values: {ds_values}")
+    print(f"Tested Dc values: {dc_values}")
+    print(f"Tested coalition sizes: {c_values}")
+    print(f"Smallest map dimensions: {min_m}x{min_m}")
+    print(f"Largest map dimensions: {max_m}x{max_m}")
     print("\n")
 
 
@@ -116,9 +120,21 @@ def estimate_time_before_arrival(secs: int):
     return f"{int(days)}d {int(hours)}h {int(mins)}m {int(secs)}s"
 
 
+def calc_dc_combinations(dc_values: Set[int], ds_values: Set[int]) -> int:
+    count: int = 0
+    for dc in dc_values:
+        for _ in filter(lambda x: dc < x, ds_values):
+            count += 1
+    return count
+
 def generate_data(iteration_per_combination: int,
                   model_mode: bool) -> None:
     import time
+    map_sizes: set = {map_size.SMALL, map_size.MEDIUM, map_size.LARGE}
+    ds_values: set = {4, 5, 6, 7, 8}
+    dc_values: set = {x for x in range(3, max(ds_values), 1)}
+
+    c_values: set = {2, 3, 4, 5}
     # 3 sizes of map
     # 3 values of C
     # 4 values of Ds
@@ -126,16 +142,20 @@ def generate_data(iteration_per_combination: int,
     #  Ds, 3 values of Dc tested by 2 values of Ds and 4 values of dc tested
     # by 1 value of Ds
     # amount -> 3*3*4*(1*4+2*3+3*2+4*1)*iter
-    amount = 720 * iteration_per_combination
-    print_search_space(amount)
+    amount = len(map_sizes) * len(ds_values) * len(
+        c_values) * calc_dc_combinations(dc_values,
+                                         ds_values) * iteration_per_combination
+    print_search_space(amount, ds_values, dc_values, c_values)
     initial_settings: list = []
 
-    for c in {2, 4, 8}:
-        for ds in {2, 4, 6, 8}:
-            for dc in range(1, ds, 2):
-                for size, size_name in {(map_size.SMALL, "SMALL"),
-                                        (map_size.MEDIUM, "MEDIUM"),
-                                        (map_size.LARGE, "LARGE")}:
+    for c in c_values:
+        for ds in ds_values:
+            for dc in dc_values:
+                if dc >= ds:
+                    continue
+                for size, size_name in {(map_size.SMALL, "1.S"),
+                                        (map_size.MEDIUM, "2.M"),
+                                        (map_size.LARGE, "3.L")}:
                     for _ in range(iteration_per_combination):
                         initial_settings.append((size, size_name, c, ds, dc))
 

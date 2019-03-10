@@ -23,15 +23,25 @@ def print_map_scope(scope: dict, len_row: int, len_col: int) -> None:
 
 def init_dictionary(game: Game) -> dict:
     dictionary_map: dict = {
-        "players": {
+        "area":    {
             COALITION: set(),
             SOLO:      set()
         },
-        "scope":   {}
+        "scope":   {},
+        "stack":   {
+            COALITION: set(),
+            SOLO:      set()
+        },
+        "visited": {
+            COALITION: set(),
+            SOLO:      set()
+        }
     }
-    for team, positions in game.team_system.get_all_teams_positions():
-        for position in positions:
-            dictionary_map["scope"][position] = 0
+
+    for team, players in game.team_system.get_all_teams_positions():
+        for p in players:
+            dictionary_map["scope"][p] = 0
+            dictionary_map["stack"][team].append(p)
     return dictionary_map
 
 
@@ -52,46 +62,67 @@ def reverse_team(team: int) -> int:
     return COALITION
 
 
-def range_control(game: Game, initial_pos: Tuple[int, int], allies: int,
-                  indicator: dict) -> dict:
-    enemies: int = reverse_team(allies)
-    stack: deque = deque()
-    visited: set = set()
-    stack.append(initial_pos)
-    count: int = game.ds * 2
-    while stack and count > 0:
-        coord: Tuple[int, int] = stack.pop()
-        visited.add(coord)
-        count = count - 1
-        for move in [[1, 0], [-1, 0], [0, 1], [0, -1]]:
-            scope: int = indicator["scope"].get(coord) + 1
-            pos: Tuple[int, int] = (coord[0] + move[0], coord[1] + move[1])
-            if pos not in visited and game.is_valid_position(pos):
-                if pos not in indicator["scope"]:
-                    indicator["scope"][pos] = scope
-                    indicator["players"][allies].add(pos)
-                    stack.insert(0, pos)
-                elif indicator["scope"].get(pos) >= scope:
-                    if indicator["scope"].get(pos) > scope:
-                        indicator["scope"][pos] = scope
-                        stack.insert(0, pos)
-                        if pos not in indicator["players"][allies]:
-                            indicator["players"][allies].add(pos)
-                    if pos in indicator["players"][enemies]:
-                        indicator["players"][enemies].remove(pos)
-    return indicator
+def range_control(game: Game, current_depth: int) -> int:
+    distances: dict = {}
+
+    areas: dict = {
+        SOLO:      set(),
+        COALITION: set()
+    }
+
+    stacks: dict = {
+        SOLO:      deque(),
+        COALITION: deque()
+    }
+
+    visited: dict = {
+        SOLO:      set(),
+        COALITION: set()
+    }
+
+    count: int = (current_depth) * 2
+
+    pos_solo: Tuple[int, int] = game.player_system.get_solo_player_position()
+    x_solo, y_solo = pos_solo
+    manhattan_distance = lambda pos: abs(x_solo - pos[0]) + abs(y_solo - pos[1])
+    for team, players in game.team_system.get_all_teams_positions():
+        for p in players:
+            if manhattan_distance(p) <= count:
+                distances[p] = 0
+                stacks[team].append(p)
+
+    while stacks[SOLO]:
+        for team in game.team_system.get_all_teams():
+            enemies = reverse_team(team)
+            if stacks[team]:
+                coord = stacks[team].pop()
+                visited[team].add(coord)
+                current_distance = distances.get(coord) + 1
+                for move in {(1, 0), (-1, 0), (0, 1), (0, -1)}:
+                    pos = (coord[0] + move[0], coord[1] + move[1])
+                    if game.is_valid_position(pos) and pos not in visited[team]:
+                        if pos not in distances:
+                            distances[pos] = current_distance
+                            areas[team].add(pos)
+                            stacks[team].insert(0, pos)
+                        elif distances[pos] >= current_distance:
+                            if distances[pos] > current_distance:
+                                distances[pos] = current_distance
+                                stacks[team].insert(0, pos)
+                                if not pos in areas[team]:
+                                    areas[team].add(pos)
+                            if pos in areas[enemies]:
+                                areas[enemies].remove(pos)
+    return len(areas[SOLO])
 
 
-def heuristic(game: Game, target_team: int) -> float:
-    map_indicator: dict = init_dictionary(game)
-    for team, positions in game.team_system.get_all_teams_positions():
-        for pos in positions:
-            map_indicator = range_control(game, pos, team, map_indicator)
-    len_allies: int = len(map_indicator["players"][target_team])
-    len_enemies: int = len(map_indicator["players"][reverse_team(target_team)])
-    size: int = len_allies + len_enemies + 1
-    h: float = len_allies / size * 100
-    return h
+def heuristic(game: Game, target_team: int, current_depth: int) -> float:
+    area_solo = range_control(game, current_depth)
+    map_area = (game.m * game.m) - game.wall_system.count()
+    if target_team == SOLO:
+        return (area_solo / map_area) * 100
+    else:
+        return (1 - (area_solo / map_area)) * 100
 
 
 def algorithm_paranoid(game, depth: int, team: int, player: int) -> int:
@@ -101,8 +132,13 @@ def algorithm_paranoid(game, depth: int, team: int, player: int) -> int:
 
 def alphabeta(game: Game, depth: int, initial_team: int, p: int, a: int,
               b: int) -> Tuple[float, int]:
-    if depth == 0 or game.has_ended():
-        return heuristic(game, initial_team), NO_MOVE
+    pos_solo: Tuple[int, int] = game.player_system.get_solo_player_position()
+    x_solo, y_solo = pos_solo
+    manhattan_distance = lambda pos: abs(x_solo - pos[0]) + abs(y_solo - pos[1])
+    position = game.player_system.get_player_position(p)
+    if depth == 0 or game.has_ended() or manhattan_distance(
+            position) > depth * 2:
+        return heuristic(game, initial_team, depth), NO_MOVE
     team: int = game.team_system.get_player_team(p)
 
     best: int = -1000
