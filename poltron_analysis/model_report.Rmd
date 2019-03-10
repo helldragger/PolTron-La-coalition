@@ -16,14 +16,13 @@ require(RSQLite)
 require(reshape2)
 
 
-db_path = "../resources/model_2019-02-16_15-57-25_M_3-9-1_N_3-9-1_C_2-100-1_Ds_2-3-1_Dc_1-2-1_100iter.db"
+db_path = "../resources/model_2019-03-10_01-24-49_100iter.db"
 con <- RSQLite::dbConnect(RSQLite::SQLite(), db_path)
 victory_stats <- dbReadTable(con, "result_analysis")
 game_data <- dbReadTable(con, "game")
 dbDisconnect(con)
-victory_stats <- victory_stats %>% mutate(area=M*N) 
 victory_stats <- victory_stats %>% mutate(diffD=Ds-Dc)
-victory_stats <- victory_stats %>% group_by(M,N,C,Ds,Dc, area, diffD) %>% summarize(victory_percent=sum(victory=="True")/n()) %>% ungroup()
+victory_stats <- victory_stats %>% group_by(Size,C,Ds,Dc,diffD) %>% summarize(victory_percent=sum(victory=="True")/n()) %>% ungroup()
 ```
 
 
@@ -31,29 +30,14 @@ victory_stats <- victory_stats %>% group_by(M,N,C,Ds,Dc, area, diffD) %>% summar
 ```{r echo=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
 basic_analysis <- function(victory_stats, title){
   dat.long<-melt(victory_stats,id.vars="victory_percent")
-  return(ggplot(dat.long, aes(value,victory_percent, color=victory_percent))+
-    geom_jitter(data=subset(dat.long,variable=="M"))+
-    geom_density2d(data=subset(dat.long,variable=="M", alpha=0.1), color="grey50")+
-    geom_smooth(data=subset(dat.long,variable=="M"))+
-    geom_jitter(data=subset(dat.long,variable=="N"))+
-    geom_density2d(data=subset(dat.long,variable=="N", alpha=0.1), color="grey50")+
-    geom_smooth(data=subset(dat.long,variable=="N"))+
-    geom_jitter(data=subset(dat.long,variable=="C")) +
-    geom_density2d(data=subset(dat.long,variable=="C"), color="grey50")+
-    geom_smooth(data=subset(dat.long,variable=="C"))+
-    geom_jitter(data=subset(dat.long,variable=="Ds"))+
-    geom_density2d(data=subset(dat.long,variable=="Ds", alpha=0.1), color="grey50")+
-    geom_smooth(data=subset(dat.long,variable=="Ds"))+
-    geom_jitter(data=subset(dat.long,variable=="Dc"))+
-    geom_density2d(data=subset(dat.long,variable=="Dc", alpha=0.1), color="grey50")+
-    geom_smooth(data=subset(dat.long,variable=="Dc"))+
-    geom_jitter(data=subset(dat.long,variable=="area"))+
-    geom_density2d(data=subset(dat.long,variable=="area", alpha=0.1), color="grey50")+
-    geom_smooth(data=subset(dat.long,variable=="area"))+
-    geom_jitter(data=subset(dat.long,variable=="diffD"))+
-    geom_density2d(data=subset(dat.long,variable=="diffD", alpha=0.1), color="grey50")+
-    geom_smooth(data=subset(dat.long,variable=="diffD"))+
+  return(ggplot(dat.long, aes(value,victory_percent, color=victory_percent, fill=victory_percent))+
+    geom_bar(data=subset(dat.long,variable=="Size"), stat = "identity", position="dodge")+
+    geom_bar(data=subset(dat.long,variable=="C"), stat = "identity", position="dodge") +
+    geom_bar(data=subset(dat.long,variable=="Ds"), stat = "identity", position="dodge")+
+    geom_bar(data=subset(dat.long,variable=="Dc"), stat = "identity", position="dodge")+
+    geom_bar(data=subset(dat.long,variable=="diffD"), stat = "identity", position="dodge")+
     facet_grid(.~variable,scales = "free_x")+
+    scale_fill_gradient( low="red", high="green")+
     scale_color_gradient(low="red", high="green")+
     scale_alpha_continuous(range=c(0.1,0.5))+
     ggtitle(title))
@@ -61,8 +45,8 @@ basic_analysis <- function(victory_stats, title){
 
 readablegraph <- function(data, mapping, ...){#make ggplot2 plot
       ggplot(data, mapping)+
-        geom_density2d(color="grey50")+
-        scale_fill_gradient( low="red", high="green", trans = "log")
+        geom_bar(stat="identity", position="dodge")+
+        scale_fill_gradient( low="red", high="green")
 }
 
 
@@ -70,100 +54,34 @@ analyze_data <- function(victory_stats, title){
   
   print(basic_analysis(victory_stats, title))
   
-  
-  matrix <- ggpairs(victory_stats, 
-          lower=list(continuous=readablegraph),
-          diag = list(continuous = "blank"), 
-          upper = list(continuous = "blank"), 
-          progress=F,
-          axisLabels = "none",
-          columnLabels = c("M","N","C","Ds","Dc", "M*N","Ds-Dc","Victory"),
-          switch="both",
-          title=title)+ theme_bw()
-  
-  matrix[8,1] <- ggplot(victory_stats, aes(M, victory_percent, color=victory_percent))+
-        geom_jitter()+
-        geom_density2d(color="grey50")+
-        geom_smooth()+
-        scale_color_gradient(low="red", high="green")
-  matrix[8,2] <- ggplot(victory_stats, aes(N, victory_percent, color=victory_percent))+
-        geom_jitter()+
-        geom_density2d(color="grey50")+
-        geom_smooth()+
-        scale_color_gradient(low="red", high="green")
-  matrix[8,3] <- ggplot(victory_stats, aes(C, victory_percent, color=victory_percent))+
-        geom_jitter()+
-        geom_density2d(color="grey50")+
-        geom_smooth()+
-        scale_color_gradient(low="red", high="green")
-  matrix[8,4] <- ggplot(victory_stats, aes(Ds, victory_percent, color=victory_percent))+
-        geom_jitter()+
-        geom_density2d(color="grey50")+
-        geom_smooth()+
-        scale_color_gradient(low="red", high="green")
-  matrix[8,5] <- ggplot(victory_stats, aes(Dc, victory_percent, color=victory_percent))+
-        geom_jitter()+
-        geom_density2d(color="grey50")+
-        geom_smooth()+
-        scale_color_gradient(low="red", high="green")
-  matrix[8,6] <- ggplot(victory_stats, aes(area, victory_percent, color=victory_percent))+
-        geom_jitter()+
-        geom_density2d(color="grey50")+
-        geom_smooth()+
-        scale_color_gradient(low="red", high="green")
-  matrix[8,7] <- ggplot(victory_stats, aes(diffD, victory_percent, color=victory_percent))+
-        geom_jitter()+
-        geom_density2d(color="grey50")+
-        geom_smooth()+
-        scale_color_gradient(low="red", high="green")
-  
-  
-  #print(ggcorr(victory_stats, hjust = 0.75, size = 5, color = "grey50", layout.exp = 1, nbreaks=5))
-  print(matrix)
 }
 
 analyze_binned_data<- function(data, title){
   dat.long<-melt(data,id.vars=c("victory_percent", "bin"))
-  return(ggplot(dat.long, aes(value,victory_percent, color=victory_percent))+
-    geom_jitter(data=subset(dat.long,variable=="M"))+
-    geom_density2d(data=subset(dat.long,variable=="M", alpha=0.1), color="grey50")+
-    geom_smooth(data=subset(dat.long,variable=="M"))+
-    geom_jitter(data=subset(dat.long,variable=="N"))+
-    geom_density2d(data=subset(dat.long,variable=="N", alpha=0.1), color="grey50")+
-    geom_smooth(data=subset(dat.long,variable=="N"))+
-    geom_jitter(data=subset(dat.long,variable=="C")) +
-    geom_density2d(data=subset(dat.long,variable=="C"), color="grey50")+
-    geom_smooth(data=subset(dat.long,variable=="C"))+
-    geom_jitter(data=subset(dat.long,variable=="Ds"))+
-    geom_density2d(data=subset(dat.long,variable=="Ds", alpha=0.1), color="grey50")+
-    geom_smooth(data=subset(dat.long,variable=="Ds"))+
-    geom_jitter(data=subset(dat.long,variable=="Dc"))+
-    geom_density2d(data=subset(dat.long,variable=="Dc", alpha=0.1), color="grey50")+
-    geom_smooth(data=subset(dat.long,variable=="Dc"))+
-    geom_jitter(data=subset(dat.long,variable=="area"))+
-    geom_density2d(data=subset(dat.long,variable=="area", alpha=0.1), color="grey50")+
-    geom_smooth(data=subset(dat.long,variable=="area"))+
-    geom_jitter(data=subset(dat.long,variable=="diffD"))+
-    geom_density2d(data=subset(dat.long,variable=="diffD", alpha=0.1), color="grey50")+
-    geom_smooth(data=subset(dat.long,variable=="diffD"))+
+  return(ggplot(dat.long, aes(value,victory_percent, fill=victory_percent))+
+    geom_bar(data=subset(dat.long,variable=="Size"), stat="identity", position="dodge") +
+    geom_bar(data=subset(dat.long,variable=="C"), stat="identity", position="dodge") +
+    geom_bar(data=subset(dat.long,variable=="Ds"), stat="identity", position="dodge")+
+    geom_bar(data=subset(dat.long,variable=="Dc"), stat="identity", position="dodge")+
+    geom_bar(data=subset(dat.long,variable=="diffD"), stat="identity", position="dodge")+
     facet_grid(bin~variable,scales = "free_x")+
     scale_color_gradient(low="red", high="green")+
+    scale_fill_gradient(low="red", high="green")+
     scale_alpha_continuous(range=c(0.1,0.5))+
     ggtitle(title))
 }
 
 analyze_binned_victory_data<- function(data, title){
   dat.long<-melt(data,id.vars=c("victory_percent", "bin"))
-  return(ggplot(dat.long, aes(value,victory_percent, color=victory_percent))+
-    geom_bar(data=subset(dat.long,variable=="M"), stat = "identity")+
-    geom_bar(data=subset(dat.long,variable=="N"), stat = "identity")+
-    geom_bar(data=subset(dat.long,variable=="C"), stat = "identity")+
-    geom_bar(data=subset(dat.long,variable=="Ds"), stat = "identity")+
-    geom_bar(data=subset(dat.long,variable=="Dc"), stat = "identity")+
-    geom_bar(data=subset(dat.long,variable=="area"), stat = "identity")+
-    geom_bar(data=subset(dat.long,variable=="diffD"), stat = "identity")+
+  return(ggplot(dat.long, aes(value,victory_percent, color=victory_percent, fill=victory_percent))+
+    geom_bar(data=subset(dat.long,variable=="Size"), stat = "identity", position="dodge")+
+    geom_bar(data=subset(dat.long,variable=="C"), stat = "identity", position="dodge")+
+    geom_bar(data=subset(dat.long,variable=="Ds"), stat = "identity", position="dodge")+
+    geom_bar(data=subset(dat.long,variable=="Dc"), stat = "identity", position="dodge")+
+    geom_bar(data=subset(dat.long,variable=="diffD"), stat = "identity", position="dodge")+
     facet_grid(bin~variable,scales = "free_x")+
     scale_color_gradient(low="red", high="green")+
+    scale_fill_gradient(low="red", high="green")+
     scale_alpha_continuous(range=c(0.1,0.5))+
     ggtitle(title))+
     theme_minimal()
@@ -181,7 +99,7 @@ analyze_data(victory_stats, "Whole dataset")
 ## Locking victory percents into 5 equally spaced intervals
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
-binned_data <- victory_stats %>% group_by(bin=cut(victory_percent, seq(min(victory_percent), max(victory_percent), by = (max(victory_percent)-min(victory_percent))/5), include.lowest=T))
+binned_data <- victory_stats %>% group_by(bin=cut(victory_percent, seq(min(victory_percent), max(victory_percent), by = (max(victory_percent)-min(victory_percent))/3), include.lowest=T))
 analyze_binned_victory_data(binned_data, "Analysis per victory percent interval")
 ```
 
@@ -191,7 +109,7 @@ analyze_binned_victory_data(binned_data, "Analysis per victory percent interval"
 ## Locking C into 5 equally spaced intervals
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
-binned_data <- victory_stats %>% group_by(bin=cut(C, seq(min(C), max(C), by = (max(C)-min(C))/5), include.lowest=T))
+binned_data <- victory_stats %>% group_by(bin=cut(C, seq(min(C), max(C), by = (max(C)-min(C))/4), include.lowest=T))
 analyze_binned_data(binned_data, "Analysis per C interval")
 ```
 
@@ -199,7 +117,7 @@ analyze_binned_data(binned_data, "Analysis per C interval")
 ## Locking Ds into 5 equally spaced intervals
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
-binned_data <- victory_stats %>% group_by(bin=cut(Ds, seq(min(Ds), max(Ds), by = (max(Ds)-min(Ds))/5), include.lowest=T))
+binned_data <- victory_stats %>% group_by(bin=cut(Ds, seq(min(Ds), max(Ds), by = (max(Ds)-min(Ds))/4), include.lowest=T))
 analyze_binned_data(binned_data, "Analysis per Ds interval")
 ```
 
@@ -207,20 +125,20 @@ analyze_binned_data(binned_data, "Analysis per Ds interval")
 ## Locking Dc into 5 equally spaced intervals
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-binned_data <- victory_stats %>% group_by(bin=cut(Dc, seq(min(Dc), max(Dc), by = (max(Dc)-min(Dc))/5), include.lowest=T))
+binned_data <- victory_stats %>% group_by(bin=cut(Dc, seq(min(Dc), max(Dc), by = (max(Dc)-min(Dc))/4), include.lowest=T))
 analyze_binned_data(binned_data, "Analysis per Dc interval")
 ```
 
 ## Locking area into 5 equally spaced intervals
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-binned_data <- victory_stats %>% group_by(bin=cut(area, seq(min(area), max(area), by = (max(area)-min(area))/5), include.lowest=T))
+binned_data <- victory_stats %>% group_by(bin=Size)
 analyze_binned_data(binned_data, "Analysis per area interval")
 ```
 
 ## Locking Ds-Dc into 5 equally spaced intervals
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-binned_data <- victory_stats %>% group_by(bin=cut(diffD, seq(min(diffD), max(diffD), by = (max(diffD)-min(diffD))/5), include.lowest=T))
+binned_data <- victory_stats %>% group_by(bin=cut(diffD, seq(min(diffD), max(diffD), by = (max(diffD)-min(diffD))/4), include.lowest=T))
 analyze_binned_data(binned_data, "Analysis per Ds-Dc interval")
 ```

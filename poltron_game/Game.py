@@ -26,10 +26,16 @@ contributor: Vincent DE MENEZES
 class Game(object):
 
     def __init__(self, m: int, n: int, c: int, ds: int, dc: int):
-        self.ds: int = ds
-        self.dc: int = dc
+        assert m > 0
+        assert n > 0
+        assert ds > 1
+        assert dc > 0
+        assert dc < ds
+        assert c > 1
         self.m: int = m
         self.n: int = n
+        self.ds: int = ds
+        self.dc: int = dc
         self.c: int = c
         self.tick: int = 0
         self.victory: bool = False
@@ -99,6 +105,8 @@ class Game(object):
             return coord[0] - 1, coord[1]
         elif direction == DOWN:
             return coord[0] + 1, coord[1]
+        else:
+            return coord
 
     def run(self):
         from poltron_ia.paranoid import algorithm_paranoid
@@ -120,6 +128,7 @@ class Game(object):
             self.play_player_turn(move)
 
     def play_player_turn(self, move: int):
+
         p: int = self.order_system.current_player()
         old_pos: Tuple[int, int] = self.player_system.get_player_position(p)
 
