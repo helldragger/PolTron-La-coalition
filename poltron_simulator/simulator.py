@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from math import ceil, floor, sqrt
 from random import shuffle
-from typing import Set, Tuple
+from typing import Tuple
 
 import poltron_util.progress_bar as pb
 from poltron_game.Game import Game
@@ -94,12 +94,10 @@ def simulate_game(args, model_mode):
     return
 
 
-def print_search_space(count: int, ds_values: set, dc_values: set,
-                       c_values) -> None:
+def print_search_space(ds_values: set, dc_values: set, c_values) -> None:
     min_m = parameterize_m(min(ds_values), map_size.SMALL)
     max_m = parameterize_m(max(ds_values), map_size.LARGE)
 
-    print(f"Total amount of simulations to do: {count}")
     print(f"Tested Ds values: {ds_values}")
     print(f"Tested Dc values: {dc_values}")
     print(f"Tested coalition sizes: {c_values}")
@@ -120,17 +118,10 @@ def estimate_time_before_arrival(secs: int):
     return f"{int(days)}d {int(hours)}h {int(mins)}m {int(secs)}s"
 
 
-def calc_dc_combinations(dc_values: Set[int], ds_values: Set[int]) -> int:
-    count: int = 0
-    for dc in dc_values:
-        for _ in filter(lambda x: dc < x, ds_values):
-            count += 1
-    return count
-
-def generate_data(iteration_per_combination: int,
-                  model_mode: bool) -> None:
+def generate_data(iteration_per_combination: int, model_mode: bool) -> None:
     import time
-    map_sizes: set = {map_size.SMALL, map_size.MEDIUM, map_size.LARGE}
+    map_sizes: set = {(map_size.SMALL, "1.S"), (map_size.MEDIUM, "2.M"),
+                      (map_size.LARGE, "3.L")}
     ds_values: set = {4, 5, 6, 7}
     dc_values: set = {x for x in range(3, max(ds_values), 1)}
 
@@ -142,10 +133,7 @@ def generate_data(iteration_per_combination: int,
     #  Ds, 3 values of Dc tested by 2 values of Ds and 4 values of dc tested
     # by 1 value of Ds
     # amount -> 3*3*4*(1*4+2*3+3*2+4*1)*iter
-    amount = len(map_sizes) * len(ds_values) * len(
-        c_values) * calc_dc_combinations(dc_values,
-                                         ds_values) * iteration_per_combination
-    print_search_space(amount, ds_values, dc_values, c_values)
+    print_search_space(ds_values, dc_values, c_values)
     initial_settings: list = []
 
     for c in c_values:
@@ -153,9 +141,7 @@ def generate_data(iteration_per_combination: int,
             for dc in dc_values:
                 if dc >= ds:
                     continue
-                for size, size_name in {(map_size.SMALL, "1.S"),
-                                        (map_size.MEDIUM, "2.M"),
-                                        (map_size.LARGE, "3.L")}:
+                for size, size_name in map_sizes:
                     for _ in range(iteration_per_combination):
                         initial_settings.append((size, size_name, c, ds, dc))
 
