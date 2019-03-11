@@ -31,7 +31,7 @@ class Game(object):
         assert ds > 1
         assert dc > 0
         assert dc < ds
-        assert c > 1
+        assert c > 0
         self.m: int = m
         self.n: int = n
         self.ds: int = ds
