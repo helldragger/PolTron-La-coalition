@@ -10,69 +10,79 @@ Cette simulation as été réalisée avec 100 réitérations pour chaque combina
 
 \section{Analyse d'ensemble}
 \img{./data/ai_overview_short}
-\paragraph{Des données très localisées}
-Nous pouvons d'abord remarquer la présence de trois groupes de données bien distincts:
+\paragraph{Des données tendances variées}
+Nous pouvons d'abord remarquer la présence de cinq tendances générales de données:
 \begin{itemize}
-	\item Un groupe de paramètres à la victoire quasiment garantie
-	\item Un groupe de paramètres à la défaite quasiment garantie
-	\item Un groupe de paramètres plus étalé mais avec de faibles chances de victoire
+	\item Plus la taille de la map est grande, plus les chances de victoires diminuent.
+	\item Plus la taille de la coalition augmente, plus les chances de victoires semblent augmenter en général.
+	\item Plus Ds augmente, et plus le chances minimales de victoire diminuent.
+	\item Inversement pour Dc, celles-ci augmentent avec Dc.
+	\item Plus la différence d'intelligence entre le joueur solo et la coalition augmente, plus les chances générales de victoires diminuent.
 \end{itemize}
 
-Les facteurs M,N, C et area semble n'avoir aucune influence sur le pourcentage de victoire.
 
-En revanche, il est intéressant de noter que Dc, Ds, et leur différence semblent fortement influer sur ce pourcentage.
-
-
-\img{./data/ai_overview_complete}
 
 \section{Analyses détaillées}
 \subsection{Répartitions des pourcentages de victoires}
 \img{./data/ai_victory_percent}
-\paragraph{La différence d'intelligence semble être primordiale}
-Les victoires semble être principalement réparties sur des couples de paramètres où la coalition et le joueur solo sont aussi intelligents, ainsi que lorsque Ds et Dc sont plus élevés.
+\paragraph{L'écart d'intelligence semble être primordial}
+Les victoires les plus assurées semblent être principalement réparties sur des couples de paramètres où la coalition et le joueur solo ont des intelligences proches, ainsi que lorsque Ds et Dc sont plus élevés.
+Les risques de défaites semblent être limités par de plus grandes valeurs de C et Dc, et de faibles valeurs de Ds.
+De plus, à haut pourcentage de victoires, la taille de la carte semble être un facteur important, où la coalition semble avoir l'avantage sur des cartes plus petites.
 
-La répartition en M, N, C et area est homogène parmi les pourcentages de victoire, donc ne semblent pas influer sur le résultat d'une partie.
 
+\subsection{Découpage du spectre selon des intervalles de la taille de la carte}
+\img{./data/ai_area}
+\paragraph{Petites cartes avantageuses, grandes cartes handicapantes}
+Nous pouvons remarquer que sur les petites cartes, les chances maximales de victoires sont exacerbées sur tous les facteurs comparé aux autres tailles.
+
+En revanche, les grandes cartes semblent avoir un effet négatif sur les chances minimales de victoire sur tous les facteurs. 
 
 \subsection{Découpage du spectre selon des intervalles de C}
 \img{./data/ai_C}
-\paragraph{Aucune variation particulière}
-Malgré le manque de données empêchant la détermination de courbes, l'aspect général des spectres ne varie pas selon C.
-
-
-\subsection{Découpage du spectre selon des intervalles de Dc}
-\img{./data/ai_Dc}
-\paragraph{Une scission importante}
-Dc influe clairement sur les pourcentages de victoire, sur notre set de données, une haute valeur de Dc semble garantir la victoire. 
+\paragraph{Le surnombre semble avantageux}
+Les chances de victoire générales semblent augmenter avec de plus grandes valeurs de C de façon homogène.
 
 
 \subsection{Découpage du spectre selon des intervalles de Ds}
 \img{./data/ai_Ds}
-\paragraph{Une autre scission importante}
-Ds semble influer aussi beaucoup sur le résultat d'une partie, une faible valeur de Ds semble garantir la défaite de la coalition, tandis que des valeurs plus grandes semblent faire émerger des groupes selon la différence d'intelligence.
+\paragraph{Un joueur solo intelligent est plus difficile à battre}
+Les valeurs de Ds limitent beaucoup les données analysables par intervalle car le nombre de parties jouées avec de faibles valeurs de Ds est bien inférieur au nombres de parties jouées à de plus grandes valeurs de Ds.
+Ceci explique les nuances supplémentaires apparaissant à haute valeur de Ds.
 
+Nous pouvons cependant remarquer que de plus grandes valeurs de Ds semblent diminuer les chances minimales de victoires.
 
-\subsection{Découpage du spectre selon des intervalles de l'aire M*N}
-\img{./data/ai_area}
-\paragraph{Aucune variation particulière}
-Nous ne pouvons pas constater de variation particulière des spectres en fonction de l'aire du plateau. Celui ci ne semble donc pas influer sur les chances de victoire.
+\subsection{Découpage du spectre selon des intervalles de Dc}
+\img{./data/ai_Dc}
+\paragraph{Une coalition intelligente bats le joueur plus facilement}
+Inversement à Ds, il y as plus de parties jouées avec des valeurs faibles de Dc que hautes, ce qui explique les différences de nuances entre elles.
+
+Cependant, Les plus grandes valeurs de Dc semblent maximiser les chances générales de victoire.
+
 
 \subsection{Découpage du spectre selon des intervalles de la différence de niveau}
 \img{./data/ai_Dc-Ds}
-\paragraph{Des groupes intéressants}
-À faible différence d'intelligence, nous pouvons voir que M,N,C et area semblent parfaitement équilibrés, et la différence soudaine de chances de victoires entre de faibles valeurs de Ds, Dc, et de plus grandes valeurs de Ds, Dc.
+\paragraph{L'écart d'intelligence est primordial}
+Nous pouvons clairement constater que l'écart d'intelligence diminue fortement les chances générales de victoires de façon drastique, passant de 30-90\% pour $diffD = 1$ à 20-55\% pour $diffD = 4$.
 
-En revanche à plus grande différence d'intelligence, les chances de victoires semblent être plus constantes et plutôt faibles, sur toutes les combinaisons de valeurs. 
+Nous pouvons aussi constater une légère augmentation de ces chances de victoires quand Dc et Ds sont maximisées, ce qui pourrait indiquer que l'écart relatif ($diffD = Ds/Dc$) d'intelligence pourrait être une mesure plus précise que l'écart absolu que nous utilisons ici ($diffD = Ds - Dc$).
 
 \subsection{Conclusions d'analyse}
 
 \paragraph{À niveau égal, rien ne va plus!}
-D'après nos résultats, nous pouvons constater que plus la différence relative d'intelligence est petite, plus la coalition as de chances d'écraser le joueur solo, et ce indépendamment du nombre de joueurs ou de la taille de la carte.
+D'après nos résultats, nous pouvons constater que plus la différence relative d'intelligence est petite, plus la coalition as de chances d'écraser le joueur solo.
 
-Cependant, notre fourchette de donnée est limitée concernant les différentes valeurs d'intelligence, et une analyse plus poussée sur ces variables là en particulier, suite à des optimisations nécessaires, pourrait permettre d'y voir plus clair. 
+De plus, et ce surtout à partir d'un écart d'intelligence assez important, la taille de la carte semble indiquer que les cartes petites semblent favoriser la coalition, et que les grandes cartes semblent favoriser fortement le joueur solo. 
+
+En revanche, le surnombre semble être un avantage en toutes circonstances, mais son effet semble plaffonner plus vite si l ecart d intelligence est moindre.
+
 
 \begin{result}
-	 À intelligence proche, la coalition semble invincible.
+	La pire coalition possible serait une coalition qui joue quasiment au hasard, avec peu d'équipiers et sur une grande carte.
+	
+	En revanche, la coalition idéale semble être une coalition en surnombre, d'intelligence égale au joueur solo, et sur une petite carte. Mais même juste à niveau égal, sur toute carte moyenne ou petite, la coalition est statistiquement meilleure. 
+	
+	C'est une bataille de cerveau.
 \end{result}
 
 \img{./data/ai_conclu}

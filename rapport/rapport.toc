@@ -59,82 +59,98 @@
 \contentsline {section}{\numberline {2.6}Pistes d'am\IeC {\'e}lioration}{14}{section.2.6}
 \contentsline {paragraph}{\nonumberline Simulations en parall\IeC {\`e}le}{14}{section*.33}
 \contentsline {chapter}{\numberline {3}Mod\IeC {\`e}le de jeu}{15}{chapter.3}
-\contentsline {chapter}{\numberline {4}Intelligence Artificielle - Heuristique}{16}{chapter.4}
-\contentsline {chapter}{\numberline {5}Analyse - Exploration}{17}{chapter.5}
-\contentsline {section}{\numberline {5.1}N\IeC {\'e}cessit\IeC {\'e}s}{17}{section.5.1}
-\contentsline {paragraph}{\nonumberline D\IeC {\'e}terminer les facteurs d'une victoire}{17}{section*.34}
-\contentsline {section}{\numberline {5.2}Probl\IeC {\`e}me}{17}{section.5.2}
-\contentsline {paragraph}{\nonumberline Comment d\IeC {\'e}terminer les bonnes corr\IeC {\'e}lations?}{17}{section*.35}
-\contentsline {section}{\numberline {5.3}Approche utilis\IeC {\'e}e}{17}{section.5.3}
-\contentsline {paragraph}{\nonumberline Analyse par tranches}{17}{section*.36}
-\contentsline {section}{\numberline {5.4}Remarques sur les r\IeC {\'e}sultats obtenus}{18}{section.5.4}
-\contentsline {paragraph}{\nonumberline Les donn\IeC {\'e}es sont parlantes}{18}{section*.37}
-\contentsline {section}{\numberline {5.5}Pistes d'am\IeC {\'e}lioration}{18}{section.5.5}
-\contentsline {paragraph}{\nonumberline G\IeC {\'e}n\IeC {\'e}ration d'un profil 5D voire n-D de probabilit\IeC {\'e}s!}{18}{section*.38}
-\contentsline {part}{\numberline {V}Analyse des donn\IeC {\'e}es g\IeC {\'e}n\IeC {\'e}r\IeC {\'e}es}{19}{part.5}
-\contentsline {chapter}{\numberline {6}Analyse des donn\IeC {\'e}es de l'IA}{20}{chapter.6}
-\contentsline {paragraph}{\nonumberline Param\IeC {\`e}tres initiaux}{20}{section*.39}
-\contentsline {section}{\numberline {6.1}Analyse d'ensemble}{20}{section.6.1}
-\contentsline {paragraph}{\nonumberline Des donn\IeC {\'e}es tr\IeC {\`e}s localis\IeC {\'e}es}{20}{section*.40}
-\contentsline {section}{\numberline {6.2}Analyses d\IeC {\'e}taill\IeC {\'e}es}{21}{section.6.2}
-\contentsline {subsection}{\numberline {6.2.1}R\IeC {\'e}partitions des pourcentages de victoires}{21}{subsection.6.2.1}
-\contentsline {paragraph}{\nonumberline La diff\IeC {\'e}rence d'intelligence semble \IeC {\^e}tre primordiale}{21}{section*.41}
-\contentsline {subsection}{\numberline {6.2.2}D\IeC {\'e}coupage du spectre selon des intervalles de C}{22}{subsection.6.2.2}
-\contentsline {paragraph}{\nonumberline Aucune variation particuli\IeC {\`e}re}{22}{section*.42}
-\contentsline {subsection}{\numberline {6.2.3}D\IeC {\'e}coupage du spectre selon des intervalles de Dc}{22}{subsection.6.2.3}
-\contentsline {paragraph}{\nonumberline Une scission importante}{22}{section*.43}
-\contentsline {subsection}{\numberline {6.2.4}D\IeC {\'e}coupage du spectre selon des intervalles de Ds}{23}{subsection.6.2.4}
-\contentsline {paragraph}{\nonumberline Une autre scission importante}{23}{section*.44}
-\contentsline {subsection}{\numberline {6.2.5}D\IeC {\'e}coupage du spectre selon des intervalles de l'aire M*N}{23}{subsection.6.2.5}
-\contentsline {paragraph}{\nonumberline Aucune variation particuli\IeC {\`e}re}{23}{section*.45}
-\contentsline {subsection}{\numberline {6.2.6}D\IeC {\'e}coupage du spectre selon des intervalles de la diff\IeC {\'e}rence de niveau}{24}{subsection.6.2.6}
-\contentsline {paragraph}{\nonumberline Des groupes int\IeC {\'e}ressants}{24}{section*.46}
-\contentsline {subsection}{\numberline {6.2.7}Conclusions d'analyse}{24}{subsection.6.2.7}
-\contentsline {paragraph}{\nonumberline \IeC {\`A} niveau \IeC {\'e}gal, rien ne va plus!}{24}{section*.47}
-\contentsline {chapter}{\numberline {7}Analyse des donn\IeC {\'e}es du mod\IeC {\`e}le}{25}{chapter.7}
-\contentsline {paragraph}{\nonumberline Param\IeC {\`e}tres initiaux}{25}{section*.48}
-\contentsline {section}{\numberline {7.1}Analyse d'ensemble}{25}{section.7.1}
-\contentsline {paragraph}{\nonumberline Quelques facteurs sortent du lot}{25}{section*.49}
-\contentsline {section}{\numberline {7.2}Analyses d\IeC {\'e}taill\IeC {\'e}es}{26}{section.7.2}
-\contentsline {subsection}{\numberline {7.2.1}R\IeC {\'e}partitions des pourcentages de victoires}{26}{subsection.7.2.1}
-\contentsline {paragraph}{\nonumberline Une \IeC {\'e}volution qui suit la distribution de C}{26}{section*.50}
-\contentsline {subsection}{\numberline {7.2.2}D\IeC {\'e}coupage du spectre selon des intervalles de C}{27}{subsection.7.2.2}
-\contentsline {paragraph}{\nonumberline C est d\IeC {\'e}finitivement un facteur MAJEUR}{27}{section*.51}
-\contentsline {subsection}{\numberline {7.2.3}D\IeC {\'e}coupage du spectre selon des intervalles de Dc}{27}{subsection.7.2.3}
-\contentsline {paragraph}{\nonumberline Aucun impact r\IeC {\'e}el d\IeC {\'e}cel\IeC {\'e}}{27}{section*.52}
-\contentsline {subsection}{\numberline {7.2.4}D\IeC {\'e}coupage du spectre selon des intervalles de Ds}{28}{subsection.7.2.4}
-\contentsline {paragraph}{\nonumberline Aucun impact r\IeC {\'e}el d\IeC {\'e}cel\IeC {\'e} non plus}{28}{section*.53}
-\contentsline {subsection}{\numberline {7.2.5}D\IeC {\'e}coupage du spectre selon des intervalles de l'aire M*N}{28}{subsection.7.2.5}
-\contentsline {paragraph}{\nonumberline Une tendance positive!}{28}{section*.54}
-\contentsline {subsection}{\numberline {7.2.6}D\IeC {\'e}coupage du spectre selon des intervalles de la diff\IeC {\'e}rence de niveau}{29}{subsection.7.2.6}
-\contentsline {paragraph}{\nonumberline Toujours aucun impact r\IeC {\'e}el d\IeC {\'e}cel\IeC {\'e}}{29}{section*.55}
-\contentsline {subsection}{\numberline {7.2.7}Conclusions d'analyse}{29}{subsection.7.2.7}
-\contentsline {paragraph}{\nonumberline Le contr\IeC {\^o}le de la carte est le facteur le plus important d'apr\IeC {\`e}s notre mod\IeC {\`e}le}{29}{section*.56}
-\contentsline {part}{\numberline {VI}Probl\IeC {\`e}mes, tests et exp\IeC {\'e}rimentations}{30}{part.6}
-\contentsline {chapter}{\numberline {8}Probl\IeC {\`e}mes rencontr\IeC {\'e}s}{31}{chapter.8}
-\contentsline {chapter}{\numberline {9}Conclusion}{32}{chapter.9}
+\contentsline {section}{\numberline {3.1}N\IeC {\'e}cessit\IeC {\'e}s}{15}{section.3.1}
+\contentsline {paragraph}{\nonumberline Un moteur de jeu efficace}{15}{section*.34}
+\contentsline {section}{\numberline {3.2}Probl\IeC {\`e}me}{15}{section.3.2}
+\contentsline {paragraph}{\nonumberline Comment rendre le moteur efficace?}{15}{section*.35}
+\contentsline {paragraph}{\nonumberline Comment impl\IeC {\'e}menter le moteur efficacement?}{15}{section*.36}
+\contentsline {section}{\numberline {3.3}Approches possibles}{16}{section.3.3}
+\contentsline {paragraph}{\nonumberline Approche Programmation Orient\IeC {\'e}e Objet}{16}{section*.37}
+\contentsline {paragraph}{\nonumberline Approche structures de bases}{16}{section*.38}
+\contentsline {section}{\numberline {3.4}Approche utilis\IeC {\'e}e}{16}{section.3.4}
+\contentsline {paragraph}{\nonumberline Approche finalement choisie}{16}{section*.39}
+\contentsline {section}{\numberline {3.5}Remarques sur les r\IeC {\'e}sultats obtenus}{16}{section.3.5}
+\contentsline {paragraph}{\nonumberline \IeC {\'E}viter l'overhead des classes est providentiel}{16}{section*.40}
+\contentsline {paragraph}{\nonumberline Des gains de performances consid\IeC {\'e}rables}{17}{section*.41}
+\contentsline {chapter}{\numberline {4}Intelligence Artificielle - Heuristique}{18}{chapter.4}
+\contentsline {chapter}{\numberline {5}Analyse - Exploration}{19}{chapter.5}
+\contentsline {section}{\numberline {5.1}N\IeC {\'e}cessit\IeC {\'e}s}{19}{section.5.1}
+\contentsline {paragraph}{\nonumberline D\IeC {\'e}terminer les facteurs d'une victoire}{19}{section*.42}
+\contentsline {section}{\numberline {5.2}Probl\IeC {\`e}me}{19}{section.5.2}
+\contentsline {paragraph}{\nonumberline Comment d\IeC {\'e}terminer les bonnes corr\IeC {\'e}lations?}{19}{section*.43}
+\contentsline {section}{\numberline {5.3}Approche utilis\IeC {\'e}e}{19}{section.5.3}
+\contentsline {paragraph}{\nonumberline Analyse par tranches}{19}{section*.44}
+\contentsline {section}{\numberline {5.4}Remarques sur les r\IeC {\'e}sultats obtenus}{20}{section.5.4}
+\contentsline {paragraph}{\nonumberline Les donn\IeC {\'e}es sont parlantes}{20}{section*.45}
+\contentsline {section}{\numberline {5.5}Pistes d'am\IeC {\'e}lioration}{20}{section.5.5}
+\contentsline {paragraph}{\nonumberline G\IeC {\'e}n\IeC {\'e}ration d'un profil 5D voire n-D de probabilit\IeC {\'e}s!}{20}{section*.46}
+\contentsline {part}{\numberline {V}Analyse des donn\IeC {\'e}es g\IeC {\'e}n\IeC {\'e}r\IeC {\'e}es}{21}{part.5}
+\contentsline {chapter}{\numberline {6}Analyse des donn\IeC {\'e}es de l'IA}{22}{chapter.6}
+\contentsline {paragraph}{\nonumberline Param\IeC {\`e}tres initiaux}{22}{section*.47}
+\contentsline {section}{\numberline {6.1}Analyse d'ensemble}{22}{section.6.1}
+\contentsline {paragraph}{\nonumberline Des donn\IeC {\'e}es tendances vari\IeC {\'e}es}{22}{section*.48}
+\contentsline {section}{\numberline {6.2}Analyses d\IeC {\'e}taill\IeC {\'e}es}{23}{section.6.2}
+\contentsline {subsection}{\numberline {6.2.1}R\IeC {\'e}partitions des pourcentages de victoires}{23}{subsection.6.2.1}
+\contentsline {paragraph}{\nonumberline L'\IeC {\'e}cart d'intelligence semble \IeC {\^e}tre primordial}{23}{section*.49}
+\contentsline {subsection}{\numberline {6.2.2}D\IeC {\'e}coupage du spectre selon des intervalles de la taille de la carte}{23}{subsection.6.2.2}
+\contentsline {paragraph}{\nonumberline Petites cartes avantageuses, grandes cartes handicapantes}{23}{section*.50}
+\contentsline {subsection}{\numberline {6.2.3}D\IeC {\'e}coupage du spectre selon des intervalles de C}{24}{subsection.6.2.3}
+\contentsline {paragraph}{\nonumberline Le surnombre semble avantageux}{24}{section*.51}
+\contentsline {subsection}{\numberline {6.2.4}D\IeC {\'e}coupage du spectre selon des intervalles de Ds}{24}{subsection.6.2.4}
+\contentsline {paragraph}{\nonumberline Un joueur solo intelligent est plus difficile \IeC {\`a} battre}{24}{section*.52}
+\contentsline {subsection}{\numberline {6.2.5}D\IeC {\'e}coupage du spectre selon des intervalles de Dc}{25}{subsection.6.2.5}
+\contentsline {paragraph}{\nonumberline Une coalition intelligente bats le joueur plus facilement}{25}{section*.53}
+\contentsline {subsection}{\numberline {6.2.6}D\IeC {\'e}coupage du spectre selon des intervalles de la diff\IeC {\'e}rence de niveau}{25}{subsection.6.2.6}
+\contentsline {paragraph}{\nonumberline L'\IeC {\'e}cart d'intelligence est primordial}{25}{section*.54}
+\contentsline {subsection}{\numberline {6.2.7}Conclusions d'analyse}{26}{subsection.6.2.7}
+\contentsline {paragraph}{\nonumberline \IeC {\`A} niveau \IeC {\'e}gal, rien ne va plus!}{26}{section*.55}
+\contentsline {chapter}{\numberline {7}Analyse des donn\IeC {\'e}es du mod\IeC {\`e}le}{27}{chapter.7}
+\contentsline {paragraph}{\nonumberline Param\IeC {\`e}tres initiaux}{27}{section*.56}
+\contentsline {section}{\numberline {7.1}Analyse d'ensemble}{27}{section.7.1}
+\contentsline {paragraph}{\nonumberline Un seul facteur sort du lot}{27}{section*.57}
+\contentsline {section}{\numberline {7.2}Analyses d\IeC {\'e}taill\IeC {\'e}es}{28}{section.7.2}
+\contentsline {subsection}{\numberline {7.2.1}R\IeC {\'e}partitions des pourcentages de victoires}{28}{subsection.7.2.1}
+\contentsline {paragraph}{\nonumberline Une \IeC {\'e}volution qui suit la distribution de C}{28}{section*.58}
+\contentsline {subsection}{\numberline {7.2.2}D\IeC {\'e}coupage du spectre selon la taille de la carte}{28}{subsection.7.2.2}
+\contentsline {paragraph}{\nonumberline Aucun impact r\IeC {\'e}el d\IeC {\'e}cel\IeC {\'e}}{28}{section*.59}
+\contentsline {subsection}{\numberline {7.2.3}D\IeC {\'e}coupage du spectre selon des intervalles de C}{29}{subsection.7.2.3}
+\contentsline {paragraph}{\nonumberline C est d\IeC {\'e}finitivement un facteur MAJEUR}{29}{section*.60}
+\contentsline {subsection}{\numberline {7.2.4}D\IeC {\'e}coupage du spectre selon des intervalles de Ds}{29}{subsection.7.2.4}
+\contentsline {paragraph}{\nonumberline Une l\IeC {\'e}g\IeC {\`e}re diminution des chances de victoires}{29}{section*.61}
+\contentsline {subsection}{\numberline {7.2.5}D\IeC {\'e}coupage du spectre selon des intervalles de Dc}{30}{subsection.7.2.5}
+\contentsline {paragraph}{\nonumberline Aucun impact r\IeC {\'e}el d\IeC {\'e}cel\IeC {\'e}}{30}{section*.62}
+\contentsline {subsection}{\numberline {7.2.6}D\IeC {\'e}coupage du spectre selon des intervalles de la diff\IeC {\'e}rence de niveau}{30}{subsection.7.2.6}
+\contentsline {paragraph}{\nonumberline Toujours aucun impact r\IeC {\'e}el d\IeC {\'e}cel\IeC {\'e}}{30}{section*.63}
+\contentsline {subsection}{\numberline {7.2.7}Conclusions d'analyse}{31}{subsection.7.2.7}
+\contentsline {paragraph}{\nonumberline Le contr\IeC {\^o}le de la carte est le facteur le plus important d'apr\IeC {\`e}s notre mod\IeC {\`e}le}{31}{section*.64}
+\contentsline {part}{\numberline {VI}Probl\IeC {\`e}mes, tests et exp\IeC {\'e}rimentations}{32}{part.6}
+\contentsline {chapter}{\numberline {8}Probl\IeC {\`e}mes rencontr\IeC {\'e}s}{33}{chapter.8}
+\contentsline {chapter}{\numberline {9}Conclusion}{34}{chapter.9}
+\contentsline {paragraph}{\nonumberline R\IeC {\'e}sum\IeC {\'e} des objectifs au r\IeC {\'e}sultat final}{34}{section*.65}
+\contentsline {paragraph}{\nonumberline R\IeC {\'e}sum\IeC {\'e} sur l'enrichissement personnel}{34}{section*.66}
+\contentsline {paragraph}{\nonumberline R\IeC {\'e}sum\IeC {\'e} perspectives envisag\IeC {\'e}es, appr\IeC {\'e}ciation perso, poursuite..}{34}{section*.67}
 \contentsline {part}{\numberline {VII}Annexes}{I}{part.7}
 \contentsline {chapter}{\numberline {10}Analyse - Simulation}{II}{chapter.10}
 \contentsline {section}{\numberline {10.1}N\IeC {\'e}cessit\IeC {\'e}s}{II}{section.10.1}
-\contentsline {paragraph}{\nonumberline Tenter de mod\IeC {\'e}liser un syst\IeC {\`e}me \IeC {\`a} priori intelligent}{II}{section*.57}
+\contentsline {paragraph}{\nonumberline Tenter de mod\IeC {\'e}liser un syst\IeC {\`e}me \IeC {\`a} priori intelligent}{II}{section*.68}
 \contentsline {section}{\numberline {10.2}Probl\IeC {\`e}me}{II}{section.10.2}
-\contentsline {paragraph}{\nonumberline \IeC {\`A} quel point telles donn\IeC {\'e}es sont elles pertinentes?}{II}{section*.58}
-\contentsline {paragraph}{\nonumberline Quels types de mod\IeC {\`e}les pouvont nous cr\IeC {\'e}er?}{II}{section*.59}
+\contentsline {paragraph}{\nonumberline \IeC {\`A} quel point telles donn\IeC {\'e}es sont elles pertinentes?}{II}{section*.69}
+\contentsline {paragraph}{\nonumberline Quels types de mod\IeC {\`e}les pouvont nous cr\IeC {\'e}er?}{II}{section*.70}
 \contentsline {section}{\numberline {10.3}Approches possibles}{II}{section.10.3}
-\contentsline {paragraph}{\nonumberline Math\IeC {\'e}matiques pures}{II}{section*.60}
-\contentsline {paragraph}{\nonumberline Mod\IeC {\`e}le simul\IeC {\'e} inspir\IeC {\'e} par la physique}{III}{section*.61}
+\contentsline {paragraph}{\nonumberline Math\IeC {\'e}matiques pures}{II}{section*.71}
+\contentsline {paragraph}{\nonumberline Mod\IeC {\`e}le simul\IeC {\'e} inspir\IeC {\'e} par la physique}{III}{section*.72}
 \contentsline {section}{\numberline {10.4}Approche utilis\IeC {\'e}e}{III}{section.10.4}
-\contentsline {paragraph}{\nonumberline Mod\IeC {\`e}le physique}{III}{section*.62}
+\contentsline {paragraph}{\nonumberline Mod\IeC {\`e}le physique}{III}{section*.73}
 \contentsline {section}{\numberline {10.5}Remarques sur les r\IeC {\'e}sultats obtenus}{V}{section.10.5}
-\contentsline {paragraph}{\nonumberline Des r\IeC {\'e}sultats qui ne collent pas \IeC {\`a} notre mod\IeC {\`e}le IA}{V}{section*.63}
-\contentsline {paragraph}{\nonumberline Un semblant de strat\IeC {\'e}gie!}{V}{section*.64}
-\contentsline {paragraph}{\nonumberline Une optimisation de temps de calcul efficace!}{V}{section*.65}
+\contentsline {paragraph}{\nonumberline Des r\IeC {\'e}sultats qui ne collent pas \IeC {\`a} notre mod\IeC {\`e}le IA}{V}{section*.74}
+\contentsline {paragraph}{\nonumberline Un semblant de strat\IeC {\'e}gie!}{V}{section*.75}
+\contentsline {paragraph}{\nonumberline Une optimisation de temps de calcul efficace!}{V}{section*.76}
 \contentsline {section}{\numberline {10.6}Ordre de grandeur de la diff\IeC {\'e}rence de vitesse de calcul}{VI}{section.10.6}
-\contentsline {paragraph}{\nonumberline Des param\IeC {\`e}tres initiaux extr\IeC {\^e}mes}{VI}{section*.66}
-\contentsline {paragraph}{\nonumberline Les constantes}{VI}{section*.67}
+\contentsline {paragraph}{\nonumberline Des param\IeC {\`e}tres initiaux extr\IeC {\^e}mes}{VI}{section*.77}
+\contentsline {paragraph}{\nonumberline Les constantes}{VI}{section*.78}
 \contentsline {subsection}{\numberline {10.6.1}Mod\IeC {\`e}le IA}{VII}{subsection.10.6.1}
 \contentsline {subsection}{\numberline {10.6.2}Mod\IeC {\`e}le simul\IeC {\'e}}{VIII}{subsection.10.6.2}
 \contentsline {subsection}{\numberline {10.6.3}Comparaison des deux mod\IeC {\`e}les}{IX}{subsection.10.6.3}
-\contentsline {paragraph}{\nonumberline Nous pouvons calculer notre speedup}{IX}{section*.68}
+\contentsline {paragraph}{\nonumberline Nous pouvons calculer notre speedup}{IX}{section*.79}
 \contentsline {section}{\numberline {10.7}Pistes d'am\IeC {\'e}lioration}{IX}{section.10.7}
-\contentsline {paragraph}{\nonumberline Un meilleur r\IeC {\'e}glage des facteurs du mod\IeC {\`e}le}{IX}{section*.69}
+\contentsline {paragraph}{\nonumberline Un meilleur r\IeC {\'e}glage des facteurs du mod\IeC {\`e}le}{IX}{section*.80}

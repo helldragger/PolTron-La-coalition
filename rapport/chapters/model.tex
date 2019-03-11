@@ -1,54 +1,82 @@
 \chapter{Modèle de jeu}
 
-\begin{info}
-	Ce chapitre est actuellement en cours d'écriture.
-\end{info}
-
-	%\section{Nécessités}
+	\section{Nécessités}
 	
-%		\paragraph{but général de l'element}
-%		Genre ouais on as besoin d'un moyen de calculer efficacement et rapidement des données de simulation de bonbon qui se font manger pour le projet.
-% 
-%	
-%	\section{Problème}
-%	
-%		\paragraph{probleme 1}
-%		blabla bla vitesse. besoin rapidité mais consomme truc genre memoire.
-%		
-%		\paragraph{probleme 2}
-%		blabla besoin d economiser de la memoire ou un truc mais contraintes de vitesse sinon.
-%	
-%		\begin{problem}
-%			PROBLEMATIQUE QUI COMBINE ET RESUME LES PROBLEMES SUR COMMENT BIEN ALLIER LES DEUX DANS NOTRE CAS.
-%		\end{problem}
-%	
-%	\section{Approches possibles}
-%	
-%		\paragraph{Approche 1}
-%		résumé de ce que c'est, pour et contre, difference avec les autres solutions
-%		
-%		
-%		\paragraph{Approche 1}
-%		résumé de ce que c'est, pour et contre, difference avec les autres solutions
-%	
-%	\section{Approche utilisée}
-%	
-%		\paragraph{Approche finalement choisie}
-%		Les avantages qui ont fait prendre cette décision résumés et plus de details sur les bons cotés de cette décision
-%	
-%		\begin{result}
-%			RESUME DE LA DECISION PRISE
-%		\end{result}
-%		
-%	\section{Remarques sur les résultats obtenus}
-%	
-%		\paragraph{probleme X}
-%		C'etait pas tip top au final comme solution, on as eu un probleme avec X, ce n'etait pas le meilleur des choix et avons rencontré des difficultés que l'on explique rapidement ici.
-%		
-%	\section{Pistes d'amélioration}
-%	
-%		\paragraph{meilleures approches}
-%		
-%		\paragraph{potentielle optimisation}
-%		
-%		\paragraph{potentiel polissage}
+		\paragraph{Un moteur de jeu efficace}
+		Dans le cadre de notre projet tutoré nous devons répondre à la problématique : "Combien faut-il d'idiots pour prendre l'avantage sur un joueur plus intelligent?".
+		Pour y répondre, nous avons besoin d'analyser beaucoup de parties différentes. 
+		
+		Pour améliorer les performances générales, nous avons opté pour une transcompilation python vers C en profitant des optimisations apportées par Cython grâce à son support des annoatations de types. 
+		Mais cela n'est pas sans coût.
+		
+	\section{Problème}
+	
+		\paragraph{Comment rendre le moteur efficace?}
+		Afin de pouvoir maximiser la fiabilité de nos analyses, nous allons avoir besoin d'en réaliser un maximum.
+		Cela dit, pour notre projet nous disposons d'un temps limité pour les réaliser.
+		
+		Comment pourrions nous rendre le moteur le plus efficace possible?
+		
+		\img{pics/moteur_speed.png}
+		
+		\paragraph{Comment implémenter le moteur efficacement?}
+		Malheureusement, ce temps limité nous incombes aussi de devoir réaliser ce moteur au plus vite pour lancer les simulations au plus tôt.
+		
+		Comment pourrions nous implémenter ce moteur le plus efficacement possible?
+		
+		
+		\begin{problem}
+		Comment pourrions nous rendre notre moteur le plus rapide possible pour simuler un maximum d'analyses en un temps imparti en minimisant le temps d'implémentation?
+		\end{problem}
+
+		
+		
+	\section{Approches possibles}
+		
+		
+		
+		\paragraph{Approche Programmation Orientée Objet}
+		La POO as l'avantage d'être modulable, abstraite et aisément réutilisable, permettant une implémentation très naturelle et rendant le code très compréhensible, diminuant les sources potentielles de bugs et accélérant le développement du moteur.  
+		
+		Cependant son aspect pratique se paye par son économie en ressource. 
+		Certaines fonctionnalités des classes python ne sont pas véritablement gérées par cython et nécessitent une évaluation de code python classique, ajoutant un overhead à l'éxecution de leur code par cython.
+		De ce fait, utiliser pleinement les classes python peut ralentir l'éxecution finale du programme après transcompilation.
+		
+		\paragraph{Approche structures de bases}
+		Au lieu de créer des classes wrapper, il est aussi possible de programmer nos structures à partir d'un maximum de structures de base, plus spécifiques, concises, et sans overhead, mais sans compartimenter les systèmes dans des sous systèmes dédiés, les sources d'erreurs et de bugs peuvent augmenter, et ralentir l'implémentation du moteur.
+		
+		Mais cela permet de bénéficier d'un maximum de gains de performances de la part de Cython.
+	
+	\section{Approche utilisée}
+		
+		\paragraph{Approche finalement choisie}
+		Nous avons finalement choisi un mix des deux options en minimisant au possible le nombre de classes. 
+		Les gains de performances apportés par Cython sont actuellement d'une éxecution 5 fois plus rapide en moyenne sur des parties de paramètres (M=10, N=10, C=4, Ds=4, Dc=3).
+		
+		Et le code reste malgré tout un maximum lisible et clair.
+	
+		\begin{result}
+			Minimiser l'usage de classes à permis d'accélerer l'éxécution moyenne de notre moteur d'un facteur 5, tout en gardant un code au plus clair et compréhensible.
+		\end{result}
+		
+	\section{Remarques sur les résultats obtenus}
+	
+		\paragraph{Éviter l'overhead des classes est providentiel}
+		Au cours du dévelopement du moteur et de ses optimisations, notre moteur initial utilisant des classes pour les moindres structures, comparé à une version de celui ci n'utilisant que des structures de bases, était 60 fois plus lent après compilation que le second. 
+		
+		L'ajout des annotations et de multiples micro-optimisations sur l'ensemble du moteur pour répondre aux besoins de notre projet nous on fait gagner un temps fou sur le calcul de l'heuristique, et par extension sur le calcul de chaque partie.
+		
+		\paragraph{Des gains de performances considérables}
+		\img{pics/pre_opti_benchmark.png}
+		Sur notre moteur initial, sans compilation, une partie de base sans heuristique (M=5, N=5, C=2) durait 0.60s en moyenne.
+		
+		\img{pics/post_opti_benchmark.png}
+		Sur notre moteur actuel, une partie similaire, sans compilation, quasiment sans heuristique, dure désormais 0.05s en moyenne. 
+		Une éxecution 12x plus rapide.
+		
+		
+		
+		\begin{result}
+		Cette meme partie atteint ensuite une durée moyenne de 0.0006s après compilation. Une execution 83x plus rapide par rapport au moteur actuel, et 1000x plus rapide par rapport au moteur initial de départ sans compilation.
+		\end{result}
+

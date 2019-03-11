@@ -9,40 +9,45 @@ Cette simulation as été réalisée avec 100 réitérations pour chaque combina
 
 
 \img{./data/model_overview_short}
-\paragraph{Quelques facteurs sortent du lot}
-À commencer par le facteur C qui est le seul avec une fonction qui tends vers 1 si rapidement, les mesures d'espace M, N et M*N semblent avoir aussi une corrélation positive avec le pourcentage de victoire.
+\paragraph{Un seul facteur sort du lot}
+À commencer par le facteur C qui est le seul avec semble vraiment avoir de nette relation avec le pourcentage de victoires.
 
-La tendance de Dc à réduire le pourcentage de victoire avant un certain point est aussi étonnante, on pourrais penser que plus de prévoyance de la part des joueurs en groupe puissent les avantager, mais on dirais qu'il y a un certain équilibre entre prévoyance et hasard qu'il leur faut conserver pour être efficace. 
-On retrouve la même tendance étonnante sur la courbe de différence d'intelligence, où réduire la différence au minimum comme de la maximiser semble porter les meme résultats.
+Les autres facteurs ne semblent pas particulièrement affecter les chances de victoires en général pour le moment.
 
-
-Le facteur ds semble coller à nos attentes en revanche, plus le joueur solo est intelligent, plus les chances de gagner semblent diminuer en général, même si l'incertitude actuelle ne nous permets pas d'être certains de cette tendance.
-
-
-\img{./data/model_overview_complete}
 
 \section{Analyses détaillées}
 \subsection{Répartitions des pourcentages de victoires}
 \img{./data/model_victory_percent}
 
 \paragraph{Une évolution qui suit la distribution de C}
-Les axes en Y étant fixes entre les différents intervalles de victoires, nous pouvons bel et bien constater sans déformation plusieurs ensembles de données.
+Nous pouvons bel et bien constater plusieurs ensembles de données selon différentes valeurs de C.
 
-Les parties à 60-\% de chances de victoire ont une répartition relativement homogème sur les differents spectres excepté sur le facteur C, qui indique très clairement que toutes les valeurs de petit C sont en deçà de 60\% de chances de victoire.
-De même pour les variables M, N et area, le centre de leur distribution dépends du pourcentage de victoire, plus il y as d'espace, plus il y a de victoires.
+Les autres facteurs restent relativement homogènes, ceux ci ne semblent donc pas véritablement influer la fin des parties.
 
-Les distributions homogènes des autres spectres selon les différents pourcentage de victoire montrent que ceux ci ne semblent pas influencer l'issue des parties.
+
+\subsection{Découpage du spectre selon la taille de la carte}
+\img{./data/model_area}
+\paragraph{Aucun impact réel décelé}
+La taille de la carte ne semble pas influer sur les pourcentages de victoire.
+
 
 
 
 \subsection{Découpage du spectre selon des intervalles de C}
 \img{./data/model_C}
 \paragraph{C est définitivement un facteur MAJEUR}
-Cette représentation montre bien l'écrasante influence de C sur le pourcentage de victoire, aussitôt une valeur (minime en plus) atteinte, les chances de victoires enregistrées sont quasiment assurées.
-Autrement, nous retrouvons les fonctions du départ mais plus proche de la neutralité qu'au-dessus.
-Voire parfois les fonctions semblent stagner à ces faibles valeurs de C.
+Cette représentation montre bien l'influence de C sur le pourcentage de victoire, aussitôt $C \ge 3$ atteinte, les chances de victoires enregistrées sont au minimum de 60-80\%.
+
+Ceci dit, les chances de victoires semblent stagner vers 75-90\% à des valeurs plus élevées. Ce qui reste tout de même majoritairement favoriser la coalition.
 
 
+
+\subsection{Découpage du spectre selon des intervalles de Ds}
+\img{./data/model_Ds}
+\paragraph{Une légère diminution des chances de victoires}
+Ds ne semble vraiment pas influer sur les différents spectres non plus, cependant, l'écart de probabilité se creuse avec des valeurs plus grande de Ds, et semble accentuer les tendances de C.
+
+À plus grandes valeurs de Ds, les probabilités de vitoires semblent plus nuancées et défavoriser la coalition.
 
 
 \subsection{Découpage du spectre selon des intervalles de Dc}
@@ -52,28 +57,14 @@ Dc ne semble vraiment pas influer sur les différents spectres, par conséquent,
 
 
 
-\subsection{Découpage du spectre selon des intervalles de Ds}
-\img{./data/model_Ds}
-\paragraph{Aucun impact réel décelé non plus}
-Ds ne semble vraiment pas influer sur les différents spectres non plus, par conséquent, Ds ne semble pas avoir d'impact tout court sur notre distribution de probabilité.
-
-
-\subsection{Découpage du spectre selon des intervalles de l'aire M*N}
-\img{./data/model_area}
-\paragraph{Une tendance positive!}
-Plus la zone d'aire augmente, plus on peut voir les points et les fonctions se décaler vers la victoire.
-Sur M on peut même voir petit à petit les points les plus bas disparaitre au fur et à mesure. 
-
-\begin{info}
-	Cela peut s'expliquer par la correlation suivante: Plus l'aire est grande, plus la taille de la coalition peut l'être aussi, résultant naturellement vers de meilleures chances de victoire. Car plus de joueurs implique aussi plus de contrôle global du plateau.
-\end{info}
-
-
-
 \subsection{Découpage du spectre selon des intervalles de la différence de niveau}
 \img{./data/model_Dc-Ds}
 \paragraph{Toujours aucun impact réel décelé}
 La différence d'intelligence ne semble pas non plus influer particulièrement sur les chances de victoires.
+
+\begin{info}
+	La quantité de nuances est explicable par la plus grande quantité de parties jouées à différence de 1 qu'à grande différences, car Dc doit toujours être inférieur à Ds et par conséquent, sur de faibles valeurs de Ds ($Ds \in [2;4]$), il n'est pas possible d'avoir d'écarts de 4 avec $Dc > 0$.
+\end{info}
 
 
 \subsection{Conclusions d'analyse}
@@ -83,7 +74,13 @@ La seule véritable corrélation que nous ayons pu déceler ici entre variables 
 Si nous y réfléchissons bien, cela fait même sens! 
 
 \begin{result}
-	Avec une stratégie purement défensive, et un unique joueur dans son équipe, un joueur seul as plus de chance d'éliminer son équipe sur la durée qu'une équipe nombreuse jouant aussi en pure défensive et contrôlant plus de surface au total.
+	Avec une stratégie purement défensive (d'esquive de murs), et un unique joueur dans son équipe, un joueur seul as plus de chance d'éliminer son équipe sur la durée qu'une équipe nombreuse jouant aussi en pure défensive et contrôlant plus de surface au total.
 \end{result}
 
 \img{./data/model_conclu}
+
+\begin{info}
+	Ce modèle ne colle malheureusement pas au comportement complet de notre intelligence artificielle, mais permet d'approximer à moindres coûts une stratégie de survie pure, comme lorsqu'un joueur est bloqué dans une zone sans adversaires.
+	
+	Une optimisation en mélangeant ces deux modèles pourrait être utile pour accélérer les calculs. 
+\end{info}
