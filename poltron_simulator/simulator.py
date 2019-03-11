@@ -131,7 +131,7 @@ def generate_data(iteration_per_combination: int,
                   model_mode: bool) -> None:
     import time
     map_sizes: set = {map_size.SMALL, map_size.MEDIUM, map_size.LARGE}
-    ds_values: set = {4, 5, 6, 7, 8}
+    ds_values: set = {4, 5, 6, 7}
     dc_values: set = {x for x in range(3, max(ds_values), 1)}
 
     c_values: set = {2, 3, 4, 5}
