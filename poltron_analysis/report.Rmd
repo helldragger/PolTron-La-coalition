@@ -14,6 +14,8 @@ require(ggplot2)
 require(GGally)
 require(RSQLite)
 require(reshape2)
+require(DescTools)
+require(Rmisc)
 
 #AI DATA
 #db_path = "../resources/ai_2019-03-10_20-18-31_100iter.db"
@@ -38,18 +40,28 @@ victory_stats$intCoalition <- as.character(victory_stats$intCoalition)
 victory_stats$intDiff <- as.character(victory_stats$intDiff)
 victory_stats <- victory_stats[order(-victory_stats$victory_percent),]
 ```
+
+```{r}
+meanfunc <- function(df) {MeanCI(df, conf.level=0.95)}
+all_melted_data <- melt(victory_stats, id.vars="victory_percent")
+
+df <- all_melted_data %>% group_by(variable, value) %>% summarize(min_val= min(victory_percent), max_val=max(victory_percent), average_victory_percentage=meanfunc(victory_percent)[1], err_lwr=meanfunc(victory_percent)[2], err_upr=meanfunc(victory_percent)[3])
+```
 # Victory conditions overview
 ```{r echo=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
 analysis_graph<- function(df, title){
   
-  var_names<-
-  
   return(ggplot(df, aes(x=value, ymin=min_val, y=average_victory_percentage, ymax=max_val, color=average_victory_percentage))+
-    geom_pointrange(data=subset(df,variable=="sizeMap"))+
-    geom_pointrange(data=subset(df,variable=="sizeCoalition")) +
-    geom_pointrange(data=subset(df,variable=="intSolo"))+
-    geom_pointrange(data=subset(df,variable=="intCoalition"))+
-    geom_pointrange(data=subset(df,variable=="intDiff"))+
+    geom_linerange(data=subset(df,variable=="sizeMap"))+
+    geom_crossbar(data=subset(df,variable=="sizeMap"), aes(ymin=err_lwr, ymax=err_upr))+
+    geom_linerange(data=subset(df,variable=="sizeCoalition")) +
+    geom_crossbar(data=subset(df,variable=="sizeCoalition"), aes(ymin=err_lwr, ymax=err_upr))+
+    geom_linerange(data=subset(df,variable=="intSolo"))+
+    geom_crossbar(data=subset(df,variable=="intSolo"), aes(ymin=err_lwr, ymax=err_upr))+
+    geom_linerange(data=subset(df,variable=="intCoalition"))+
+    geom_crossbar(data=subset(df,variable=="intCoalition"), aes(ymin=err_lwr, ymax=err_upr))+
+    geom_linerange(data=subset(df,variable=="intDiff"))+
+    geom_crossbar(data=subset(df,variable=="intDiff"), aes(ymin=err_lwr, ymax=err_upr))+
     scale_color_gradient2(name="Taux de victoire de la coalition", midpoint=0.5, mid="gray70", high="dodgerblue", low="firebrick2")+
     ggtitle(title)+
       ylab("")+
@@ -59,7 +71,7 @@ analysis_graph<- function(df, title){
 
 analyze_data <- function(victory_stats, title){
   all_melted_data <- melt(victory_stats, id.vars="victory_percent")
-  df <- all_melted_data %>% group_by(variable, value) %>% summarize(min_val= min(victory_percent), max_val=max(victory_percent), average_victory_percentage=mean(victory_percent))
+  df <- all_melted_data %>% group_by(variable, value) %>% summarize(min_val= min(victory_percent), max_val=max(victory_percent), average_victory_percentage=meanfunc(victory_percent)[1], err_lwr=meanfunc(victory_percent)[2], err_upr=meanfunc(victory_percent)[3])
   return(analysis_graph(df, title)+
     facet_grid(.~variable,scales = "free_x"))
 }
@@ -67,7 +79,7 @@ analyze_data <- function(victory_stats, title){
 
 analyze_binned_data<- function(binned_data, title){
   all_melted_data <- melt(binned_data, id.vars=c("victory_percent", "bin"))
-  df <- all_melted_data %>% group_by(variable, value, bin) %>% summarize(min_val= min(victory_percent), max_val=max(victory_percent), average_victory_percentage=mean(victory_percent))
+  df <- all_melted_data %>% group_by(variable, value, bin) %>% summarize(min_val= min(victory_percent), max_val=max(victory_percent), average_victory_percentage=meanfunc(victory_percent)[1], err_lwr=meanfunc(victory_percent)[2], err_upr=meanfunc(victory_percent)[3])
   return(analysis_graph(df, title)+
     facet_grid(bin~variable,scales = "free_x"))
 }
