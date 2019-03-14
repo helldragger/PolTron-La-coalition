@@ -10,7 +10,7 @@ Cette simulation as été réalisée avec 100 réitérations pour chaque combina
 
 \section{Analyse d'ensemble}
 \img{./data/ai_overview_short}
-\paragraph{Des données tendances variées}
+\paragraph{Des tendances variées}
 Nous pouvons d'abord remarquer la présence de cinq tendances générales de données:
 \begin{itemize}
 	\item Plus la taille de la map est grande, plus les chances de victoires diminuent.
@@ -28,7 +28,7 @@ Nous pouvons d'abord remarquer la présence de cinq tendances générales de don
 \paragraph{L'écart d'intelligence semble être primordial}
 Les victoires les plus assurées semblent être principalement réparties sur des couples de paramètres où la coalition et le joueur solo ont des intelligences proches, ainsi que lorsque Ds et Dc sont plus élevés.
 Les risques de défaites semblent être limités par de plus grandes valeurs de C et Dc, et de faibles valeurs de Ds.
-De plus, à haut pourcentage de victoires, la taille de la carte semble être un facteur important, où la coalition semble avoir l'avantage sur des cartes plus petites.
+Les cartes plus petites semblent aussi être un avantage pour la coalition.
 
 
 \subsection{Découpage du spectre selon des intervalles de la taille de la carte}
@@ -47,17 +47,12 @@ Les chances de victoire générales semblent augmenter avec de plus grandes vale
 \subsection{Découpage du spectre selon des intervalles de Ds}
 \img{./data/ai_Ds}
 \paragraph{Un joueur solo intelligent est plus difficile à battre}
-Les valeurs de Ds limitent beaucoup les données analysables par intervalle car le nombre de parties jouées avec de faibles valeurs de Ds est bien inférieur au nombres de parties jouées à de plus grandes valeurs de Ds.
-Ceci explique les nuances supplémentaires apparaissant à haute valeur de Ds.
-
-Nous pouvons cependant remarquer que de plus grandes valeurs de Ds semblent diminuer les chances minimales de victoires.
+Nous pouvons remarquer que de plus grandes valeurs de Ds semblent diminuer les chances générales de victoires.
 
 \subsection{Découpage du spectre selon des intervalles de Dc}
 \img{./data/ai_Dc}
 \paragraph{Une coalition intelligente bats le joueur plus facilement}
-Inversement à Ds, il y as plus de parties jouées avec des valeurs faibles de Dc que hautes, ce qui explique les différences de nuances entre elles.
-
-Cependant, Les plus grandes valeurs de Dc semblent maximiser les chances générales de victoire.
+Inversement, les plus grandes valeurs de Dc semblent maximiser les chances générales de victoire.
 
 
 \subsection{Découpage du spectre selon des intervalles de la différence de niveau}

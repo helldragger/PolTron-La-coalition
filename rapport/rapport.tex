@@ -60,7 +60,7 @@ linewidth=1pt]{info}
 \newcommand{\img}[1]{
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.8\textwidth]{#1}
+	\includegraphics[width=0.8\textwidth]{#1}	
 \end{figure}
 }
 
@@ -89,8 +89,6 @@ linewidth=1pt]{info}
 
 \titlehead{
 	\includegraphics[width=0.25\textwidth]{pics/logo_UNICAEN.png}
-	\hfill
-	%\includegraphics[width=0.25\textwidth]{pics/}
 }
 \subject{
 	\small
@@ -101,12 +99,13 @@ linewidth=1pt]{info}
 	3ème année de licence d'informatique
 }
 \title{
+	%\hrulefill
+	\vfill\\
 	\Huge \bfseries PolTron: La coalition
 }
 \subtitle{
 	Expérimentations sur coalition d'IA via le jeu Tron\\
-	\hfill\\
-	{\normalfont }
+	\hfill
 }
 \author{
 	\small
@@ -118,7 +117,6 @@ linewidth=1pt]{info}
 \publishers{
 	\small
 	\begin{minipage}{0.6\textwidth}
-
 		Tuteur du projet: Gregory BONNET\\
 		\\
 		Jury : --\\
@@ -136,234 +134,36 @@ linewidth=1pt]{info}
 \makeglossary
 
 \begin{document}
-
-	
 	\maketitle
+	
 	
 	\pagenumbering{roman}
 	
+	
 	\tableofcontents
 	\listoffigures
-	%\listoftables
-	
-	\chapter*{Remerciements}
-		\paragraph{} 
-			Nous tenons à remercier notre tuteur M. Gregory BONNET, pour la proposition de ce sujet passionnant.
+
+	\input{./chapters/remerciements.tex}
 					
 	\clearpage
 	
-	\begin{abstractpage}
-		\begin{abstract}{french}
-			Dans ce projet mêlant intelligence artificielle, simulation et analyse, nous allons devoir créer un jeu inspiré de Tron sur lequel nous allons faire jouer plusieurs équipes, une coalition et un joueur seul, leur donnant une différence d'intelligence telle que le joueur solo sera le plus intelligent, et nous allons ensuite devoir analyser les résultats de leurs parties pour déterminer les paramètres les plus optimaux pour que cette coalition gagne contre le joueur seul. Pour réaliser cela nous allons avoir recours à diverses technologies pour résoudre les divers problèmes auquels nous allons nous confronter. Parmi ces technologies, le python sera utile pour réaliser rapidement notre modèle et notre interface, le Sqlite avec sa portabilité et sa forte intégration avec la plupart des langages sera primordial pour stocker et manipuler les données résultantes de nos simulations, et le langage d'analyse statistique R sera un grand atout pour aider à raisonner rapidement à partir de ces résultats.
+	\input{./chapters/abstract.tex}
 
-		\end{abstract}
-	
-		\begin{abstract}{english}
-			In this project about artificial intelligence, simulation and analysis, we will have to make an Tron-inspired game on which we will make two teams fight each other, a coalition and an alone player, both having different intelligence levels, the solo player being the most intelligent, and then analyze the results of their games to determine the optimum parameters to make the coalition win against the solo player. To realize this we will need to make good use of diverse technologies to deal with the problems we will face. Amongst thos technologies, Python will be useful to produce efficiently both our model and interface, Sqlite thanks to it's portability and deep integration with most languages will be primordial to store and manipulate the data resulting from our simulations, and the statistical analysis programming language R will be a great asset to help reason quickly from those results.
-
-		\end{abstract}
-		\hfill\\
-		\keywords{AI analysis simulation Tron }
-	\end{abstractpage}
-
-	
-	
 	
 	\pagenumbering{arabic}
-
-
-		
-		
-		
-
+	
 	\part{Analyse du projet}
 		
-	\chapter{Introduction}
-		\section{Objectif général du projet}
-		\paragraph{Quel est le problème à régler?}
-		Dans un jeu de Tron dont les règles sont explicitées dans la partie sur le modèle, nous allons faire jouer deux équipes:
-		
-		\begin{itemize}
-			\item Un joueur seul et intelligent
-			\item Une coalition de joueurs moins intelligents
-		\end{itemize}
-		
-		Le but est d'analyser les meilleurs paramètres pour que notre coalition soit statistiquement la plus efficace contre le joueur seul, si une tendance se dégage de nos simulations.
-		
-		En d'autres termes, nous allons tenter de répondre à la question:
-		
-		
-		\begin{problem}
-			\sffamily
-			Combien faut-il d'idiots pour prendre l'avantage sur un joueur plus intelligent?
-		\end{problem}
-	
-		\section{Objectifs à atteindre}
-		\paragraph{Simulateur} 
-		Nous allons devoir permettre à la personne voulant générer des données de paramètrer les intervalles et fréquences d'échantillonnage le plus précisément possible pour permettre de génerer des données plus précises sur certaines conditions si besoin.
-		
-		Les paramètres inter-dépendants tels que le nombre de joueurs et la taille des cartes doivent être automatiquement régulés pour un fonctionnement entièrement automatisé.
-		
-		Une interface permettant de suivre la progression de la simulation est aussi très importante pour estimer quand terminent nos simulations.
-		
-		\paragraph{Modèle de jeu}	
-		\paragraph{IA et son heuristique}
-		\paragraph{Stockage de masse}
-		Au vu des grandes quantités de données potentielles, une base de donnée bien structurée avec des vues permettant de faciliter l accès aux informations pertinentes pour l'analyse sera primordiale.
-		
-		\paragraph{Analyse statistique}
-		Nous allons devoir faciliter la visualisation et le travail sur nos données afin de permettre de se concentrer sur l'analyse plutôt que sur les outils d'analyse. Il sera donc important d'unifier au possible les moyens d'analyse des données et de rédaction d'analyses pour augmenter notre efficacité.
-		
-		
-		\part{Cahier des charges}
-		
-
-		\includepdf[pages=-]{./data/cahier.pdf}
-		
-		\section{Spécifications}
-			\subsection{Spécification des paramètres de simulation}
-				\paragraph{Attention} Pour pouvoir simuler correctement, il est nécessaire que les paramètres d'entrée donnés au simulateur ne brisent pas les règles suivantes.
-				
-				\begin{equation}
-					param > 0
-				\end{equation}
-				\begin{equation}
-					min_X \le max_X
-				\end{equation}
-				\begin{equation}
-					0 < Dc < Ds
-				\end{equation}
-				
-				
-			\subsection{Contraintes techniques}
-				\paragraph{Temps imparti réduit}
-				
-				Suite à une annulation de la matière puis à la réouverture de celle ci, le temps imparti pour ce projet as été considérablement amoindri.
-				
-				Nous avons environ 5 semaines pour mener ce projet à terme à compter du 31 janvier 2019.
-				Il est donc nécessaire de réduire un maximum les temps de développement pour le mener à bien.
-				
-				Cela a mené à la nécessité d'évaluer nos options de façon la plus pragmatique possible en termes de coûts en temps d'implémentation.
-				
-				
-				
-		
-		\section{Choix techniques}
-			\subsection{Schémas de conception}
-			\subsubsection{Architecture}
-			\img{./pics/archi}
-			\subsubsection{Base de données}
-			\img{./pics/bdd_archi}
-			\subsubsection{Modèle de jeu}
+	\input{./chapters/introduction.tex}
 			
-			\subsubsection{Heuristique}
-			
-			\subsubsection{Analyse}
-			\img{./pics/analyse_archi}
-			\subsection{Langages utilisés}
-			
-			
-				\paragraph{Module simulation:}
-				\begin{itemize}
-					\item Python pour l'interface commande et les sous modules internes.
-					\item SQL pour la génération et l'interaction avec la bdd
-				\end{itemize} 
-				
-				
-				\paragraph{Module analyse:}
-				\begin{itemize}
-					\item R pour la génération des graphes et la manipulation des données
-					\item Markdown pour la rédaction du rapport d'analyse
-				\end{itemize}
-			\subsection{Accès au code source}
-			Vous pouvez trouver \href{https://github.com/helldragger/PolTron-La-coalition}{
-			\bfseries \color{link} l'intégralité du code source ici.}
-		\part{Historique des travaux réalisés}
-		
-		\includepdf[pages=-]{./data/historique.pdf}
-		% etc...
-		\paragraph{Concernant Walid}
-		
-		Suite à une discussion sur les expériences, et compétences de chacuns pour analyser comment mener au mieux ce projet, un accord a été passé avec Walid pour qu'il puisse se familiariser de son côté avec Python et aux concepts du projets en tentant d'en réaliser un maximum de son coté.
-		
-		Afin de ne pas le délaisser non plus, il a été encouragé à poser ses éventuelles questions et à s'inspirer du code principal pour expérimenter et rattrapper son éventuel retard sur certains concepts.
-		
-		
-			\section{Outils de programmation}
-				\paragraph{Alexis :}
-				\paragraph{Vincent :}
-			
-				\paragraph{Christopher :}
-				\begin{itemize}
-					\item Pycharm + l'extension Sonar Lint pour programmer en Python
-					\item Rstudio pour programmer le projet en R et étudier le contenu de la base de données
-				\end{itemize}
-				\paragraph{Walid :}
-			
-			\section{Bibliothèques utilisées}
-				\subsection{Module simulation}
-				
-				\begin{itemize}
-					\item time pour estimer le temps restant avant completion des simulations
-					\item sqlite3 pour l'interfacage avec la bdd sqlite
-				\end{itemize}
-			
-				\subsection{Module analyse}
-				
-				\begin{itemize}
-					\item dplyr pour faciliter la manipulation et la selection par sémantique des données
-					\item ggplot2 pour ses graphes de qualité et facile à configurer
-					\item GGally pour ses outils d'analyse de tables de données complètes
-					\item RSQLite pour l'interfacage avec la bdd sqlite
-				\end{itemize}
-			
-			\section{Interface}
-				\img{pics/interface.png}
-
 		
 			
 	\part{Réalisation}
-		\input{./chapters/simulator.tex}
-		\input{./chapters/model.tex}
-		\input{./chapters/ia.tex}
-		\input{./chapters/analysis-exploration.tex}
-		%%%%%%%%%%%%% PREMIER TRUC IMPORTANT
-		
-		%%%%%%%%%%%%%% AUTRE TRUC IMPORTANT
-		%\chapter{PARTIE}
-		
-		%\section{Nécessités}
-		
-		%\paragraph{}
-		
-		%\section{Problème}
-		
-		%\paragraph{}
-		
-		%\begin{problem}
-		
-		%\end{problem}
-		
-		%\section{Approches possibles}
-		
-		%\paragraph{}
-		
-		%\section{Approche utilisée}
-		
-		%\paragraph{}
-		
-		%\begin{result}
-		
-		%\end{result}
-		
-		%\section{Remarques sur les résultats obtenus}
-		
-		%\paragraph{}
-		
-		%\section{Pistes d'amélioration}
-		
-		%\paragraph{}
-		
+	\input{./chapters/simulator.tex}
+	\input{./chapters/model.tex}
+	\input{./chapters/ia.tex}
+	\input{./chapters/analysis-exploration.tex}
+
 		
 	\part{Analyse des données générées}
 	
@@ -373,16 +173,6 @@ linewidth=1pt]{info}
 	
 	\part{Problèmes, tests et expérimentations}
 	
-		\chapter{Problèmes rencontrés}
-		
-		\begin{info}
-			Ce chapitre est actuellement en cours d'écriture.
-		\end{info}
-%			\section{Problème majeur 1}
-%			\section{Problème majeur 2}
-%			
-%			\section{Problème mineur 1}
-%			\section{Problème mineur 2}
 				
 			
 		\chapter{Conclusion}
@@ -391,12 +181,76 @@ linewidth=1pt]{info}
 			Ce chapitre est actuellement en cours d'écriture.
 		\end{info}
 		
-			\paragraph{Résumé des objectifs au résultat final}
-									
-			\paragraph{Résumé sur l'enrichissement personnel}
-						
-			\paragraph{Résumé perspectives envisagées, appréciation perso, poursuite..}
 		
+		
+			\section{Résumé des objectifs au résultat final}
+			
+			
+			\begin{problem}
+				Le but est d'analyser les meilleurs paramètres pour que notre coalition soit statistiquement la plus efficace contre le joueur seul, si une tendance se dégage de nos simulations.
+			\end{problem}
+			
+			
+			\paragraph{Citons les résultats finaux de nos analyses:}
+			
+			D'après nos analyses finales sur un échantillon de 12000 simulations, nous avons pu déterminer que:
+			
+			\begin{itemize}
+				\item La pire coalition possible serait une coalition qui joue quasiment au hasard, avec peu d'équipiers et sur une grande carte.
+				\item La coalition idéale semble être une coalition en surnombre, d'intelligence égale au joueur solo, et sur une petite carte.
+			\end{itemize} 
+			
+			De plus, sur toute carte moyenne ou petite, la coalition est statistiquement meilleure. 
+			
+			
+									
+			\section{Enrichissement personnel}
+				\subsection{Vincent: }
+				\paragraph{}
+				Ce projet m'as permis de découvrir plusieurs phénomène sur l'algorithme MinMax. 
+				J'ai beaucoup appris sur l'impacte que peut avoir une heuristique sur un algorithme. 
+				J'ai pu me documenter sur plusieurs autres algorithmes. Réaliser tout ces optimisations pour le modules d'analyse, m'a fait comprendre que l'on peut passer par d'autre chemin pour un résultat identique mais plus rapide.
+				Travailler avec ce groupe m'as permis d'apprendre de nouvelle méthode de travail, et aussi des nouveaux outils en informatique.
+				 
+				\subsection{Alexis:} À remplir
+				 
+				\subsection{Christopher:} 
+				\paragraph{}
+				Ce projet m'as beaucoup appris, en très peu de temps j'ai pu me familiariser avec les particularités de cython, et expérimenter avec.
+				Les nombreuses fouilles à l'optimisation ont été un bonheur de problèmes à creuser et les accélérations progressives encourageaient à toujours creuser plus loin.
+				
+				De même, m'étant familiarisé avec R aux alentours de Décembre 2018 pour des projets extra-scolaires, le travail sur la représentation finale des données fut long et riche en apprentissages.
+				De nombreux volontaires ont participé aux critiques sur les différentes itérations de celles ci pour améliorer la compréhensibilité ainsi que la clarté en recherchant jusqu'aux couleurs visibles pour des daltoniens, à la recherche des données les plus pertinentes et intuitives sur l'intégralité de nos données, et un travail de représentation de celles ci pour en rendre la lecture la plus naturelle possible. 
+				
+				Nous espérons que la représentation finale y fasse honneur.
+	 
+				\subsection{Walid:} À remplir
+						
+			\section{Perspectives envisagées, appréciation perso, poursuite..}
+
+				 
+				\subsection{Vincent: } 
+				\paragraph{}
+				Nous pourrions utiliser l'algorithme Monte-Carlo pour gagner du temps de calcul. 
+				Ce qui permettrait de supprimer l'heuristique, qui possède une très grande importance dans l'algorithme. 
+				Imaginer une solution sans heuristique permettrait d'enlever plusieurs problème.
+				
+				Mener une étude sur les positions idéal que pourrait avoir les joueurs sur le plateau serait très enrichissant.
+
+				\subsection{Alexis:} À remplir
+
+				\subsection{Christopher:} 
+				En travaillant sur ce projet, notre groupe s'est souvent repenché sur le sujet de l'approche de Monte Carlo. 
+				La voyant repasser depuis quelques années déjà au cours des recherches sur divers projets, et ayant étudié les explications sur le concept via sa page wikipédia anglophone, j'aimerais beaucoup tenter de l'appliquer lors d'un projet futur pour expérimenter avec et vraiment être certain de saisir le concept.
+				
+				Les optimisations semblent aussi être un domaine fascinant, et je creuserais très certainement le concept dans le futur.
+				
+				Sur un autre sujet, cette équipe est probablement la meilleure équipe avec laquelle j'aie pu travailler: motivée et intéressée. 
+				J'espère sincèrement pouvoir retrouver tout le monde en master l'année prochaine et avoir l'occasion de refaire des projets de ce style plus souvent!
+				
+
+				\subsection{Walid:} À remplir
+
 			\cleardoublepage
 			\pagebreak
 		\pagenumbering{Roman}
@@ -404,40 +258,6 @@ linewidth=1pt]{info}
 		\part{Annexes}
 		
 		\input{./chapters/analysis-simulation.tex}	
-	
-	%\chapter{PARTIE}
-	
-	%\section{Nécessités}
-	
-	%\paragraph{}
-	
-	%\section{Problème}
-	
-	%\paragraph{}
-	
-	%\begin{problem}
-	
-	%\end{problem}
-	
-	%\section{Approches possibles}
-	
-	%\paragraph{}
-	
-	%\section{Approche utilisée}
-	
-	%\paragraph{}
-	
-	%\begin{result}
-	
-	%\end{result}
-	
-	%\section{Remarques sur les résultats obtenus}
-	
-	%\paragraph{}
-	
-	%\section{Pistes d'amélioration}
-	
-	%\paragraph{}
 	
 	
 \end{document}

@@ -60,12 +60,12 @@ Dc ne semble vraiment pas influer sur les différents spectres, par conséquent,
 \subsection{Découpage du spectre selon des intervalles de la différence de niveau}
 \img{./data/model_Dc-Ds}
 \paragraph{Toujours aucun impact réel décelé}
-La différence d'intelligence ne semble pas non plus influer particulièrement sur les chances de victoires.
+La différence d'intelligence ne semble pas non plus influer particulièrement sur les chances de victoires. Il ne semble donc pas y avoir de véritable interaction entre les équipes.
+
 
 \begin{info}
-	La quantité de nuances est explicable par la plus grande quantité de parties jouées à différence de 1 qu'à grande différences, car Dc doit toujours être inférieur à Ds et par conséquent, sur de faibles valeurs de Ds ($Ds \in [2;4]$), il n'est pas possible d'avoir d'écarts de 4 avec $Dc > 0$.
+	Ce modèle ne colle malheureusement pas au comportement complet de notre intelligence artificielle, mais permet d'approximer à moindres coûts une stratégie de survie pure, comme lorsqu'un joueur est bloqué dans une zone sans adversaires.
 \end{info}
-
 
 \subsection{Conclusions d'analyse}
 \paragraph{Le contrôle de la carte est le facteur le plus important d'après notre modèle}
@@ -80,7 +80,5 @@ Si nous y réfléchissons bien, cela fait même sens!
 \img{./data/model_conclu}
 
 \begin{info}
-	Ce modèle ne colle malheureusement pas au comportement complet de notre intelligence artificielle, mais permet d'approximer à moindres coûts une stratégie de survie pure, comme lorsqu'un joueur est bloqué dans une zone sans adversaires.
-	
 	Une optimisation en mélangeant ces deux modèles pourrait être utile pour accélérer les calculs. 
 \end{info}
