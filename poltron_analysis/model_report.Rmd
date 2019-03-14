@@ -23,59 +23,53 @@ con <- RSQLite::dbConnect(RSQLite::SQLite(), db_path)
 victory_stats <- dbReadTable(con, "result_analysis")
 game_data <- dbReadTable(con, "game")
 dbDisconnect(con)
-victory_stats <- victory_stats %>% mutate(diffD=Ds-Dc)
-victory_stats <- victory_stats %>% group_by(Size,C,Ds,Dc,diffD) %>% summarize(victory_percent=sum(victory=="True")/n()) %>% ungroup()
-victory_stats$C <- as.character(victory_stats$C)
-victory_stats$Ds <- as.character(victory_stats$Ds)
-victory_stats$Dc <- as.character(victory_stats$Dc)
-victory_stats$diffD <- as.character(victory_stats$diffD)
-victory_stats <- victory_stats[order(-victory_stats$victory_percent),]
+
+victory_stats <- victory_stats %>% select(Size, C, Ds, Dc, victory)
+
 ```
 
-
+```{r}
+colnames(victory_stats)<- c("sizeMap", "sizeCoalition", "intSolo", "intCoalition", "victory")
+victory_stats <- victory_stats %>% mutate(intDiff=intSolo-intCoalition)
+victory_stats <- victory_stats %>% group_by(sizeMap,sizeCoalition,intSolo,intCoalition,intDiff) %>% summarize(victory_percent=sum(victory=="True")/n())  %>% ungroup() 
+victory_stats$sizeCoalition <- as.character(victory_stats$sizeCoalition)
+victory_stats$intSolo <- as.character(victory_stats$intSolo)
+victory_stats$intCoalition <- as.character(victory_stats$intCoalition)
+victory_stats$intDiff <- as.character(victory_stats$intDiff)
+victory_stats <- victory_stats[order(-victory_stats$victory_percent),]
+```
 # Victory conditions overview
 ```{r echo=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
-basic_analysis <- function(victory_stats, title){
-  dat.long<-melt(victory_stats,id.vars="victory_percent")
-  return(ggplot(dat.long, aes(value,victory_percent, color=victory_percent, fill=victory_percent))+
-    geom_bar(data=subset(dat.long,variable=="Size"), stat = "identity", position="dodge")+
-    geom_bar(data=subset(dat.long,variable=="C"), stat = "identity", position="dodge") +
-    geom_bar(data=subset(dat.long,variable=="Ds"), stat = "identity", position="dodge")+
-    geom_bar(data=subset(dat.long,variable=="Dc"), stat = "identity", position="dodge")+
-    geom_bar(data=subset(dat.long,variable=="diffD"), stat = "identity", position="dodge")+
-    facet_grid(.~variable,scales = "free_x")+
-    scale_fill_gradient( low="red", high="green")+
-    scale_color_gradient(low="gray25", high="gray65")+
-    scale_alpha_continuous(range=c(0.1,0.5))+
-    ggtitle(title))
+analysis_graph<- function(df, title){
+  
+  var_names<-
+  
+  return(ggplot(df, aes(x=value, ymin=min_val, y=average_victory_percentage, ymax=max_val, color=average_victory_percentage))+
+    geom_pointrange(data=subset(df,variable=="sizeMap"))+
+    geom_pointrange(data=subset(df,variable=="sizeCoalition")) +
+    geom_pointrange(data=subset(df,variable=="intSolo"))+
+    geom_pointrange(data=subset(df,variable=="intCoalition"))+
+    geom_pointrange(data=subset(df,variable=="intDiff"))+
+    scale_color_gradient2(name="Taux de victoire de la coalition", midpoint=0.5, mid="gray70", high="dodgerblue", low="firebrick2")+
+    ggtitle(title)+
+      ylab("")+
+      xlab("")
+    )
 }
-
-readablegraph <- function(data, mapping, ...){#make ggplot2 plot
-      ggplot(data, mapping)+
-        geom_bar(stat="identity", position="dodge")+
-        scale_fill_gradient( low="red", high="green")
-}
-
 
 analyze_data <- function(victory_stats, title){
-  
-  print(basic_analysis(victory_stats, title))
-  
+  all_melted_data <- melt(victory_stats, id.vars="victory_percent")
+  df <- all_melted_data %>% group_by(variable, value) %>% summarize(min_val= min(victory_percent), max_val=max(victory_percent), average_victory_percentage=mean(victory_percent))
+  return(analysis_graph(df, title)+
+    facet_grid(.~variable,scales = "free_x"))
 }
 
-analyze_binned_data<- function(data, title){
-  dat.long<-melt(data,id.vars=c("victory_percent", "bin"))
-  return(ggplot(dat.long, aes(value,victory_percent,color=victory_percent, fill=victory_percent))+
-    geom_bar(data=subset(dat.long,variable=="Size"), stat="identity", position="dodge") +
-    geom_bar(data=subset(dat.long,variable=="C"), stat="identity", position="dodge") +
-    geom_bar(data=subset(dat.long,variable=="Ds"), stat="identity", position="dodge")+
-    geom_bar(data=subset(dat.long,variable=="Dc"), stat="identity", position="dodge")+
-    geom_bar(data=subset(dat.long,variable=="diffD"), stat="identity", position="dodge")+
-    facet_grid(bin~variable,scales = "free_x")+
-    scale_fill_gradient(low="red", high="green")+
-    scale_color_gradient(low="gray25", high="gray65")+
-    scale_alpha_continuous(range=c(0.1,0.5))+
-    ggtitle(title))
+
+analyze_binned_data<- function(binned_data, title){
+  all_melted_data <- melt(binned_data, id.vars=c("victory_percent", "bin"))
+  df <- all_melted_data %>% group_by(variable, value, bin) %>% summarize(min_val= min(victory_percent), max_val=max(victory_percent), average_victory_percentage=mean(victory_percent))
+  return(analysis_graph(df, title)+
+    facet_grid(bin~variable,scales = "free_x"))
 }
 
 ```
@@ -85,52 +79,53 @@ analyze_binned_data<- function(data, title){
 ## whole data set
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
-analyze_data(victory_stats, "Whole dataset")
+analyze_data(victory_stats, "Représentation du taux de victoire selon l'ensemble des paramètres")
 ```
 
 ## Locking victory percents into 5 equally spaced intervals
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
 binned_data <- victory_stats %>% group_by(bin=cut(victory_percent, seq(min(victory_percent), max(victory_percent), by = (max(victory_percent)-min(victory_percent))/4), include.lowest=T))
-analyze_binned_data(binned_data, "Analysis per victory percent interval")
+
+analyze_binned_data(binned_data, "Représentation du taux de victoire selon le taux de victoire")
 ```
 
 
 
 
-## Locking C into 5 equally spaced intervals
+## Locking sizeCoalition into 5 equally spaced intervals
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
-binned_data <- victory_stats %>% group_by( bin=C )
-analyze_binned_data(binned_data, "Analysis per C interval")
+binned_data <- victory_stats %>% group_by( bin=sizeCoalition )
+analyze_binned_data(binned_data, "Représentation du taux de victoire selon la taille de la coalition")
 ```
 
 
-## Locking Ds into 5 equally spaced intervals
+## Locking intSolo into 5 equally spaced intervals
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
-binned_data <- victory_stats %>% group_by(bin=Ds)
-analyze_binned_data(binned_data, "Analysis per Ds interval")
+binned_data <- victory_stats %>% group_by(bin=intSolo)
+analyze_binned_data(binned_data, "Représentation du taux de victoire selon l'intelligence du joueur solo")
 ```
 
 
-## Locking Dc into 5 equally spaced intervals
+## Locking intCoalition into 5 equally spaced intervals
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-binned_data <- victory_stats %>% group_by(bin=Dc)
-analyze_binned_data(binned_data, "Analysis per Dc interval")
+binned_data <- victory_stats %>% group_by(bin=intCoalition)
+analyze_binned_data(binned_data, "Représentation du taux de victoire selon l'intelligence de la coalition")
 ```
 
 ## Locking area into 5 equally spaced intervals
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-binned_data <- victory_stats %>% group_by(bin=Size)
-analyze_binned_data(binned_data, "Analysis per map size")
+binned_data <- victory_stats %>% group_by(bin=sizeMap)
+analyze_binned_data(binned_data, "Représentation du taux de victoire selon la taille de carte")
 ```
 
-## Locking Ds-Dc into 5 equally spaced intervals
+## Locking intSolo-intCoalition into 5 equally spaced intervals
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-binned_data <- victory_stats %>% group_by(bin=diffD)
-analyze_binned_data(binned_data, "Analysis per Ds-Dc interval")
+binned_data <- victory_stats %>% group_by(bin=intDiff)
+analyze_binned_data(binned_data, "Représentation du taux de victoire selon l'écart d'intelligence")
 ```
