@@ -16,13 +16,6 @@ Les autres facteurs ne semblent pas particulièrement affecter les chances de vi
 
 
 \section{Analyses détaillées}
-\subsection{Répartitions des pourcentages de victoires}
-\img{./data/model_victory_percent}
-
-\paragraph{Une évolution qui suit la distribution de C}
-Nous pouvons bel et bien constater plusieurs ensembles de données selon différentes valeurs de C.
-
-Les autres facteurs restent relativement homogènes, ceux ci ne semblent donc pas véritablement influer la fin des parties.
 
 
 \subsection{Découpage du spectre selon la taille de la carte}
@@ -63,22 +56,17 @@ Dc ne semble vraiment pas influer sur les différents spectres, par conséquent,
 La différence d'intelligence ne semble pas non plus influer particulièrement sur les chances de victoires. Il ne semble donc pas y avoir de véritable interaction entre les équipes.
 
 
-\begin{info}
-	Ce modèle ne colle malheureusement pas au comportement complet de notre intelligence artificielle, mais permet d'approximer à moindres coûts une stratégie de survie pure, comme lorsqu'un joueur est bloqué dans une zone sans adversaires.
-\end{info}
 
 \subsection{Conclusions d'analyse}
-\paragraph{Le contrôle de la carte est le facteur le plus important d'après notre modèle}
-La seule véritable corrélation que nous ayons pu déceler ici entre variables et pourcentages de victoire est en fonction du nombre de joueurs présents sur la carte.
 
-Si nous y réfléchissons bien, cela fait même sens! 
+
+\paragraph{Le contrôle de la carte est le facteur le plus important d'après notre modèle}
+La seule véritable corrélation que nous avons pu déceler ici est en fonction du nombre de joueurs présents sur la carte.
+
+Ce modèle ne colle malheureusement pas au comportement complet de notre intelligence artificielle, mais permet d'approximer à moindres coûts une stratégie de survie pure, comme lorsqu'un joueur est bloqué dans une zone sans adversaires.
 
 \begin{result}
-	Avec une stratégie purement défensive (d'esquive de murs), et un unique joueur dans son équipe, un joueur seul as plus de chance d'éliminer son équipe sur la durée qu'une équipe nombreuse jouant aussi en pure défensive et contrôlant plus de surface au total.
+	Avec une stratégie purement défensive (d'esquive de murs), et un unique joueur dans son équipe, un joueur seul as plus de chance d'éliminer son équipe sur la durée qu'une équipe nombreuse jouant aussi en pure défensive sur plus de surface.
 \end{result}
 
 \img{./data/model_conclu}
-
-\begin{info}
-	Une optimisation en mélangeant ces deux modèles pourrait être utile pour accélérer les calculs. 
-\end{info}

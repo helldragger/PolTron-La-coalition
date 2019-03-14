@@ -167,19 +167,19 @@ futurs calculée par l'algorithme.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.8\textwidth]{./pics/nbr_case.png}	
+	\includegraphics[width=0.8\textwidth, keepaspectratio, height=0.2\textheight]{./pics/nbr_case.png}	
 	\caption{bleu = 20 cases/ 20\% ; rouge = 82 cases/ 80\%}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.8\textwidth]{./pics/nbr_case_mini.png}	
+	\includegraphics[width=0.8\textwidth, keepaspectratio, height=0.2\textheight]{./pics/nbr_case_mini.png}	
 	\caption{bleu = 14 cases/ 50\% ; rouge = 14 cases/ 50\%}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.8\textwidth]{./pics/nbr_case_maxi.png}	
+	\includegraphics[width=0.8\textwidth, keepaspectratio, height=0.2\textheight]{./pics/nbr_case_maxi.png}	
 	\caption{bleu = 35 cases/ 35\% ; rouge = 66 cases/ 65\%}
 \end{figure}
 
@@ -238,7 +238,7 @@ zones contrôle coalition = 100 - zone contrôle seule
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.8\textwidth]{./pics/heuristique_interruption.png}	
+	\includegraphics[width=0.8\textwidth, keepaspectratio, height=0.25\textheight]{./pics/heuristique_interruption.png}	
 	\caption{Calcul de la zone de contrôle du joueur 3}
 \end{figure}
 
@@ -284,10 +284,68 @@ alors que les joueurs de la coalition essayaient de réduire la taille du
 joueur seul, dans l'algorithme paranoïde la stratégie des dans camps doit
 être identique, ce qui n'est pas le cas avec une telle heuristique.
 
+\section{Observation sur les résultats des coups impliqués par l'heuristique}
+\subsection{Déplacement serpent}
+Lorsqu’un joueur ne peut plus agir sur la zone de l'adversaire à    hauteur de sa profondeur, l'algorithme se déplace sur toutes les cases    qu'il peut parcourir.
 
-\paragraph{Pistes d'amélioration}
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth, keepaspectratio, height=0.5\textheight]{./pics/serpent.png}	
+	\caption{Observation d'un déplacement en serpent}
+\end{figure}
+
+\subsection{Abandon lors de la mort}
+
+Dès que l'algorithme détecte sa mort à hauteur de sa profondeur    (donc cette information peut être fausse), tous les états futurs ne    peuvent être différenciés, nous avons rajouté un mode survie le permettant    de continuer à survivre en espérant que la situation puisse s'améliorer.
+
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth, keepaspectratio, height=0.3\textheight]{./pics/anti_suicide.png}	
+	\caption{Changement de déplacement avec le filtre de situation}
+\end{figure}
+
+
+
+\subsection{Stratégie}
+Dans la stratégie de posséder une plus grande zone de    contrôle que son adversaire, se rapprocher de son adversaire est une bonne    manière de diminuer la zone de contrôle de son adversaire. Cette situation    peut se produire lorsqu'un joueur peut diminuer la zone de son adversaire    tout en augmentant la sienne. Dans le même cas de situation, un joueur peut    enfermer un adversaire dans une partie du terrain.
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth, keepaspectratio, height=0.2\textheight]{./pics/rapprochement.png}	
+	\caption{Observation de rapprochement des joueurs}
+\end{figure}
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth, keepaspectratio, height=0.4\textheight]{./pics/enfermement.png}	
+	\caption{Observation d'un enfermement}
+\end{figure}
+
+Ces comportements sont nés de l'heuristique, mis à part le mode survie.
+Changer l'heuristique affectera ces comportements.
+
+
+\subsection{Sacrifice}
+Le mode survie doit pouvoir faire la différence entre un suicide    pour l'équipe et un abandon. Un joueur de la coalition peut s'apercevoir    que sa présence sur le plateau n'est pas bénéfique à l'équipe, il devra    se retirer du plateau en se tuant.
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth, keepaspectratio, height=0.2\textheight]{./pics/sacrifice.png}	
+	\caption{Sacrifice pour l'équipe}
+\end{figure}
+
+
+\section{Pistes d'amélioration}
 Une autre solution serait de modifier l'heuristique en ajoutant à son 
 évaluation d'un plateau, le nombre de joueurs présents sur le plateau, le
 nombre de tour, la taille de la zone de contrôle du terrain adverse. Ce qui
 permettrait de rajouter plus d'évaluation sur un état lorsqu'un joueur
 possède une zone de contrôle faible.
+

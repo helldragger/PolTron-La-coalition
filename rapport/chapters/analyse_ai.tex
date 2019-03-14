@@ -23,12 +23,6 @@ Nous pouvons d'abord remarquer la présence de cinq tendances générales de don
 
 
 \section{Analyses détaillées}
-\subsection{Répartitions des pourcentages de victoires}
-\img{./data/ai_victory_percent}
-\paragraph{L'écart d'intelligence semble être primordial}
-Les victoires les plus assurées semblent être principalement réparties sur des couples de paramètres où la coalition et le joueur solo ont des intelligences proches, ainsi que lorsque Ds et Dc sont plus élevés.
-Les risques de défaites semblent être limités par de plus grandes valeurs de C et Dc, et de faibles valeurs de Ds.
-Les cartes plus petites semblent aussi être un avantage pour la coalition.
 
 
 \subsection{Découpage du spectre selon des intervalles de la taille de la carte}
@@ -58,26 +52,21 @@ Inversement, les plus grandes valeurs de Dc semblent maximiser les chances gén�
 \subsection{Découpage du spectre selon des intervalles de la différence de niveau}
 \img{./data/ai_Dc-Ds}
 \paragraph{L'écart d'intelligence est primordial}
-Nous pouvons clairement constater que l'écart d'intelligence diminue fortement les chances générales de victoires de façon drastique, passant de 30-90\% pour $diffD = 1$ à 20-55\% pour $diffD = 4$.
+Nous pouvons clairement constater que l'écart d'intelligence diminue fortement les chances générales de victoires de façon drastique.
 
-Nous pouvons aussi constater une légère augmentation de ces chances de victoires quand Dc et Ds sont maximisées, ce qui pourrait indiquer que l'écart relatif ($diffD = Ds/Dc$) d'intelligence pourrait être une mesure plus précise que l'écart absolu que nous utilisons ici ($diffD = Ds - Dc$).
+Nous pouvons aussi constater une légère augmentation de ces chances de victoires quand Dc et Ds sont maximisées, ce qui pourrait indiquer que l'écart relatif d'intelligence pourrait être une mesure plus précise que l'écart absolu que nous utilisons ici.
 
 \subsection{Conclusions d'analyse}
 
 \paragraph{À niveau égal, rien ne va plus!}
-D'après nos résultats, nous pouvons constater que plus la différence relative d'intelligence est petite, plus la coalition as de chances d'écraser le joueur solo.
+D'après nos résultats, nous pouvons constater que plus la différence relative d'intelligence est petite, plus la coalition as de chances de gagner.
 
-De plus, et ce surtout à partir d'un écart d'intelligence assez important, la taille de la carte semble indiquer que les cartes petites semblent favoriser la coalition, et que les grandes cartes semblent favoriser fortement le joueur solo. 
-
-En revanche, le surnombre semble être un avantage en toutes circonstances, mais son effet semble plaffonner plus vite si l ecart d intelligence est moindre.
+De plus, les cartes petites semblent favoriser la coalition, et inversement pour les grandes cartes. 
+En revanche, le surnombre semble être un avantage en toutes circonstances, mais son effet semble plafonner plus vite si l ecart d intelligence est moindre.
 
 
 \begin{result}
-	La pire coalition possible serait une coalition qui joue quasiment au hasard, avec peu d'équipiers et sur une grande carte.
-	
-	En revanche, la coalition idéale semble être une coalition en surnombre, d'intelligence égale au joueur solo, et sur une petite carte. Mais même juste à niveau égal, sur toute carte moyenne ou petite, la coalition est statistiquement meilleure. 
-	
-	C'est une bataille de cerveau.
+	La coalition idéale semble être en surnombre, d'intelligence égale au joueur solo, et sur une petite carte. 
 \end{result}
 
 \img{./data/ai_conclu}

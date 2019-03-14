@@ -4,7 +4,7 @@
 \babel@toc {english}{}
 \babel@toc {french}{}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {1.1}{\ignorespaces Nomenclature des param\IeC {\`e}tres de jeu}}{6}{figure.1.1}
+\contentsline {figure}{\numberline {1.1}{\ignorespaces Nomenclature des param\IeC {\`e}tres de jeu}}{5}{figure.1.1}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
@@ -13,6 +13,11 @@
 \contentsline {figure}{\numberline {5.2}{\ignorespaces bleu = 14 cases/ 50\% ; rouge = 14 cases/ 50\%}}{21}{figure.5.2}
 \contentsline {figure}{\numberline {5.3}{\ignorespaces bleu = 35 cases/ 35\% ; rouge = 66 cases/ 65\%}}{21}{figure.5.3}
 \contentsline {figure}{\numberline {5.4}{\ignorespaces Calcul de la zone de contr\IeC {\^o}le du joueur 3}}{22}{figure.5.4}
+\contentsline {figure}{\numberline {5.5}{\ignorespaces Observation d'un d\IeC {\'e}placement en serpent}}{23}{figure.5.5}
+\contentsline {figure}{\numberline {5.6}{\ignorespaces Changement de d\IeC {\'e}placement avec le filtre de situation}}{24}{figure.5.6}
+\contentsline {figure}{\numberline {5.7}{\ignorespaces Observation de rapprochement des joueurs}}{24}{figure.5.7}
+\contentsline {figure}{\numberline {5.8}{\ignorespaces Observation d'un enfermement}}{25}{figure.5.8}
+\contentsline {figure}{\numberline {5.9}{\ignorespaces Sacrifice pour l'\IeC {\'e}quipe}}{25}{figure.5.9}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }

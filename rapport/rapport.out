@@ -45,55 +45,57 @@
 \BOOKMARK [1][-]{section.5.4}{Approche possible}{chapter.5}% 45
 \BOOKMARK [1][-]{section.5.5}{Approche utilis\351e}{chapter.5}% 46
 \BOOKMARK [1][-]{section.5.6}{Remarques sur les r\351sultats obtenus}{chapter.5}% 47
-\BOOKMARK [0][-]{chapter.6}{Analyse - Exploration}{part.4}% 48
-\BOOKMARK [1][-]{section.6.1}{N\351cessit\351s}{chapter.6}% 49
-\BOOKMARK [1][-]{section.6.2}{Probl\350me}{chapter.6}% 50
-\BOOKMARK [1][-]{section.6.3}{Approche utilis\351e}{chapter.6}% 51
-\BOOKMARK [1][-]{section.6.4}{Remarques sur les r\351sultats obtenus}{chapter.6}% 52
-\BOOKMARK [1][-]{section.6.5}{Pistes d'am\351lioration}{chapter.6}% 53
-\BOOKMARK [-1][-]{part.5}{Analyse des donn\351es g\351n\351r\351es}{}% 54
-\BOOKMARK [0][-]{chapter.7}{Analyse des donn\351es de l'IA}{part.5}% 55
-\BOOKMARK [1][-]{section.7.1}{Analyse d'ensemble}{chapter.7}% 56
-\BOOKMARK [1][-]{section.7.2}{Analyses d\351taill\351es}{chapter.7}% 57
-\BOOKMARK [2][-]{subsection.7.2.1}{R\351partitions des pourcentages de victoires}{section.7.2}% 58
-\BOOKMARK [2][-]{subsection.7.2.2}{D\351coupage du spectre selon des intervalles de la taille de la carte}{section.7.2}% 59
-\BOOKMARK [2][-]{subsection.7.2.3}{D\351coupage du spectre selon des intervalles de C}{section.7.2}% 60
-\BOOKMARK [2][-]{subsection.7.2.4}{D\351coupage du spectre selon des intervalles de Ds}{section.7.2}% 61
-\BOOKMARK [2][-]{subsection.7.2.5}{D\351coupage du spectre selon des intervalles de Dc}{section.7.2}% 62
-\BOOKMARK [2][-]{subsection.7.2.6}{D\351coupage du spectre selon des intervalles de la diff\351rence de niveau}{section.7.2}% 63
-\BOOKMARK [2][-]{subsection.7.2.7}{Conclusions d'analyse}{section.7.2}% 64
-\BOOKMARK [0][-]{chapter.8}{Analyse des donn\351es du mod\350le}{part.5}% 65
-\BOOKMARK [1][-]{section.8.1}{Analyse d'ensemble}{chapter.8}% 66
-\BOOKMARK [1][-]{section.8.2}{Analyses d\351taill\351es}{chapter.8}% 67
-\BOOKMARK [2][-]{subsection.8.2.1}{R\351partitions des pourcentages de victoires}{section.8.2}% 68
-\BOOKMARK [2][-]{subsection.8.2.2}{D\351coupage du spectre selon la taille de la carte}{section.8.2}% 69
-\BOOKMARK [2][-]{subsection.8.2.3}{D\351coupage du spectre selon des intervalles de C}{section.8.2}% 70
-\BOOKMARK [2][-]{subsection.8.2.4}{D\351coupage du spectre selon des intervalles de Ds}{section.8.2}% 71
-\BOOKMARK [2][-]{subsection.8.2.5}{D\351coupage du spectre selon des intervalles de Dc}{section.8.2}% 72
-\BOOKMARK [2][-]{subsection.8.2.6}{D\351coupage du spectre selon des intervalles de la diff\351rence de niveau}{section.8.2}% 73
-\BOOKMARK [2][-]{subsection.8.2.7}{Conclusions d'analyse}{section.8.2}% 74
-\BOOKMARK [-1][-]{part.6}{Probl\350mes, tests et exp\351rimentations}{}% 75
-\BOOKMARK [0][-]{chapter.9}{Conclusion}{part.6}% 76
-\BOOKMARK [1][-]{section.9.1}{R\351sum\351 des objectifs au r\351sultat final}{chapter.9}% 77
-\BOOKMARK [1][-]{section.9.2}{Enrichissement personnel}{chapter.9}% 78
-\BOOKMARK [2][-]{subsection.9.2.1}{Vincent:}{section.9.2}% 79
-\BOOKMARK [2][-]{subsection.9.2.2}{Alexis:}{section.9.2}% 80
-\BOOKMARK [2][-]{subsection.9.2.3}{Christopher:}{section.9.2}% 81
-\BOOKMARK [2][-]{subsection.9.2.4}{Walid:}{section.9.2}% 82
-\BOOKMARK [1][-]{section.9.3}{Perspectives envisag\351es, appr\351ciation perso, poursuite..}{chapter.9}% 83
-\BOOKMARK [2][-]{subsection.9.3.1}{Vincent:}{section.9.3}% 84
-\BOOKMARK [2][-]{subsection.9.3.2}{Alexis:}{section.9.3}% 85
-\BOOKMARK [2][-]{subsection.9.3.3}{Christopher:}{section.9.3}% 86
-\BOOKMARK [2][-]{subsection.9.3.4}{Walid:}{section.9.3}% 87
-\BOOKMARK [-1][-]{part.7}{Annexes}{}% 88
-\BOOKMARK [0][-]{chapter.10}{Analyse - Simulation}{part.7}% 89
-\BOOKMARK [1][-]{section.10.1}{N\351cessit\351s}{chapter.10}% 90
-\BOOKMARK [1][-]{section.10.2}{Probl\350me}{chapter.10}% 91
-\BOOKMARK [1][-]{section.10.3}{Approches possibles}{chapter.10}% 92
-\BOOKMARK [1][-]{section.10.4}{Approche utilis\351e}{chapter.10}% 93
-\BOOKMARK [1][-]{section.10.5}{Remarques sur les r\351sultats obtenus}{chapter.10}% 94
-\BOOKMARK [1][-]{section.10.6}{Ordre de grandeur de la diff\351rence de vitesse de calcul}{chapter.10}% 95
-\BOOKMARK [2][-]{subsection.10.6.1}{Mod\350le IA}{section.10.6}% 96
-\BOOKMARK [2][-]{subsection.10.6.2}{Mod\350le simul\351}{section.10.6}% 97
-\BOOKMARK [2][-]{subsection.10.6.3}{Comparaison des deux mod\350les}{section.10.6}% 98
-\BOOKMARK [1][-]{section.10.7}{Pistes d'am\351lioration}{chapter.10}% 99
+\BOOKMARK [1][-]{section.5.7}{Observation sur les r\351sultats des coups impliqu\351s par l'heuristique}{chapter.5}% 48
+\BOOKMARK [2][-]{subsection.5.7.1}{D\351placement serpent}{section.5.7}% 49
+\BOOKMARK [2][-]{subsection.5.7.2}{Abandon lors de la mort}{section.5.7}% 50
+\BOOKMARK [2][-]{subsection.5.7.3}{Strat\351gie}{section.5.7}% 51
+\BOOKMARK [2][-]{subsection.5.7.4}{Sacrifice}{section.5.7}% 52
+\BOOKMARK [1][-]{section.5.8}{Pistes d'am\351lioration}{chapter.5}% 53
+\BOOKMARK [0][-]{chapter.6}{Analyse - Exploration}{part.4}% 54
+\BOOKMARK [1][-]{section.6.1}{N\351cessit\351s}{chapter.6}% 55
+\BOOKMARK [1][-]{section.6.2}{Probl\350me}{chapter.6}% 56
+\BOOKMARK [1][-]{section.6.3}{Approche utilis\351e}{chapter.6}% 57
+\BOOKMARK [1][-]{section.6.4}{Remarques sur les r\351sultats obtenus}{chapter.6}% 58
+\BOOKMARK [1][-]{section.6.5}{Pistes d'am\351lioration}{chapter.6}% 59
+\BOOKMARK [-1][-]{part.5}{Analyse des donn\351es g\351n\351r\351es}{}% 60
+\BOOKMARK [0][-]{chapter.7}{Analyse des donn\351es de l'IA}{part.5}% 61
+\BOOKMARK [1][-]{section.7.1}{Analyse d'ensemble}{chapter.7}% 62
+\BOOKMARK [1][-]{section.7.2}{Analyses d\351taill\351es}{chapter.7}% 63
+\BOOKMARK [2][-]{subsection.7.2.1}{D\351coupage du spectre selon des intervalles de la taille de la carte}{section.7.2}% 64
+\BOOKMARK [2][-]{subsection.7.2.2}{D\351coupage du spectre selon des intervalles de C}{section.7.2}% 65
+\BOOKMARK [2][-]{subsection.7.2.3}{D\351coupage du spectre selon des intervalles de Ds}{section.7.2}% 66
+\BOOKMARK [2][-]{subsection.7.2.4}{D\351coupage du spectre selon des intervalles de Dc}{section.7.2}% 67
+\BOOKMARK [2][-]{subsection.7.2.5}{D\351coupage du spectre selon des intervalles de la diff\351rence de niveau}{section.7.2}% 68
+\BOOKMARK [2][-]{subsection.7.2.6}{Conclusions d'analyse}{section.7.2}% 69
+\BOOKMARK [0][-]{chapter.8}{Analyse des donn\351es du mod\350le}{part.5}% 70
+\BOOKMARK [1][-]{section.8.1}{Analyse d'ensemble}{chapter.8}% 71
+\BOOKMARK [1][-]{section.8.2}{Analyses d\351taill\351es}{chapter.8}% 72
+\BOOKMARK [2][-]{subsection.8.2.1}{D\351coupage du spectre selon la taille de la carte}{section.8.2}% 73
+\BOOKMARK [2][-]{subsection.8.2.2}{D\351coupage du spectre selon des intervalles de C}{section.8.2}% 74
+\BOOKMARK [2][-]{subsection.8.2.3}{D\351coupage du spectre selon des intervalles de Ds}{section.8.2}% 75
+\BOOKMARK [2][-]{subsection.8.2.4}{D\351coupage du spectre selon des intervalles de Dc}{section.8.2}% 76
+\BOOKMARK [2][-]{subsection.8.2.5}{D\351coupage du spectre selon des intervalles de la diff\351rence de niveau}{section.8.2}% 77
+\BOOKMARK [2][-]{subsection.8.2.6}{Conclusions d'analyse}{section.8.2}% 78
+\BOOKMARK [-1][-]{part.6}{Probl\350mes, tests et exp\351rimentations}{}% 79
+\BOOKMARK [0][-]{chapter.9}{Conclusion}{part.6}% 80
+\BOOKMARK [1][-]{section.9.1}{R\351sum\351 des objectifs au r\351sultat final}{chapter.9}% 81
+\BOOKMARK [1][-]{section.9.2}{Enrichissement personnel}{chapter.9}% 82
+\BOOKMARK [2][-]{subsection.9.2.1}{Vincent:}{section.9.2}% 83
+\BOOKMARK [2][-]{subsection.9.2.2}{Alexis:}{section.9.2}% 84
+\BOOKMARK [2][-]{subsection.9.2.3}{Christopher:}{section.9.2}% 85
+\BOOKMARK [1][-]{section.9.3}{Perspectives envisag\351es, appr\351ciation perso, poursuite..}{chapter.9}% 86
+\BOOKMARK [2][-]{subsection.9.3.1}{Vincent:}{section.9.3}% 87
+\BOOKMARK [2][-]{subsection.9.3.2}{Alexis:}{section.9.3}% 88
+\BOOKMARK [2][-]{subsection.9.3.3}{Christopher:}{section.9.3}% 89
+\BOOKMARK [-1][-]{part.7}{Annexes}{}% 90
+\BOOKMARK [0][-]{chapter.10}{Analyse - Simulation}{part.7}% 91
+\BOOKMARK [1][-]{section.10.1}{N\351cessit\351s}{chapter.10}% 92
+\BOOKMARK [1][-]{section.10.2}{Probl\350me}{chapter.10}% 93
+\BOOKMARK [1][-]{section.10.3}{Approches possibles}{chapter.10}% 94
+\BOOKMARK [1][-]{section.10.4}{Approche utilis\351e}{chapter.10}% 95
+\BOOKMARK [1][-]{section.10.5}{Remarques sur les r\351sultats obtenus}{chapter.10}% 96
+\BOOKMARK [1][-]{section.10.6}{Ordre de grandeur de la diff\351rence de vitesse de calcul}{chapter.10}% 97
+\BOOKMARK [2][-]{subsection.10.6.1}{Mod\350le IA}{section.10.6}% 98
+\BOOKMARK [2][-]{subsection.10.6.2}{Mod\350le simul\351}{section.10.6}% 99
+\BOOKMARK [2][-]{subsection.10.6.3}{Comparaison des deux mod\350les}{section.10.6}% 100
+\BOOKMARK [1][-]{section.10.7}{Pistes d'am\351lioration}{chapter.10}% 101
